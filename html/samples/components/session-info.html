@@ -1,0 +1,67 @@
+<div ng-controller="LoginSessionCtrl">
+  <style>
+    code.hljs {
+     white-space: normal !important;
+    }
+    
+    
+    .custom-session > a{
+      color: Green;
+    }
+    
+  </style>
+  
+  <h1>
+    <i class="fa fa-user-circle-o"></i> Session
+  </h1>
+   
+  <hr/>   
+   
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Check your current Login and use this directive to Logout.</span>
+        </div>
+        <div class="panel-body">          
+          <p class="text-center"><tm1-ui-session id="test-session-button"></tm1-ui-session></p>            
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Show / Hide this icon on your page to allow user to check his/her session(s).</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-session></tm1-ui-session></div>
+        </div>
+      </div>      
+    </div>
+    <div class="col-lg-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Style the Session Icon</span>
+        </div>
+        <div class="panel-body">        
+          <p>
+            <select class="form-control" ng-model="values.sessionTheme" ng-init="values.sessionTheme = 'custom-session'">
+              <option value="">None</option>
+              <option value="custom-session">Custom</option>
+            </select>
+          </p>  
+          <p class="text-center">
+            <tm1-ui-session id="test-session-style" tm1-ui-class="{{values.sessionTheme}}"></tm1-ui-session>
+          </p>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Customize this icon via <code>tm1-ui-class</code> attribute.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-session tm1-ui-class="{{values.sessionTheme}}"></tm1-ui-session></div>
+        </div>
+      </div> 
+    </div>
+  </div>
+  
+</div>

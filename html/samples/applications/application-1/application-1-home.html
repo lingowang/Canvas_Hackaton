@@ -1,0 +1,350 @@
+<div>
+
+	<style>
+
+    #imagebg{
+      background-image: url(images/applications/application-1/bikers-background.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      width:100%; 
+      padding-bottom:100%; 
+      position:fixed; 
+      top:0px; 
+      left:0px;
+      z-index:-1;   
+      min-height:900px;
+      -webkit-filter: grayscale(100%);
+    }
+  
+    .sliding-tile{
+      overflow:hidden;
+    }
+    
+    .sliding-tile:hover .inner-card-hover {
+      /* On hover, set the max-height to something large. In this case there's an obvious limit. */
+      margin-left: 0px;
+    }
+    
+    .sliding-tile:hover img {
+      -webkit-filter: grayscale(100%);
+    }
+      
+    .inner-card-hover{
+      position:absolute;
+      left:0px;
+      margin-left:-500px;
+      top:0px;
+      color:#fff;
+      background-color:rgba(0,0,0,0.5);
+      width:100%;
+      height:500px;
+      padding:20px;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      transition: all 0.5s;
+    }
+    
+    .header-title{
+      padding:5px; 
+      padding-right:10px;  
+      background-color:#666; 
+      color:#fff;
+      width:auto; 
+      bottom:0px;
+      text-decoration-style: none; 
+      text-decoration:none; 
+      margin-bottom:0px;
+    }
+    
+    .inner-content{
+      width:50%;
+    }
+    
+    .responsiveheader{
+      font-size:1.5vmax;
+    }
+  
+    .responsivetext{
+      font-size:1.0vmax;
+    }
+    
+    .popover{
+      -moz-transition: all 0.3s ease-in; 
+      -o-transition: all 0.3s ease-in; 
+      -webkit-transition: all 0.3s ease-in; 
+      transition: all 0.3s ease-in;
+      height:0px;
+      position:absolute; 
+      top:0%; 
+      width:300px;
+      float:none;  
+      background-color:#00a726; 
+      margin:0px; 
+      display:inline-block; 
+      position:fixed; 
+      z-index:0;
+      left:55%;
+      margin-left:-210px;
+      overflow:hidden;
+    }
+  
+    #section-btn1{
+      display:none;
+    }
+  
+    #section-btn2{
+      display:none;
+    }
+    
+    #section-btn3{
+      display:none;
+    }
+    
+    @media only screen and (max-width: 1024px){
+  
+      #section-btn1{
+        position:fixed; 
+        bottom:0px; 
+        height:50px; 
+        width:20%; 
+        float:none; 
+        margin:0px; 
+        text-align: center; 
+        padding-top:10px; 
+        display:inline-block;  
+        position:fixed; left:20%;  
+        background-color:rgba(25,52,200,0.5); 
+        font-size:13px ; 
+        padding:5px;
+      }
+      
+      #section-btn2{
+        position:fixed; 
+        bottom:0px; 
+        text-align: center; 
+        height:50px;  
+        width:20%; 
+        float:none; 
+        margin:0px; 
+        padding-top:10px;
+        display:inline-block; 
+        position:fixed; left:40%;  
+        background-color:rgba(0,167,38,0.5); 
+        font-size:13px; 
+        padding:5px;
+      }
+      
+      #section-btn3{
+        position:fixed; 
+        text-align: center; 
+        bottom:0px; 
+        height:50px;  
+        width:20%; 
+        float:none; 
+        padding-top:10px;
+        margin:0px; 
+        display:inline-block; 
+        position:fixed; 
+        left:60%; 
+        background-color:rgba(67,179,247,0.5); 
+        font-size:13px; 
+        padding:5px;
+      }
+    }
+    
+    @media only screen and (max-width: 666px){
+  
+      #section-btn1{
+        position:fixed; 
+        bottom:0px; 
+        height:50px; 
+        width:20%; 
+        float:none; 
+        margin:0px; 
+        text-align: center; 
+        padding-top:10px; 
+        display:inline-block;  
+        position:fixed; 
+        left:30%;  
+        background-color:rgba(25,52,200,0.5); 
+        font-size:13px ; 
+        padding:5px;
+      }
+      
+      #section-btn2{
+        position:fixed; 
+        bottom:0px;
+        text-align: center; 
+        height:50px;  
+        width:20%; 
+        float:none; 
+        margin:0px; 
+        padding-top:10px;
+        display:inline-block; 
+        position:fixed; 
+        left:50%;  
+        background-color:rgba(0,167,38,0.5); 
+        font-size:13px; 
+        padding:5px;
+      }
+  
+      #section-btn3{
+        position:fixed; 
+        text-align: center; 
+        bottom:0px; 
+        height:50px;  
+        width:20%; 
+        float:none; 
+        padding-top:10px;
+        margin:0px; 
+        display:inline-block; 
+        position:fixed; 
+        left:70%; 
+        background-color:rgba(67,179,247,0.5); 
+        font-size:13px; 
+        padding:5px;
+      }
+    }
+    
+    @media only screen and (max-width: 1024px){
+      .inner-card-hover{
+        position:absolute;
+        left:0px;
+        margin-left:-100%;
+        top:0px;
+        color:#fff;
+        background-color:rgba(0,0,0,0.5);
+        width:100%;
+        height:500px;
+        padding:20px;
+      }
+  
+      .inner-content{
+        width:100%;
+      }
+      
+      .responsiveheader{
+        font-size:2vmax;
+      }
+      
+      .responsivetext{
+        font-size:1.5vmax;
+      }
+      
+      .popover{
+        -moz-transition: all 0.3s ease-in; 
+        -o-transition: all 0.3s ease-in; 
+        -webkit-transition: all 0.3s ease-in; 
+        transition: all 0.3s ease-in;
+        height:0px;
+        position:absolute; 
+        top:0%; 
+        width:300px;
+        float:none;  
+        background-color:#00a726; 
+        margin:0px; 
+        display:inline-block; 
+        position:fixed; 
+        z-index:0;
+        left:55%;
+        margin-left:-125px;
+        overflow:hidden;
+      }
+    }
+    
+    .sliding-tile img {
+      -webkit-transition: all 1s ease;
+      -moz-transition: all 1s ease;
+      -o-transition: all 1s ease;
+      -ms-transition: all 1s ease;
+      transition: all 1s ease;
+    }
+    
+    .hreftile{
+      -webkit-box-shadow:  -1px 12px 47px -16px rgba(0,0,0,0.31); 
+      -moz-box-shadow:  -1px 12px 47px -16px rgba(0,0,0,0.31); 
+      box-shadow:  -1px 12px 47px -16px rgba(0,0,0,0.31);  
+      -moz-transition: all 0.3s ease-in; 
+      -o-transition: all 0.3s ease-in; 
+      -webkit-transition: all 0.3s ease-in; 
+      transition: all 0.3s ease-in;
+      text-decoration-style: none; 
+      text-decoration:none;
+    }
+  
+    .selected{
+      height:50%;
+    }
+    
+    .notselected{
+      height:0px; 
+    }
+ 
+  </style>
+
+  <tm1-ui-element-list
+       tm1-instance="dev"
+       tm1-dimension="Department"
+       tm1-subset="Default"
+       tm1-calculate-top-level="false"
+       ng-model="lists.department">
+  </tm1-ui-element-list>
+  
+  <input id="application-title" type="hidden" name="application-title" value="Application 1">
+   
+  <div id="imagebg" class="col-xs-12" style="bottom:0px; position:fixed; text-align: right; right:0px;  top:50px; float:right;">  
+    <img src="images/applications/application-1/logo-home.svg" width="100%" style="width:270px; height:auto; min-height: 84px; min-width:270px;"/>
+  </div>
+ 
+  <div class="popover" ng-class="showPanel1 || showPanel2 || showPanel3 ? 'selected' : 'notselected'"  style="background-color:{{colorselected}};" >
+    <div class="col-xs-12" style=" bottom:0px; position:absolute;">
+      <a href="#/visionsalary"  class="hreftile">
+        <div class="sliding-tile">
+          <span class="slide">
+            <h1 class="header-title" style="background-color:transparent; text-align:center; padding-bottom:20px;"><i class="fa {{icon}}"></i></h1>                            
+            <h4 class="header-title" style="background-color:transparent; text-align:center; padding-bottom:20px;">{{headingtodisplay}}</h4>
+          </span>
+                          
+        </div>
+      </a>
+    </div>
+  </div>
+  
+  <div ng-mouseover="showPanel1 = true; icon= 'fa-line-chart'; headingtodisplay = 'Financial Analytics'; colorselected = 'rgba(25,52,200,0.5)'" 
+         ng-mouseout="showPanel1 = false;" style="position:absolute; top:65%; height:50%; width:10%;float:none; margin:0px; display:inline-block; position:fixed; left:25%;">
+    <a ui-sref="application-1-pnl"  class="hreftile">
+      <img src="images/applications/application-1/bike2.png" style=" min-height: 300px; min-width:101px;" />
+    </a>
+  </div>
+    
+  <div ng-mouseover="showPanel2 = true; icon= 'fa-shopping-cart'; headingtodisplay = 'Retail Forecast'; colorselected = 'rgba(0,167,38,0.5)'" ng-mouseout="showPanel2 = false;" style="position:absolute; top:65%; height:50%; width:10%;float:none; margin:0px; display:inline-block; position:fixed; left:45%;">
+    <a ui-sref="application-1-product"  class="hreftile">
+      <img src="images/applications/application-1/bike1.png" style=" min-height: 300px; min-width:101px;" />
+    </a>
+  </div>
+    
+  <div ng-mouseover="showPanel3 = true; icon= 'fa-user-circle-o'; headingtodisplay = 'Salary Forecast'; colorselected = 'rgba(67,179,247,0.5)'" ng-mouseout="showPanel3 = false;" style="position:absolute; top:65%; height:50%; width:10%; float:none; margin:0px; display:inline-block; position:fixed; left:65%;">
+    <a ui-sref="application-1-employee" class="hreftile">
+      <img src="images/applications/application-1/bike3.png" style="min-height: 300px; min-width:101px;" />
+    </a>
+  </div>
+
+
+  <div id="section-btn1">
+    <a ui-sref="application-1-pnl" class="hreftile" style="color:#fff; text-decoration: none;">Financial Analytics</a>
+  </div>
+  
+  <div id="section-btn2">
+    <a ui-sref="application-1-product" class="hreftile" style="color:#fff; text-decoration: none;">Retail Forecast</a>
+  </div>
+    
+  <div id="section-btn3">
+    <a ui-sref="application-1-employee" class="hreftile" style="color:#fff; text-decoration: none;">Salary Forecast</a>
+  </div>
+
+</div>

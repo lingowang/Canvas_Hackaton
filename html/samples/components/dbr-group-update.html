@@ -1,0 +1,192 @@
+<div ng-controller="DbrGroupUpdateCtrl">
+  <h1>
+    <i class="fa fa-circle-o"></i> {{'MESSAGESAMPLEITEM11' | translate}}
+  </h1>
+  
+  <hr />
+  
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn btn-primary" ng-click="functions.refreshAll();" id="button-refresh-group0">Refresh All</button>
+      <button class="btn btn-info" ng-click="functions.refreshGroup('Group 1');" id="button-refresh-group1">Refresh Group 1</button>
+      <button class="btn btn-success" ng-click="functions.refreshGroup('Group 2');" id="button-refresh-group2">Refresh Group 2</button>
+    </div>
+  </div>
+  
+  <hr />
+  
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">No Group (Regular DBRs)</h3>
+        </div>
+        <div class="panel-body">
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Corporate</h4>
+              <tm1-ui-dbr-read-only
+                id="test-dbr-group0-dbr-ro"
+                tm1-instance="dev"
+                tm1-cube="General Ledger"
+                tm1-elements='Actual,2011/12,Mar,Local,England,Corporate,Employee Benefits,Amount'
+                tm1-comment-elements="Actual,2012,Mar,Local,England,Corporate,Employee Benefits,Comment">
+              </tm1-ui-dbr-read-only>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Sales and Marketing</h4>
+              <tm1-ui-dbr
+                id="test-dbr-group0-dbr-input"
+                tm1-instance="dev"
+                tm1-cube="General Ledger"
+                tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount'>
+              </tm1-ui-dbr>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Calendar Year</h4>
+              <tm1-ui-dbr 
+                id="test-dbr-group0-dbr-list"
+                tm1-instance="dev" 
+                tm1-cube="System Info" 
+                tm1-elements="Calender Year,String">
+              </tm1-ui-dbr>
+            </div>
+          </div>
+                   
+        </div>
+        <div class="panel-footer">
+          <h5>Values via <code>tm1-ui-dbr-hidden</code>: [<span id="test-dbr-group0-dbr-ro-value">{{values.group0.dbr1}}</span>], [<span id="test-dbr-group0-dbr-input-value">{{values.group0.dbr2}}</span>] and [<span id="test-dbr-group0-dbr-list-value">{{values.group0.dbr3}}</span>]
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='Actual,2011/12,Mar,Local,England,Corporate,Employee Benefits,Amount' ng-model="values.group0.dbr1"></tm1-ui-dbr-hidden>
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount' ng-model="values.group0.dbr2"></tm1-ui-dbr-hidden>
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" ng-model="values.group0.dbr3"></tm1-ui-dbr-hidden>
+          </h5>
+          <h5>These are all normal DBRs. Changing values within this panel affects all relevant data on this page.</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Group 1</h3>
+        </div>
+        <div class="panel-body">
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Corporate</h4>
+              <tm1-ui-dbr-read-only
+                id="test-dbr-group1-dbr-ro"
+                tm1-instance="dev"
+                tm1-cube="General Ledger"
+                tm1-elements='Actual,2011/12,Mar,Local,England,Corporate,Employee Benefits,Amount'
+                tm1-comment-elements="Actual,2012,Mar,Local,England,Corporate,Employee Benefits,Comment"
+                tm1-refresh-group="Group 1">
+              </tm1-ui-dbr-read-only>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Sales and Marketing</h4>
+              <tm1-ui-dbr
+                id="test-dbr-group1-dbr-input"
+                tm1-instance="dev"
+                tm1-cube="General Ledger"
+                tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount'
+                tm1-refresh-group="Group 1">
+              </tm1-ui-dbr>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Calendar Year</h4>
+              <tm1-ui-dbr 
+                id="test-dbr-group1-dbr-list"
+                tm1-instance="dev" 
+                tm1-cube="System Info" 
+                tm1-elements="Calender Year,String"
+                tm1-refresh-group="Group 1">
+              </tm1-ui-dbr>
+            </div>
+          </div>
+                   
+        </div>
+        <div class="panel-footer">
+          <h5>Values via <code>tm1-ui-dbr-hidden</code>: [<span id="test-dbr-group1-dbr-ro-value">{{values.group1.dbr1}}</span>], [<span id="test-dbr-group1-dbr-input-value">{{values.group1.dbr2}}</span>] and [<span id="test-dbr-group1-dbr-list-value">{{values.group1.dbr3}}</span>]
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='Actual,2011/12,Mar,Local,England,Corporate,Employee Benefits,Amount' ng-model="values.group1.dbr1" tm1-refresh-group="Group 1"></tm1-ui-dbr-hidden>
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount' ng-model="values.group1.dbr2" tm1-refresh-group="Group 1"></tm1-ui-dbr-hidden>
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" ng-model="values.group1.dbr3" tm1-refresh-group="Group 1"></tm1-ui-dbr-hidden>
+          </h5>
+          <h5>All DBRs used on this panel has been tagged with group name <strong>Group 1</strong>. Changing values within this panel only affects those within this.</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Group 2</h3>
+        </div>
+        <div class="panel-body">
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Corporate</h4>
+              <tm1-ui-dbr-read-only
+                id="test-dbr-group2-dbr-ro"
+                tm1-instance="dev"
+                tm1-cube="General Ledger"
+                tm1-elements='Actual,2011/12,Mar,Local,England,Corporate,Employee Benefits,Amount'
+                tm1-comment-elements="Actual,2012,Mar,Local,England,Corporate,Employee Benefits,Comment"
+                tm1-refresh-group="Group 2">
+              </tm1-ui-dbr-read-only>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Sales and Marketing</h4>
+              <tm1-ui-dbr
+                id="test-dbr-group2-dbr-input"
+                tm1-instance="dev"
+                tm1-cube="General Ledger"
+                tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount'
+                tm1-refresh-group="Group 2">
+              </tm1-ui-dbr>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Calendar Year</h4>
+              <tm1-ui-dbr 
+                id="test-dbr-group2-dbr-list"
+                tm1-instance="dev" 
+                tm1-cube="System Info" 
+                tm1-elements="Calender Year,String"
+                tm1-refresh-group="Group 2">
+              </tm1-ui-dbr>
+            </div>
+          </div>
+                   
+        </div>
+        <div class="panel-footer">
+          <h5>Values via <code>tm1-ui-dbr-hidden</code>: [<span id="test-dbr-group2-dbr-ro-value">{{values.group2.dbr1}}</span>], [<span id="test-dbr-group2-dbr-input-value">{{values.group2.dbr2}}</span>] and [<span id="test-dbr-group2-dbr-list-value">{{values.group2.dbr3}}</span>]
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='Actual,2011/12,Mar,Local,England,Corporate,Employee Benefits,Amount' ng-model="values.group2.dbr1" tm1-refresh-group="Group 2"></tm1-ui-dbr-hidden>
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount' ng-model="values.group2.dbr2" tm1-refresh-group="Group 2"></tm1-ui-dbr-hidden>
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" ng-model="values.group2.dbr3" tm1-refresh-group="Group 2"></tm1-ui-dbr-hidden>
+          </h5>
+          <h5>All DBRs used on this panel has been tagged with group name <strong>Group 2</strong>. Changing values within this panel only affects those within this.</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

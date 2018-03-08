@@ -1,0 +1,452 @@
+<div ng-controller="SetupCtrl">
+
+  <h1><i class="fa fa-cogs"></i> Setup</h1>
+  
+  <hr />
+  
+  <div class="row">
+  
+    <div class="col-lg-6">
+    
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-newspaper-o"></i> Overview
+        </div>
+        <div class="panel-body">
+          <p>The <code>Canvas</code> framework is a combination of client side components and an application server that simplifies requests to TM1. 
+          All communication is executed through the REST API so you need to have that enabled on each TM1 instance you want to query.</p>
+          
+          <p>The <code>Canvas</code> framework is built on top of open source frameworks that you need to be familiar with before you can start building applications.
+          These frameworks are some of the most popular available and you will therefore have no problems finding help and examples using Google.</p>
+          
+          <ul style="list-style: square; margin-left: 25px;">
+            <li><a href="https://getbootstrap.com" target="_blank">Bootstrap (v{{$root.framework.bootstrap.version}})</a>: Bootstrap provides the look and feel of the application. Use Bootstrap CSS classes 
+            and components to give you app a modern look and feel and enable responsive design so application works devices.</li>
+            <li><a href="https://angularjs.org" target="_blank">AngularJS (v{{$root.framework.angular.version.full}})</a>: Angular provides the underlying framework that ties the application together, including routing, templating, application logic, etc.</li>
+            <li><a href="https://fortawesome.github.io/Font-Awesome/" target="_blank">Font Awesome (v{{$root.framework.fontAwesome.version}})</a>: Font Awesome provides lots of additional CSS classes, on top of Bootstrap, and icons, used throughout the application, which can easily be scaled and styled.</li>
+          </ul>
+          
+          <p>To remove this setup as the home page go to <code>js/controllers/home.js</code> and remove the line<code>$state.go('setup');</code></p>
+          
+        </div>
+      </div>
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-files-o"></i> File Structure
+        </div>
+        <div class="panel-body">
+        	<p>The <code>Canvas</code> framework's behavior, as well as the look and feel can be greatly affected by the files on the following folders:</p>
+        	
+        	<ul style="list-style: square; margin-left: 25px;">
+            <li><code>admin</code>folder is a system maintained location and contains the core framework client side scripts used on the admin console of each Canvas application. It will be best to leave this folder untouched.</li>
+        		<li><code>assets</code>folder is a system maintained location and contains the core framework client side scripts. It will be best to leave this folder untouched.</li>
+            <li><code>api</code>folder contains sample JSP codes for retrieving SQL data via ODBC.</li>
+            <li><code>help</code>folder is a system maintained location for the help documentation. </li>
+            <li><code>js/controllers</code>folder contains the JavaScript files, created in <a target="_blank" href="https://docs.angularjs.org/guide/controller">Angular Controller</a> specification. 
+	            This becomes available for usage into the application, if <u>saved on this folder</u>.</li>
+            <li><code>css</code>folder is the preferred location for other CSS class files to further customize the look and feel of your application. This becomes available for usage into the application, if <u>saved on this folder</u>.</li></li>
+            <li><code>html</code>folder is the preferred HTML fragment file locations. </li>
+            <li><code>WEB-INF</code>folder contains the other supporting files for this application to communicate and interact with your data sources (i.g. TM1).</li>
+        	</ul>
+        	
+        </div>
+      </div>
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-files-o"></i> Routing
+        </div>
+        <div class="panel-body">
+        	<p>With <a href="http://angular-ui.github.io/ui-router/site/#/api/ui.router" target="_blank">ui-router</a> providing the underlying mechanism for pages that can be served, <code>Canvas</code> framework 
+        	feeds these pages through the content of <code>menu/states.json</code></p>
+        	
+        	<p>Below is a sample entry:</p>
+        	<pre>"setup": {
+	"url": "/setup", 
+	"templateUrl": "html/setup.html"
+}</pre>
+    		<p>The above entry defines a ui-router <strong>state</strong>, which can then be accessed by going to <pre>http://host_name:port_number/app_name/#/setup</pre></p>
+			<p>Alternatively, this state can also be accessed by creating an anchor link such as
+				<pre>&#60;a ui-sref="setup"&#62;Setup&#60;/a&#62;</pre>
+			</p>
+			<p><code>menu/states.json</code> file contains an array of these states, in proper JSON format. Simply add new states in there to make it available on your application. </p>
+			<p>Check out <a href="http://angular-ui.github.io/ui-router/site/#/api/ui.router" target="_blank">ui-router</a>'s site for more information on other ways to use it.</p>
+        </div>
+      </div>
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-files-o"></i> Menu Items
+        </div>
+        <div class="panel-body">
+        	<p>The <code>Canvas</code> framework comes with a menu system out-of-the-box utilizing a publicly available AngularJS directive named <a href="https://github.com/nickperkinslondon/angular-bootstrap-nav-tree" target="_blank">angular-bootstrap-nav-tree</a>.</p>
+        	<p>The contents of the <code>menu/menu_tree.json</code> file is being fed into this directive, to give you a set of menus readily available for selection. This can be accessed by clicking on the <i class="fa fa-bars fa-2x"></i> icon on the upper right of the application navigation bar, 
+        	after which a hidden window pane on the left side will become visible.</p>
+        	<p>Simply add another entry in there to be able to make it accessible via this menu. A sample entry looks like
+        	<pre>{
+	"label": "Setup",
+	"icon_class": "fa-cogs",
+	"data": {"page": "setup"}
+}
+</pre>
+			The <code>label</code> property defines the display name as will be seen from the menu. The <code>page</code> property corresponds to an existing <strong>state</strong> defined in the <code>menu/states.json</code> file.
+        	</p>
+        </div>
+      </div>
+      
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-exchange"></i> Named MDX
+        </div>
+        <div class="panel-body">
+          <p>The <code>Canvas</code> framework allows you to query TM1 by just providing a named-mdx's ID. These are pre-defined MDX on the server from which the results can be retrieved without knowing the underlying MDX.</p>
+		  <p>These named MDX'es can be defined on this file <code>WEB-INF/resources/mdx_named.json</code> and can then be made accessible via one of the HTTP services provided by the <code>Canvas</code> framework.
+		  	<pre>GET /api/mdx/&#60;instance&#62;/&#60;mdxId&#62;</pre>
+		  </p>
+		  
+        </div>
+      </div>
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-files-o"></i> Components
+        </div>
+        <div class="panel-body">
+           <p>The <code>Canvas</code> framework provides you with the following components that you can use right away in your HTML page. You can also mix and match most of these with Angular directives
+           and Bootstrap to create a more sophisticated page, even with as little JavaScript knowledge as possible.</p>
+           
+           <p>Checkout your Canvas application's <a ng-href="{{values.url.help}}" target="_blank">Help</a> page for more information.</p>      
+        </div>
+      </div>
+      
+    </div>
+      
+    <div class="col-lg-6">
+    	
+       <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-ban"></i> License File
+        </div>
+        <div class="panel-body">
+          <p>For the <code>Canvas</code> framework to work you need a valid license file for the computer that is running the application server.</p>
+          <p>To obtain a license contact your local Cubewise office.</p>
+          <p>The <code>License.xml</code> file should then be copied to the <code>WEB-INF</code> directory.
+          <p>Alternatively, rename it to <code>Canvas.xml</code> file and copy it into your <code>&lt;CWAS DIR&gt;/conf</code> directory so you do not need to copy into each Canvas application.
+        </div>
+      </div>
+    	
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-cubes"></i> Instance Setup
+        </div>
+        <div class="panel-body">
+          
+          <p>For the <code>Canvas</code> framework application server to connect to TM1 you need to edit the <code>instances.json</code> file located in the <code>WEB-INF</code>.</p>
+          
+          <p>This file contains a list of instances in json format that can be then referenced by the <code>Canvas</code> components using <code>tm1-ui-instance</code> attribute and the name from <code>instances.json</code>.</p>
+          
+          <p>A summary of the settings are as follows, the names are CASE SENSITIVE:</p>
+          
+          <ul style="list-style: square; margin-left: 25px;">
+            <li><label>name</label>: An alias for the instance of TM1, this can be anything and is then used in the <code>tm1-ui-instance</code> attributes in your pages.</li>
+            <li><label>restUri</label>: This is the URL to the TM1 REST API. By default the REST API is disabled in TM1 so you need to add <code>HTTPPortNumber</code> setting to your tm1s.cfg file for each TM1 instance. The port can be any number that is not currently being used. 
+            By default TM1 uses <strong>SSL</strong> remember to include https at the start of the URL.</li>
+            <li><label>tm1WebUri</label>: This it the URL to TM1 Web so we can use the URL API to display Web Sheets and TM1 Cube Views in pages.</li>
+            <li><label>applyParenthesisFormatting</label>: A global setting of how negative number are formatted, i.e. (1,000) instead of -1,000</li>
+            <li><label>chartColorScheme</label>: An array of colors that are used for the charts.</li>
+          </ul>
+            
+            <pre>[
+  {
+    "name":"dev",
+    "restUri":"https://localhost:8881",
+    "tm1WebUri":"http://localhost:9510/tm1web",
+    "applyParenthesisFormatting":true,
+    "chartColorScheme":["#FB6900", "#F63700", "#004853", "#007E80", "#00B9BD"]
+  }
+]</pre>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="panel panel-primary">
+	        <div class="panel-heading">
+	          <i class="fa fa-globe"></i> TM1Web
+	        </div>
+	        <div class="panel-body">
+	        	<p>The <code>Canvas</code> framework uses the UrlApi of to render Cube Views and Applications stored in your TM1 Server. In order to make this work, 
+	        	ensure that the domain where this application server will sit is on the allowed domains by TM1Web.</p>
+	        	
+	        	<p>This can be configured by updating the <code>[tm1_installation_path]\webapps\tm1web\WEB-INF\configuration\tm1web_config.xml</code>, and updating the following configuration to add your domain. Note that below will allow access from everywhere. Update accordingly:
+	        		<pre>&#60;add key="CrossDomainAccessList" value="*" /&#62;</pre>
+	        		
+	        		Also, check the following configuration, and ensure that it is set to false as below:
+	        		<pre>&#60;add key="LegacyUrlApiSessionDiscoveryEnabled" value="False" /&#62;</pre>
+	        	</p>
+			  
+			  	<p>Restart TM1 Application Server service after updating above configuration.</p>
+			  	<p>Note that <strong>users need to logout</strong> of your <code>Canvas</code> application, then log back in for the above changes <u>to take effect</u>.</p>
+			  	<p>In addition, ensure that the <strong>timeout</strong> provided in your <strong>TM1Web</strong> should be the same, if not higher, than that of your REST API. Otherwise, users just need to log out, and log back in again into Canvas for TM1.</p>
+	        </div>
+	      </div>
+        
+        <div class="panel panel-primary">
+        <div class="panel-heading">
+          <i class="fa fa-exchange"></i> Web Services
+        </div>
+        <div class="panel-body">
+          <p>Build your own custom components and/or front-ends leveraging on <code>Canvas</code> framework's simplified web services:</p>
+		  
+		  <dl>
+		    <dt>instance</dt>
+			<dd>This is a common parameter for all the services. They are provided either in the url, or in the payload. 
+			This corresponds the name of the instance as defined in <code>instances.json</code> file.</dd>
+		  </dl>
+		  
+		  <span class="label label-info">Application</span>
+		  <pre><span class="label label-default">GET</span> /api/applications/&#60;instance&#62;[?output=abntreedata]</pre>
+		  <dl>
+		    <dt>output=abntreedata</dt>
+			<dd>If provided, the JSON output will be formatted for usage with <a href="https://github.com/nickperkinslondon/angular-bootstrap-nav-tree" target="_blank">angular-bootstrap-nav-tree</a>.</dd>
+		  </dl>
+		  
+		  <span class="label label-info">Cube</span>
+		  <pre><span class="label label-default">GET</span> /api/cubes/&#60;instance&#62;/&#60;name&#62;</pre>
+		  <dl>
+		    <dt>&#60;name&#62;</dt>
+			<dd>The name of the cube to get the dimension information from.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">GET</span> /api/cubes/&#60;instance&#62;/&#60;name&#62;/&#60;view&#62;</pre>
+		  <dl>
+		    <dt>&#60;view&#62;</dt>
+			<dd>The name of the cube view to get the cellset data information from.</dd>
+		  </dl>
+		  
+		  <span class="label label-info">DBRA</span>
+		  <pre><span class="label label-default">GET</span> /api/dbra/&#60;instance&#62;/&#60;dimension&#62;/&#60;element&#62;/&#60;attribute&#62;</pre>
+		  <dl>
+		    <dt>&#60;dimension&#62;</dt>
+			<dd>The name of the dimension to get the targeted attribute information from.</dd>
+		  </dl>
+		  <dl>
+		    <dt>&#60;element&#62;</dt>
+			<dd>The name of the element to get the targeted attribute information from.</dd>
+		  </dl>
+		  <dl>
+		    <dt>&#60;attribute&#62;</dt>
+			<dd>The name of the attribute to retrieve.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">GET</span> /api/dbra/&#60;instance&#62;/&#60;value&#62;/&#60;dimension&#62;/&#60;element&#62;/&#60;attribute&#62;/save</pre>
+		  <dl>
+		    <dt>/save</dt>
+			<dd>To indicate to the web service that the value is to be saved.</dd>
+		  </dl>
+		  <dl>
+		    <dt>&#60;value&#62;</dt>
+			<dd>The attribute value to save.</dd>
+		  </dl>
+		  
+		  <span class="label label-info">DBR</span>
+		  <pre><span class="label label-default">GET</span> /api/dbr/&#60;instance&#62;/&#60;cube&#62;/&#60;elements&#62;</pre>
+		  <dl>
+		    <dt>&#60;cube&#62;</dt>
+			<dd>The name of the cube to get the data point from.</dd>
+		  </dl>
+		  <dl>
+		    <dt>&#60;elements&#62;</dt>
+			<dd>A comma separated elements, alias permitted, referencing the cube data to retrieve.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">POST</span> /api/dbr/batch</pre>
+		  <dl>
+		    <dt>{payload}</dt>
+			<dd>An <strong>array</strong> of JSON objects with properties: <code>id</code>, <code>instance</code>, <code>cube</code>, <code>elements</code></dd>
+		  </dl>
+		  
+		  <span class="label label-info">DBS</span>
+		  <pre><span class="label label-default">POST</span> /api/dbs/&#60;instance&#62;/&#60;value&#62;/&#60;cube&#62;/&#60;elements&#62;</pre>
+		  <dl>
+		    <dt>&#60;value&#62;</dt>
+			<dd>The value to save. If the value has a <strong>slash(/)</strong> as one of the characters, replaced with <strong>pipe(|)</strong> to be properly saved into the cube.</dd>
+		  </dl>
+		  <dl>
+		    <dt>&#60;cube&#62;</dt>
+			<dd>The name of the cube to save the data point to.</dd>
+		  </dl>
+		  <dl>
+		    <dt>&#60;elements&#62;</dt>
+			<dd>A comma separated elements, alias permitted, combined with &#60;cube&#62; used in saving the <code>value</code>.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">POST</span> /api/dbs/&#60;instance&#62;/&#60;cube&#62;/&#60;elements&#62;</pre>
+		  <dl>
+		    <dt>{payload}</dt>
+			<dd>A JSON object with properties: <code>value</code> where, <br /><br />			
+				<p><code>value</code> is the string or number that you wanted to send for saving into the cube</p>
+			</dd>
+		  </dl>
+		  
+		  <span class="label label-info">Dimension</span>
+		  <pre><span class="label label-default">GET</span> /api/dimensions/&#60;instance&#62;/&#60;dimension&#62;/&#60;subset&#62;[?][show-hierarchy=&#60;true|false&#62;]&[filter=&#60;filter_chars&#62;]</pre>
+		  <dl>
+		    <dt>&#60;dimension&#62;</dt>
+			<dd>The name of the dimension to get the elements from.</dd>
+		  </dl>
+		  <dl>
+		    <dt>&#60;subset&#62;</dt>
+			<dd>The subset to get elements from. Output will also provide the Alias used in the subset, if there is any.</dd>
+		  </dl>
+		  <dl>
+		    <dt>show-hierarchy=&#60;true|false&#62;</dt>
+			<dd>If provided and set to <code>true</code>, this will return the elements arranged in hierarchical format, instead of list.</dd>
+		  </dl>
+		  <dl>
+		    <dt>filter=&#60;filter&#62;</dt>
+			<dd>If provided, this will further filter the elements returned. This will search through the element names and the returned attributes (if there is any).</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">GET</span> /api/dimensions/&#60;instance&#62;/&#60;dimension&#62;[?][subset=&#60;subset&#62;]&[show-hierarchy=&#60;true|false&#62;]&[attributes=&#60;attr1,attr2&#62;]&[filter=&#60;filter_chars&#62;]</pre>
+		  <dl>
+		    <dt>subset=&#60;subset&#62;</dt>
+			<dd>If provided, this will retrieve elements from this subset instead. Output will also provide the Alias used in the subset, if there is any.</dd>
+		  </dl>
+		  <dl>
+		    <dt>attributes=&#60;attributes&#62;</dt>
+			<dd>If provided and no subset is set, this will return the element information, together with the attributes (comma-separated) set here.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">POST</span> /api/dimensions/&#60;instance&#62;/&#60;dimension&#62;/mdx</pre>
+		  <dl>
+		    <dt>{payload}</dt>
+			<dd>A JSON object with properties: <code>mdx</code>. Optional properties can be added such as: <code>showHierarchy</code> and <code>filter</code></dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">POST</span> /api/dimensions</pre>
+		  <dl>
+		    <dt>{payload}</dt>
+			<dd>An <strong>array</strong> of JSON objects with properties: <code>id</code>, <code>instance</code>, <code>dimension</code>. Optional properties can be added such as:
+			<code>subset</code>, <code>showHierarchy</code>, <code>attributes</code>, <code>filter</code>, <code>mdx</code>.</dd>
+		  </dl>
+		  
+		  <span class="label label-info">Export</span>
+		  <pre><span class="label label-default">POST</span> /api/export</pre>
+		  <dl>
+		    <dt>{payload}</dt>
+			<dd>A JSON object with properties: <code>output</code>, <code>html</code>, <code>file</code>, <code>fieldSeparator</code> where, <br /><br />			
+				<p><code>output</code> is either <strong>excel</strong> or <strong>pdf</strong>,</p> 
+				<p><code>html</code> is the HTML-TABLE representation (in text) of the data to be exported,</p>
+				<p><code>file</code> is the name of the output file,</p>
+				<p><code>fieldSeparator</code> if using CSV, this will be the field separator.</p>
+			</dd>
+		  </dl>
+		  
+		  <span class="label label-info">Instance</span>
+		  <pre><span class="label label-default">GET</span> /api/instances</pre>
+		  <dl>
+		    <dt>(empty)</dt>
+			<dd>List all instances and essential information saved in the session.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">GET</span> /api/instances/&#60;instance&#62;</pre>
+		  <dl>
+		    <dt>&#60;instance&#62;</dt>
+			<dd>If provided, this will get the TM1 server instance information.</dd>
+		  </dl>
+		  
+		  <span class="label label-info">MDX</span>
+		  <pre><span class="label label-default">GET</span> /api/mdx/&#60;instance&#62;/&#60;mdxId&#62;[?&#60;name1&#62;=&#60;value1&#62;...&&#60;nameN&#62;=&#60;valueN&#62;]</pre>
+		  <dl>
+		    <dt>/&#60;mdxId&#62;</dt>
+			<dd>This will return a JSON response based on the Id of the mdx to execute as defined in the <code>WEB-INF/resources/mdx_named.json</code> file.</dd>
+		  </dl>
+		  <dl>
+		    <dt>&#60;name&#62;=&#60;value&#62;</dt>
+			<dd>Optional parameters corresponding to the mdxParams array configuration in the <code>mdx_named.json</code> file.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">POST</span> /api/mdx/&#60;instance&#62;</pre>
+		  <dl>
+		    <dt>{payload}</dt>
+			<dd>A JSON object with a property: <code>mdx</code>, for execution.
+			</dd>
+		  </dl>
+		  
+		  
+		  
+		  <span class="label label-info">Process</span>
+		  <pre><span class="label label-default">GET</span> /api/processes/&#60;instance&#62;/&#60;name&#62;</pre>
+		  <dl>
+		    <dt>&#60;name&#62;</dt>
+			<dd>The name of the process to get details of.</dd>
+		  </dl>
+		  <pre><span class="label label-default">POST</span> /api/processes/&#60;instance&#62;/&#60;name&#62;/execute</pre>
+		  <dl>
+		    <dt>{payload}</dt>
+			<dd>A JSON object with a property, <code>Parameters</code>, containing an array of Name/Value objects
+				corresponding to the parameters of the TI. Below is a sample payload for executing <strong>Bedrock.Dim.Clone</strong>:
+				<pre>
+{"Parameters":[{"Name":"pSourceDim","Value":"Department"},{"Name":"pTargetDim","Value":"New Dimension"},{"Name":"pAttr","Value":1},{"Name":"pUnwind","Value":0},{"Name":"pDebug","Value":0}]}
+				</pre>	
+			</dd>
+		  </dl>
+		  
+		  
+		  
+		  
+		  
+		  <span class="label label-info">Session</span>
+		  <pre><span class="label label-default">GET</span> /api/sessions</pre>		  
+		  <dl>
+		    <dt>(empty)</dt>
+			<dd>List all instances and essential information saved in the session.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">GET</span> /api/sessions/&#60;instance&#62;</pre>
+		  <dl>
+		    <dt>&#60;instance&#62;</dt>
+			<dd>If provided, this will get some essential information saved in the session.</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">POST</span> /api/sessions/&#60;instance&#62;/save</pre>
+		  <dl>
+		    <dt>/save</dt>
+			<dd>Update instance session information.</dd>
+		  </dl>
+		  <dl>
+		    <dt>{payload}</dt>
+			<dd>A JSON object with properties: <code>name</code>, <code>restUri</code>, <code>tm1WebUri</code>, <code>applyParenthesisFormatting</code>,
+				<code>chartColorScheme</code>, <code>sessionToken</code>, <code>isLoggedIn</code>, <code>tm1SessionId</code> where, <br /><br />			
+				<p><code>name</code> is name of the instance as configured in the <code>instances.json</code> file,</p> 
+				<p><code>restUri</code> the TM1 REST URL,</p>
+				<p><code>tm1WebUri</code> the TM1WEB URL,</p>
+				<p><code>applyParenthesisFormatting</code> true|false indicating whether to add a parenthesis for negative numbers on the DBRs globally,</p>
+				<p><code>chartColorScheme</code> a JSON array of color codes used in chart generations,</p>
+				<p><code>sessionToken</code> the TM1WEB session token,</p>
+				<p><code>isLoggedIn</code> to indicate whether the use has logged in on this session,</p>
+				<p><code>tm1SessionId</code> the TM1 REST session id.</p>
+			</dd>
+		  </dl>
+		  
+		  <pre><span class="label label-default">GET</span> /api/sessions/&#60;instance&#62;/delete</pre>
+		  <dl>
+		    <dt>/delete</dt>
+			<dd>Delete and logout this instance's sessions.</dd>
+		  </dl>
+        </div>
+      </div>
+        
+        
+
+      </div>
+      
+   </div>
+   
+  </div>     
+  
+</div>

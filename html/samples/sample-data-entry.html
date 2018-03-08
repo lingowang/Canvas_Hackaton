@@ -1,0 +1,151 @@
+<div ng-controller="SampleDataEntryCtrl">
+
+  <style>
+    .tm1-ui-dbr {
+      text-align: right;
+    }
+    .tm1-ui-dbr input {
+      text-align: right;
+    }   
+  </style>
+
+  <h1>
+    <span style="float: left; width: 50px; "><i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i><i ng-if="!$root.isLoading" class="fa fa-pencil-square"></i></span> Data Entry Template
+  </h1>
+
+  <!--=========================================-->
+  <!--                   ROW 1                 -->
+  <!--                   SUBNMS                -->
+  
+  <h3>Criteria</h3>
+
+  <div class="row">
+    <div class="col-md-1" style="text-align: right; margin-top: 5px;">
+      <label>Year:</label>
+    </div>
+    <div class="col-md-2">
+      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" tm1-default-element="{{defaults.year}}" ng-model="selections.year">
+      </tm1-ui-subnm>
+    </div>
+    <div class="col-md-1" style="text-align: right; margin-top: 5px;">
+      <label>Department:</label>
+    </div>
+    <div class="col-md-3">
+      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-subset="Default" tm1-default-element="{{defaults.department}}" ng-model="selections.department">
+      </tm1-ui-subnm>
+    </div>
+    <div class="col-md-1" style="text-align: right; margin-top: 5px;">
+      <label>Region:</label>
+    </div>
+    <div class="col-md-3">
+      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" tm1-default-element="{{defaults.region}}" ng-model="selections.region">
+      </tm1-ui-subnm>
+    </div>
+  </div>
+
+  <!--=========================================-->
+  <!--                   ROW 2                 -->
+  <!--                  FILTERS                -->
+  
+  <div class="row">
+    <div class="col-md-1" style="text-align: right; margin-top: 5px;">
+      <label>Account:</label>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Search account..." ng-change="table.filter('Description', options.filter)" ng-model="options.filter"></input>
+    </div>
+  </div>
+
+  <!--=========================================-->
+  <!--                   ROW 3                 -->
+  <!--                   TABLE                 -->
+  
+  <div class="row">
+
+    <div class="col-md-12">
+
+      <h3>Template</h3> 
+        
+      <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-subset="Net income" tm1-calculate-top-level="true" ng-model="lists.accounts">
+      </tm1-ui-element-list>
+      
+      <!--  If any selections (year, department, region, it will trigger the tm1-ui-progress  -->
+      <tm1-ui-progress tm1-ui-trigger="selections">
+      
+        <!--  Do something while the table is loading  -->
+        <tm1-ui-progress-pending>
+            <div class="text-center">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </tm1-ui-progress-pending>
+      
+        <!-- Display when the data is ready -->
+        <tm1-ui-progress-ready>
+
+          <table class="table table-striped" >
+            <tr>
+              <th>Account</th>
+              <th class="text-right">LY</th>
+              <th class="text-right">Year</th>
+              <th ng-repeat="month in lists.months">{{month}}</th>
+            </tr>
+          
+            <!-- table is created in the controller js/sample-data-entry.js -->
+            <tr ng-repeat="account in table.data()" ng-show="table.show(account, $index)">
+              <td data-title="'Account'" style="min-width: 250px;" >
+                <span class="tm1-ui-indent" ng-repeat="item in account.indent() track by $index"></span>
+                <i class="fa" ng-class="{'tm1-ui-element-consol-icon': !account.isLeaf, 'tm1-ui-element-leaf-icon': account.isLeaf}"></i>
+                <span ng-if="account.key!='6000' && account.key!='6020'">{{account.alias}}</span>
+                <span ng-if="account.key=='6000' || account.key=='6020'"><a href="#/sample/sample7d/{{selections.region}}/{{selections.department}}" target="_blank">{{account.alias}}</a></span>
+              </td>
+                <td class="text-right" style="font-weight: bold; border-left: 1px solid #CCC; border-right: 1px solid #CCC;">
+                <tm1-ui-dbr 
+                    tm1-instance="dev" 
+                    tm1-cube="General Ledger" 
+                    tm1-elements="Last Year,{{selections.year}},Year,Local,{{selections.region}},{{selections.department}},{{account.key}},Amount" 
+                    tm1-data-decimal="0" ></tm1-ui-dbr>
+              </td>
+              <td class="text-right" style="font-weight: bold; border-left: 1px solid #CCC; border-right: 1px solid #CCC;">
+                <tm1-ui-dbr 
+                    tm1-instance="dev" 
+                    tm1-cube="General Ledger" 
+                    tm1-elements="Budget,{{selections.year}},Year,Local,{{selections.region}},{{selections.department}},{{account.key}},Amount" 
+                    tm1-data-decimal="0" ></tm1-ui-dbr>
+              </td>
+              <td ng-repeat="month in lists.months" class="text-right" >
+                <tm1-ui-dbr 
+                    tm1-instance="dev" 
+                    tm1-cube="General Ledger" 
+                    tm1-elements="Budget,{{selections.year}},{{month}},Local,{{selections.region}},{{selections.department}},{{account.key}},Amount" 
+                    tm1-data-decimal="0" ></tm1-ui-dbr>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Paging -->
+          <div>
+            <div class="btn-group" role="group" >
+              <button type="button" class="btn btn-default" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
+              <span class="btn btn-default" style="width: 70px;">{{table.page()}} of {{table.pages()}}</span>
+              <button type="button" class="btn btn-default" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
+            </div>
+            <div class="btn-group pull-right" role="group" >
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(10)}" ng-click="table.pageSize(10)">10</button>
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(15)}" ng-click="table.pageSize(15)">15</button>
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(20)}" ng-click="table.pageSize(20)">20</button>
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(30)}" ng-click="table.pageSize(30)">30</button>
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(50)}" ng-click="table.pageSize(50)">50</button>
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(100)}" ng-click="table.pageSize(100)">100</button>
+            </div>
+          </div>
+      
+        </tm1-ui-progress-ready>
+      
+      </tm1-ui-progress>
+
+    </div>
+  </div>
+     
+
+</div>

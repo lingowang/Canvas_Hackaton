@@ -1,0 +1,91 @@
+2018-03-08 13:27:49	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:55	Setting SSL certificate trust
+2018-03-08 13:27:49	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:59	Validating the license file
+2018-03-08 13:27:49	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:70	License file is valid
+2018-03-08 13:27:49	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:79	Scheduling print jobs
+2018-03-08 13:27:50	com.cubewise.l	WARN 	ScheduleManager:144	SMTP settings must be set in the WEB-INF\config\settings.json to run scheduled jobs
+2018-03-08 13:27:50	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:81	Scheduling of print jobs complete
+2018-03-08 13:27:50	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:88	Canvas API: 2.0.20180301
+2018-03-08 13:27:50	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:89	Application startup is complete
+2018-03-08 13:27:52	ro.isdc.wro.http.WroFilter	INFO 	WroFilter:125	wro4j version: 1.7.8-SNAPSHOT
+2018-03-08 13:27:52	ro.isdc.wro.http.WroFilter	INFO 	WroFilter:126	wro4j configuration: ro.isdc.wro.config.jmx.WroConfiguration@60d6b729[
+  cacheUpdatePeriod=-1
+  modelUpdatePeriod=15
+  resourceWatcherUpdatePeriod=15
+  resourceWatcherAsync=false
+  gzipEnabled=true
+  debug=true
+  ignoreMissingResources=true
+  cacheGzippedContent=false
+  jmxEnabled=false
+  wroManagerClassName=<null>
+  encoding=UTF-8
+  mbeanName=<null>
+  header=<null>
+  connectionTimeout=2000
+  parallelPreprocessing=false
+  ignoreEmptyGroup=true
+  ignoreFailingProcessor=false
+  minimizeEnabled=false
+]
+2018-03-08 15:03:32	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:55	Setting SSL certificate trust
+2018-03-08 15:03:32	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:59	Validating the license file
+2018-03-08 15:03:32	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:70	License file is valid
+2018-03-08 15:03:32	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:79	Scheduling print jobs
+2018-03-08 15:03:32	com.cubewise.l	WARN 	ScheduleManager:144	SMTP settings must be set in the WEB-INF\config\settings.json to run scheduled jobs
+2018-03-08 15:03:32	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:81	Scheduling of print jobs complete
+2018-03-08 15:03:32	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:88	Canvas API: 2.0.20180301
+2018-03-08 15:03:32	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:89	Application startup is complete
+2018-03-08 15:03:33	ro.isdc.wro.http.WroFilter	INFO 	WroFilter:125	wro4j version: 1.7.8-SNAPSHOT
+2018-03-08 15:03:33	ro.isdc.wro.http.WroFilter	INFO 	WroFilter:126	wro4j configuration: ro.isdc.wro.config.jmx.WroConfiguration@59b4b156[
+  cacheUpdatePeriod=-1
+  modelUpdatePeriod=15
+  resourceWatcherUpdatePeriod=15
+  resourceWatcherAsync=false
+  gzipEnabled=true
+  debug=true
+  ignoreMissingResources=true
+  cacheGzippedContent=false
+  jmxEnabled=false
+  wroManagerClassName=<null>
+  encoding=UTF-8
+  mbeanName=<null>
+  header=<null>
+  connectionTimeout=2000
+  parallelPreprocessing=false
+  ignoreEmptyGroup=true
+  ignoreFailingProcessor=false
+  minimizeEnabled=false
+]
+2018-03-08 15:04:52	org.quartz.core.QuartzScheduler	INFO 	QuartzScheduler:694	Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED shutting down.
+2018-03-08 15:04:52	org.quartz.core.QuartzScheduler	INFO 	QuartzScheduler:613	Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED paused.
+2018-03-08 15:04:52	org.quartz.core.QuartzScheduler	INFO 	QuartzScheduler:771	Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED shutdown complete.
+2018-03-08 15:04:52	org.quartz.ee.servlet.QuartzInitializerListener	INFO 	QuartzInitializerListener:264	Quartz Scheduler successful shutdown.
+2018-03-08 15:04:56	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:55	Setting SSL certificate trust
+2018-03-08 15:04:56	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:59	Validating the license file
+2018-03-08 15:04:57	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:70	License file is valid
+2018-03-08 15:04:57	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:79	Scheduling print jobs
+2018-03-08 15:04:57	com.cubewise.l	WARN 	ScheduleManager:144	SMTP settings must be set in the WEB-INF\config\settings.json to run scheduled jobs
+2018-03-08 15:04:57	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:81	Scheduling of print jobs complete
+2018-03-08 15:04:57	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:88	Canvas API: 2.0.20180301
+2018-03-08 15:04:57	com.cubewise.servlets.ApplicationContext	INFO 	InitContextListener:89	Application startup is complete
+2018-03-08 15:04:58	ro.isdc.wro.http.WroFilter	INFO 	WroFilter:125	wro4j version: 1.7.8-SNAPSHOT
+2018-03-08 15:04:58	ro.isdc.wro.http.WroFilter	INFO 	WroFilter:126	wro4j configuration: ro.isdc.wro.config.jmx.WroConfiguration@428df83c[
+  cacheUpdatePeriod=-1
+  modelUpdatePeriod=15
+  resourceWatcherUpdatePeriod=15
+  resourceWatcherAsync=false
+  gzipEnabled=true
+  debug=true
+  ignoreMissingResources=true
+  cacheGzippedContent=false
+  jmxEnabled=false
+  wroManagerClassName=<null>
+  encoding=UTF-8
+  mbeanName=<null>
+  header=<null>
+  connectionTimeout=2000
+  parallelPreprocessing=false
+  ignoreEmptyGroup=true
+  ignoreFailingProcessor=false
+  minimizeEnabled=false
+]

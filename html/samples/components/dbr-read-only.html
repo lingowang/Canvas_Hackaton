@@ -1,0 +1,427 @@
+<div ng-controller="DbrReadonlyCtrl">
+				
+	<style>
+	
+		pre, code {
+			white-space: normal !important;
+		}
+	 
+    .custom-dbr{
+      border: 10px dashed #DCDCDC;
+    }
+	</style>
+
+		<h1>
+			<i class="fa fa-eye"></i> DBR Read Only
+		</h1>
+		
+		<hr/>   
+
+	<div class="row">  
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro" tm1-instance="dev" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate"></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">         
+							<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate"></tm1-ui-dbr-read-only></div>
+				</div> 
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Decimal Places
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-decimal" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-read-only="true"></tm1-ui-dbr-read-only>
+											
+				</div>
+
+				<div class="panel-footer">
+					<div class="help-text">
+						<div>To specify the number of decimal places use <code>tm1-data-decimal="0"</code></div>
+					</div>
+				</div>
+
+				<div class="panel-footer">         
+						<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-read-only="true"></tm1-ui-dbr-read-only></div>
+				</div> 
+
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Hide Context Button
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-hide-context" tm1-instance="dev" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-hide-context-menu="true"></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div>Hide the context button using <code>tm1-hide-context-menu</code></div>
+					</div>
+				</div>
+				<div class="panel-footer">         
+							<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-hide-context-menu="true"></tm1-ui-dbr-read-only></div>
+				</div> 
+			</div>
+		</div>
+
+	</div>
+	
+	<div class="row">
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Scale in Thousands
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-scale" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+					tm1-data-scale="1000"></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div> Use <code>tm1-data-scale="1000"</code> to divide by 1000 the TM1 value </div>
+            <div> Raw value from TM1 is <span id="test-dbr-ro-scale-hidden-value">{{values.dbr.scaleRaw | formatNumber}}</span>
+              <tm1-ui-dbr-hidden id="test-dbr-ro-scale-hidden" tm1-instance="dev" tm1-cube="General Ledger" 
+                tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+                ng-model="values.dbr.scaleRaw"></tm1-ui-dbr-hidden>
+            </div>
+					</div>
+				</div>
+
+				<div class="panel-footer">         
+						<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+							tm1-data-scale="1000" ></tm1-ui-dbr-read-only></div>
+				</div> 
+
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Hide All Options in Context Button
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-hide-each-context" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+					tm1-hide-reference="true" tm1-hide-comment="true" tm1-hide-spread="true" tm1-hide-drill="true" ></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div>Hide all context options</div>
+						<div> Cell Reference using <code>tm1-hide-reference</code> </div>
+						<div> Comments using <code>tm1-hide-comment</code> </div>
+						<div> Spreading using <code>tm1-hide-spread</code> </div>
+						<div> Drill using <code>tm1-hide-drill</code> </div>
+					</div>
+				</div>
+
+				<div class="panel-footer">         
+						<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+							tm1-hide-reference="true" tm1-hide-comment="true" tm1-hide-spread="true" tm1-hide-drill="true" ></tm1-ui-dbr-read-only></div>
+				</div> 
+
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Add Action to the Context Button
+				</div>
+				<div class="panel-body">					
+          <p>
+            <tm1-ui-dbr-read-only id="test-dbr-ro-custom-context" tm1-instance="dev" tm1-cube="Product" tm1-elements="Actual,2012,Local, England, Bottles and Cages, Standard Cost" tm1-add-context-menu="myContextMenus" tm1-options="dbrOptions"></tm1-ui-dbr-read-only>
+          </p>
+          <p>
+            <div class="checkbox">
+              <label>
+                <input id="test-dbr-ro-context-mode" type="checkbox" ng-init="dbrOptions.contextPopUpMode=false" ng-model="dbrOptions.contextPopUpMode"> Pop-up Context
+              </label>
+            </div>
+          </p>  
+          
+				</div>
+				<div class="panel-footer">
+          <div class="help-text">
+            <div>Add an action Click Me! in the Context button  <code>tm1-add-context-menu</code>.</div>
+            <div>Utilize <code>tm1-options</code> to affect behavior of the menu context.</div>
+          </div>
+        </div>
+
+				<div class="panel-footer">         
+						<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Product" tm1-elements="Actual,2012,Local, England, Bottles and Cages, Standard Cost" tm1-add-context-menu="myContextMenus"></tm1-ui-dbr-read-only></div>
+				</div> 
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Show Negative without Parenthesis
+				</div>
+				<div class="panel-body">
+					
+          <div class="row">
+            <div class="col-md-6">             
+              <tm1-ui-dbr-read-only id="test-dbr-ro-parenthesis-normal" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Gain/Loss on Sales of Asset","Amount"'></tm1-ui-dbr-read-only>
+               <p>Normal</p>
+            </div>
+            <div class="col-md-6">              
+              <tm1-ui-dbr-read-only id="test-dbr-ro-parenthesis-none" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Gain/Loss on Sales of Asset","Amount"'
+                tm1-format-parenthesis="false"></tm1-ui-dbr-read-only>
+              <p>With tm1-format-parenthesis="false"</p>
+            </div>
+          </div>
+					
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div> Show negative value without parenthesis with <code>tm1-format-parenthesis</code> </div>
+					</div>
+				</div>
+
+				<div class="panel-footer">         
+						<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Gain/Loss on Sales of Asset","Amount"'
+							tm1-format-parenthesis="false" ></tm1-ui-dbr-read-only></div>
+				</div> 
+
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Override Accounting Default Settings
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-accounting" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+					tm1-accounting-settings-override="{currency:{symbol:'$', thousand:'.',decimal:',',precision:'2'}}"></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div> Override default accounting settings using <code>tm1-accounting-settings-override</code>.</div>
+					</div>
+				</div>
+
+				<div class="panel-footer">         
+						<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+							tm1-accounting-settings-override="{currency:{symbol:'$', thousand:'.',decimal:',',precision:'2'}}"></tm1-ui-dbr-read-only></div>
+			</div> 
+
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Store Comments in a Separate Cube
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-comment-separate-cube" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+					tm1-comment-cube="Planning Assumptions" tm1-comment-elements='"Actual","2015/16","Inventory Management","Raw Materials","Banding Acct Basis"'></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div> Store comments in a separate cube with DBR Read Only <code>tm1-comment-cube</code> </div>
+            <div> Comments saved into TM1: <span id="test-dbr-ro-comment-separate-cube-value" class="h6 text-mute">{{value.dbrComment}}</span>
+              
+              <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Planning Assumptions" tm1-elements='"Actual","2015/16","Inventory Management","Raw Materials","Banding Acct Basis"' ng-model="value.dbrComment"></tm1-ui-dbr-hidden>
+              
+            </div>
+					</div>
+				</div>
+
+				<div class="panel-footer">         
+						<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+							tm1-comment-cube="Planning Assumptions" tm1-comment-elements='"Actual","2015/16","Inventory Management","Raw Materials","Banding Acct Basis"'></tm1-ui-dbr-read-only></div>
+			</div> 
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Read Only - Comments Read Only
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-comment-read-only" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount"
+				tm1-comment-elements="Actual,2012,Mar,Local,England,2,Salaries,Comment" tm1-comment-read-only="true"></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div>Comments set as Read Only <code>tm1-comment-read-only</code></div>
+					</div>
+				</div>
+
+				<div class="panel-footer">         
+						<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount" tm1-comment-elements="Actual,2012,Mar,Local,England,2,Salaries,Comment" tm1-comment-read-only="true"></tm1-ui-dbr-read-only></div>
+				</div>
+
+			</div>
+		</div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Apply a CSS style on the Component
+        </div>
+        <div class="panel-body">
+          <p>
+            <select class="form-control" ng-model="values.dbrTheme" ng-init="values.dbrTheme='custom-dbr'">
+              <option value="">None</option>
+              <option value="custom-dbr">Custom</option>
+            </select>
+          </p>
+          
+          <tm1-ui-dbr-read-only id="test-dbr-ro-style" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount" tm1-ui-class="{{values.dbrTheme}}"></tm1-ui-dbr-read-only>
+                      
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-ui-class</code> to affect the style of the component further.</div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+            <div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount" tm1-ui-class="{{values.dbrTheme}}"></tm1-ui-dbr-read-only></div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR Comment Button Customization
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr-read-only id="test-dbr-ro-custom-comment-button" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount"
+        tm1-comment-elements="Actual,2012,Mar,Local,England,2,Salaries,Comment" tm1-comment-format-html-buttons="[['h1','h2','h3']]"></tm1-ui-dbr-read-only>
+                     
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Customized the buttons that the users can use even for comments via <code>tm1-comment-format-html-buttons</code>!</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount"
+        tm1-comment-elements="Actual,2012,Mar,Local,England,2,Salaries,Comment" tm1-comment-format-html-buttons="[['h1','h2','h3']]"></tm1-ui-dbr-read-only></div>
+        </div>
+      </div>
+    </div>
+
+	</div>
+
+  <div class="row">
+
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Utilize the Drill Results on your Page
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr-read-only id="test-dbr-ro-drill" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount" tm1-drill-model="values.dbr.drill"></tm1-ui-dbr-read-only>
+          <p class="text-muted">Check Console for the Data Received after Selecting a Drill, then Closing that Window.</p>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Get a copy of the drill transactions you have selected via <code>tm1-drill-model</code></div>
+            <div id="test-dbr-drill-source-table" ng-if="values.dbr.drill['Source Table'].transactions">Total Data Cells via Drill: {{values.dbr.drill['Source Table'].transactions.value.length}}</div>
+            <div id="test-dbr-drill-transaction" ng-if="values.dbr.drill.Transactions.transactions">Total Table Data via via Drill: {{values.dbr.drill.Transactions.transactions.Cells.length}}</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount" tm1-drill-model="values.dbr.drill"></tm1-ui-dbr-read-only></div>
+        </div>
+      </div>
+		</div>
+
+		<div class="col-lg-4">
+				
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Percentage (%)
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-percentage" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-format-percentage="true"></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div>To format the number as a percentage add the attribute <code>tm1-format-percentage="true"</code></div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-format-percentage="true"></tm1-ui-dbr-read-only></div>
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="col-lg-4">
+				
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR with ng-model
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-read-only id="test-dbr-ro-model" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" ng-model="values.assumption" tm1-data-decimal="2"></tm1-ui-dbr-read-only>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div> Store the value in a variable using<code>ng-model</code> DBR value: <span id="test-dbr-ro-model-value">{{values.assumption}}</span></div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<div hljs><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" ng-model="values.assumption"></tm1-ui-dbr-read-only></div>
+				</div>
+			</div>
+			
+		</div>
+		
+  </div>
+		
+</div>

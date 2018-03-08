@@ -1,0 +1,30 @@
+<div ng-controller="TestCtrl">
+
+  <h1><i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i><i ng-if="!$root.isLoading" class="fa fa-pencil-square"></i> {{'TEST' | translate}}</h1>  
+  <hr />
+  <a href="#"><i class="fa fa-home"></i> HOME</a> 
+  <h4>Objects {{objects}}</h4>
+  <tm1-ui-element-list tm1-calculate-top-level="true" tm1-instance="dev" tm1-dimension="Account" tm1-subset="Net income" ng-model="page.accounts"></tm1-ui-element-list>
+ 
+  <tm1-ui-progress tm1-ui-trigger="page.title">
+    
+      <tm1-ui-progress-pending>
+      </tm1-ui-progress-pending>
+    
+      <tm1-ui-progress-ready>
+        <ul>
+          <li>
+            <tm1-ui-dbr
+              tm1-instance="dev"
+              tm1-cube="General Ledger"
+              tm1-elements='Actual,2011/12,Mar,Local,England,Corporate,Employee Benefits,Amount'
+              tm1-comment-elements="Actual,2012,Mar,Local,England,Corporate,Employee Benefits,Comment"
+             >
+            </tm1-ui-dbr> 
+          </li>
+        </ul>
+     </tm1-ui-progress-ready>
+     
+  </tm1-ui-progress>
+  
+</div> 

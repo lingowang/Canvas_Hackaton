@@ -1,0 +1,76 @@
+<div ng-controller="MdxChartCtrl as ctrl">
+  <h1>
+    <i class="fa fa-th"></i> {{'MESSAGETABLEVIAMDX' | translate}}
+  </h1>
+   
+  <div class="row">
+    <div class="col-md-2">Instance</div>
+    <div class="col-md-8">
+      <select class="form-control" ng-model="values.instance" ng-change='executeQuery()'>
+        <option ng-repeat="instance in lists.instances" value="{{instance}}">{{instance}}</option>
+      </select>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+   
+  <div class="row">
+    <div class="col-md-2">MDX</div>
+    <div class="col-md-8">
+      <textarea ng-model="mdxQuery" class="form-control" rows="4"></textarea>
+    </div>
+    <div class="col-md-2">
+      <p><button class="btn btn-primary btn-block" ng-click="executeQuery()">Update</button></p>
+      <p><strong>Show Charts:&nbsp;</strong><input type="checkbox" ng-model="values.showCharts"></p>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <i ng-if="values.timeEnd != 0">
+        <small class="text-muted">Estimated query processing time is {{(values.timeEnd - values.timeStart) / 1000 | formatNumber:3}} second(s) for {{values.table.rows.length}} row(s).</small>
+      </i>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+    
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th ng-repeat="rowDimension in values.table.rows[0].elements" class="text-center">
+                {{rowDimension.dimension}}
+              </th>
+              <th ng-repeat="cellHeader in values.table.rows[0].cells" class="text-center">
+                {{cellHeader.key.split(',').join(' - ')}}
+              </th>
+              
+              <th ng-if="values.showCharts" class="text-center">
+                Chart
+              </th>
+            </tr>          
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in values.table.rows">
+              <td ng-repeat="rowDimension in row.elements" class="text-center">
+                {{rowDimension.alias}}
+              </td>
+              <td ng-repeat="cellHeader in row.cells" class="text-right">
+                {{cellHeader.value | formatNumber: 2}}
+              </td>
+              <td ng-if="values.showCharts">
+                <tm1-ui-chart tm1-chart-type="discreteBar" 
+                  tm1-legend="none" tm1-hide-controls="true" tm1-axis-label-x="" tm1-axis-label-y="" tm1-height="50" 
+                  tm1-margin="values.chartMargin" tm1-options-override="values.optionsOverride">
+                  <tm1-ui-chart-value ng-repeat="point in row.chartData track by $index" tm1-value="{{point.y}}" tm1-label="{{$index}}"></tm1-ui-chart-value>
+                </tm1-ui-chart>
+              </td>
+            </tr>          
+          </tbody>
+        </table>
+      </div>      
+    </div>
+  </div>
+</div>

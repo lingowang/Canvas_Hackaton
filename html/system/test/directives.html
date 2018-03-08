@@ -1,0 +1,669 @@
+<div ng-controller="DirectivesCtrl">
+
+	<style>
+	.h3{
+		margin-top : 10px;
+		margin-bottom : 0px;
+	}
+	</style>
+	<h1>
+		<span style="float: left; width: 50px; ">
+		<i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i>
+		<i ng-if="!$root.isLoading" class="fa fa-handshake-o"></i></span>
+		Directives Interaction
+	</h1>
+
+	<!-- Test parameters  -->
+
+	<h3>
+		 Test Criteria
+	</h3>
+				
+	<hr/>
+
+	<div class="row">
+		<div class="col-md-2">
+			Version:
+			<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-select-only="true" 
+						  tm1-default-element="1" tm1-attribute="Description" ng-model="selections.version"></tm1-ui-subnm>
+		</div>
+		<div class="col-md-2">
+				Year:
+				<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-select-only="true" tm1-subset="Default" tm1-default-element="2012" ng-model="selections.year"></tm1-ui-subnm>
+		</div>
+		<div class="col-md-2">
+				Currency:
+				<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Currency" tm1-select-only="true" tm1-subset="Default" tm1-default-element="Local" ng-model="selections.currency"></tm1-ui-subnm>
+		</div>
+		<div class="col-md-2">
+				Region:
+				<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-select-only="true" 
+							  tm1-default-element="6" tm1-attribute="Description" ng-model="selections.region"></tm1-ui-subnm>
+		</div>
+		<div class="col-md-2">
+				Department:
+				<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-select-only="true" 
+							  tm1-default-element="6" tm1-attribute="Description" ng-model="selections.department"></tm1-ui-subnm>
+		</div>
+		<div class="col-md-2">
+				GL Measure:
+				<tm1-ui-subnm tm1-instance="dev" tm1-dimension="General Ledger Measure" tm1-select-only="true" tm1-default-element="Amount" ng-model="selections.GLMeasure"></tm1-ui-subnm>
+		</div>
+			
+	</div>
+
+	<div class="row">
+		<div class="col-md-2">
+			Dimension:
+			<tm1-ui-subnm
+					tm1-instance="dev"
+					tm1-dimension="}Dimensions"
+					tm1-default-element="{{selections.dimensionURL}}"
+					ng-model="selections.dimension"
+					tm1-change="setDimension(selections.dimension)"
+					>
+			</tm1-ui-subnm>
+		</div>
+		<div class="col-md-2" ng-if="selections.dimension">
+			Attribute:
+			<tm1-ui-subnm
+					tm1-instance="dev"
+					tm1-dimension="}ElementAttributes_{{selections.dimension}}"
+					tm1-default-element="{{selections.attributeURL}}"
+					ng-model="selections.attribute"
+					tm1-change="setAttribute(selections.attribute)"
+					>
+			</tm1-ui-subnm>
+		</div>
+		<div class="col-md-2" ng-if="selections.dimension">
+			Alias:
+			<tm1-ui-subnm
+					tm1-instance="dev"
+					tm1-dimension="}ElementAttributes_{{selections.dimension}}"
+					tm1-default-element="{{selections.aliasURL}}"
+					ng-model="selections.alias"
+					tm1-change="setAlias(selections.alias)"
+					>
+			</tm1-ui-subnm>
+		</div>
+		<div class="col-md-2">
+			Element:
+			<tm1-ui-subnm
+					tm1-instance="dev"
+					tm1-dimension="{{selections.dimension}}"
+					tm1-default-element="{{selections.elementIDURL}}"
+					tm1-attribute="{{selections.alias}}"
+					ng-model="selections.elementID"
+					tm1-change="setElementID(selections.elementID)"
+					>
+			</tm1-ui-subnm>
+		</div>
+		<div class="col-md-2" ng-if="selections.dimension">
+			Subset:
+      <select class="form-control" ng-model="selections.subset" ng-change="setSubset(selections.subset)">
+        <option ng-repeat="subset in lists.currentDimensionSubsets track by $index" value="{{subset.Name}}">{{subset.Name}}</option>
+      </select>
+			<tm1-ui-subnm ng-if="false"
+					tm1-instance="dev"
+					tm1-dimension="}Subsets_{{selections.dimension}}"
+					tm1-default-element="{{selections.subsetURL}}"
+					ng-model="selections.subset"
+					tm1-change="setSubset(selections.subset)"
+					>
+			</tm1-ui-subnm>
+		</div>
+			
+	</div>
+
+	<!--====================================-->
+	<!--         All  Directives            -->
+
+
+	<!--===========================================================================================-->
+	<!--            tm1-ui-dbra,tm1-ui-dbr, tm1-ui-dbr-read-only and tm1-ui-dbr-hidden             -->
+
+	<h3>
+			tm1-ui-dbra,tm1-ui-dbr, tm1-ui-dbr-read-only and tm1-ui-dbr-hidden
+	</h3>
+				
+	<hr/>
+
+	<div class="row">
+
+		<div class="col-md-3" ng-if="selections.elementID">
+			<div class="panel panel-primary" ng-class="{'panel-warning':selections.elementID != values.element1.key}">
+				<div class="panel-heading">
+					<h3 class="panel-title">DBRA: Dimension: {{selections.dimension}} Element: {{selections.elementID}}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+
+						<tm1-ui-dbra
+							tm1-instance="dev"
+							tm1-dimension="{{selections.dimension}}"
+							tm1-element='{{selections.elementID}}'
+							tm1-attribute="{{selections.alias}}"
+							tm1-read-only="true"
+							ng-model="selections.elementTest"
+							>
+						</tm1-ui-dbra>
+
+							
+					</div>
+				</div>
+				<div class="panel-footer">
+						Alias: {{selections.alias}}
+				</div>				
+							
+			</div>
+		</div>
+
+		<div class="col-md-3" ng-if="selections.elementID">
+			<div class="panel panel-primary" ng-class="{'panel-warning':selections.elementID != values.element1.key}">
+				<div class="panel-heading">
+					<h3 class="panel-title">DBR</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-4">									
+							Sales and Marketing:
+						</div>
+						<div class="col-md-8">
+							<tm1-ui-dbr
+								tm1-instance="dev"
+								tm1-cube="General Ledger"
+								tm1-elements='Actual,2011/12,Mar,Local,England,"Sales and Marketing",{{selections.elementTest}},Amount'
+								tm1-comment-elements='Actual,2012,Mar,Local,England,"Sales and Marketing",{{selections.elementTest}},Comment'
+								>
+							</tm1-ui-dbr>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							Corporate
+						</div>
+						<div class="col-md-8">
+							<tm1-ui-dbr
+								tm1-instance="dev"
+								tm1-cube="General Ledger"
+								tm1-elements="Actual,2012,Mar,Local,England,Corporate,{{selections.elementTest}},Amount"
+								tm1-comment-elements="Actual,2012,Mar,Local,England,Corporate,{{selections.elementTest}},Comment"
+								>
+							</tm1-ui-dbr>
+						</div>
+					</div>								
+				</div>
+				<div class="panel-footer">
+						'Actual,2011/12,Mar,Local,England,"Sales and Marketing",{{selections.elementTest}},Amount'
+				</div>
+			</div>
+												
+		</div>
+
+		<div class="col-md-3" ng-if="selections.elementID">
+			<div class="panel panel-primary" ng-class="{'panel-warning':selections.elementID != values.element1.key}">
+				<div class="panel-heading">
+					<h3 class="panel-title">DBR Read Only</h3>
+				</div>
+				<div class="panel-body">
+					<div class="col-md-12">
+						<tm1-ui-dbr-read-only
+							tm1-instance="dev"
+							tm1-cube="General Ledger"
+							tm1-elements='Actual,2011/12,Mar,Local,England,"Sales and Marketing",{{selections.elementTest}},Amount'
+							tm1-comment-elements='Actual,2012,Mar,Local,England,"Sales and Marketing",{{selections.elementTest}},Comment'
+							>						
+						</tm1-ui-dbr-read-only>			
+					</div>
+				</div>
+				<div class="panel-footer">
+						'Actual,2011/12,Mar,Local,England,"Sales and Marketing",{{selections.elementTest}},Amount'
+				</div>						
+			</div>
+		</div>
+
+		<div class="col-md-3" ng-if="selections.elementID">
+			<div class="panel panel-primary" ng-class="{'panel-warning':selections.elementID != values.element1.key}">
+				<div class="panel-heading">
+					<h3 class="panel-title">DBR Hidden</h3>
+				</div>
+				<div class="panel-body">
+					<div class="col-md-12">
+						<tm1-ui-dbr-hidden
+							tm1-instance="dev"
+							tm1-cube="General Ledger"
+							tm1-elements='Actual,2011/12,Mar,Local,England,"Sales and Marketing",{{selections.elementTest}},Amount'
+							ng-model="values.dbrHidden"
+							>						
+						</tm1-ui-dbr-hidden>
+						{{values.dbrHidden}}		
+					</div>
+				</div>
+				<div class="panel-footer">
+						'Actual,2011/12,Mar,Local,England,"Sales and Marketing",{{selections.elementTest}},Amount'
+				</div>						
+			</div>
+		</div>
+
+	</div>
+
+	<!--====================================-->
+	<!--          tm1-ui-element            -->
+
+	<h3>
+		tm1-ui-element
+	</h3>
+		 
+	<hr/>
+
+	<div class="row">
+			
+		<div class="col-md-4" ng-if="selections.elementID">
+			<div class="panel panel-primary" ng-class="{'panel-warning':selections.elementID != values.element1.key}">
+				<div class="panel-heading">
+					<h3 class="panel-title">Dimension: {{selections.dimension}} Element: {{selections.elementTest}}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+
+						<tm1-ui-element tm1-instance="dev" 
+										tm1-dimension="{{selections.dimension}}" 
+										tm1-element="{{selections.elementTest}}"
+										ng-model="values.element1">
+						</tm1-ui-element>
+
+						{{values.element1}}
+
+							
+					</div>
+				</div>
+				<div class="panel-footer">
+						tm1-ui-element: 
+				</div>				
+							
+			</div>
+		</div>
+
+		<div class="col-md-4" ng-if="selections.elementID">
+			<div class="panel panel-primary" ng-class="{'panel-danger':selections.elementID != values.element2.key}">
+				<div class="panel-heading">
+					<h3 class="panel-title">Dimension: {{selections.dimension}} Element: {{selections.elementTest}}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+
+						<tm1-ui-element tm1-instance="dev" 
+										tm1-dimension="{{selections.dimension}}" 
+										tm1-element="{{selections.elementTest}}" 
+										tm1-attributes="{{selections.attribute}}" 
+										ng-model="values.element2">
+						</tm1-ui-element>
+
+						{{values.element2}}
+						
+					</div>
+				</div>
+				<div class="panel-footer">
+						tm1-ui-element: 
+				</div>				
+							
+			</div>
+		</div>
+
+		<div class="col-md-4" ng-if="selections.elementID">
+			<div class="panel panel-primary" ng-class="{'panel-danger':selections.elementID != values.element3.key}">
+				<div class="panel-heading">
+					<h3 class="panel-title">Dimension: {{selections.dimension}} Element: {{selections.elementTest}}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+
+						<tm1-ui-element tm1-instance="dev" 
+										tm1-dimension="{{selections.dimension}}" 
+										tm1-element="{{selections.elementTest}}" 
+										tm1-attributes="{{selections.attribute}}" 
+										ng-model="values.element3">
+						</tm1-ui-element>
+
+						{{values.element3}}
+
+					</div>
+				</div>
+				<div class="panel-footer">
+						tm1-ui-element: 
+				</div>				
+							
+			</div>
+		</div>
+
+	</div>
+
+	<!--====================================-->
+	<!--           tm1-ui-subnm             -->
+
+	<h3>
+			tm1-ui-subnm
+	</h3>
+				
+	<hr/>
+
+	<div class="row">
+
+		<div class="col-md-4" ng-if="selections.elementID">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Subset:{{selections.subset}}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+						<tm1-ui-subnm
+							tm1-instance="dev"
+							tm1-dimension="{{selections.dimension}}"
+							tm1-subset="{{selections.subset}}"
+							ng-model="selections.subnmSubset"
+							>
+						</tm1-ui-subnm>
+					</div>
+				</div>
+				<div class="panel-footer">
+					Show Element ID: {{selections.subnmSubset}}
+				</div>				
+							
+			</div>
+		</div>
+
+		<div class="col-md-4" ng-if="selections.elementID">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">MDX:{TM1SUBSETALL( [{{selections.dimension}}] )}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+						<tm1-ui-subnm
+							tm1-instance="dev"
+							tm1-dimension="{{selections.dimension}}"
+							tm1-mdx="{TM1SUBSETALL( [{{selections.dimension}}] )}"
+							ng-model="selections.subnmMDX"
+							>
+						</tm1-ui-subnm>
+					</div>
+				</div>
+				<div class="panel-footer">
+						Show Element ID: {{selections.subnmMDX}}
+				</div>				
+							
+			</div>
+		</div>
+
+		<div class="col-md-4" ng-if="selections.elementID">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">MDX:{TM1SUBSETALL( [{{selections.dimension}}] )} + Alias {{selections.alias}}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+						<tm1-ui-subnm
+							tm1-instance="dev"
+							tm1-dimension="{{selections.dimension}}"
+							tm1-mdx="{TM1SUBSETALL( [{{selections.dimension}}] )}"
+							tm1-attribute="{{selections.alias}}"
+							ng-model="selections.subnmMDXAlias"
+							>
+						</tm1-ui-subnm>
+					</div>
+				</div>
+				<div class="panel-footer">
+						Show Element ID: {{selections.subnmMDXAlias}}
+				</div>				
+							
+			</div>
+		</div>
+
+	</div>
+
+	<!--=====================================-->
+	<!--           tm1-ui-element            -->
+
+	<h3>
+			tm1-ui-element-list
+	</h3>
+				
+	<hr/>
+
+	<div class="row">
+
+		<div class="col-md-12" ng-if="selections.elementID">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">MDX:{[{{selections.dimension}}].[{{selections.elementTest}}].Children}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+						<tm1-ui-element-list
+							tm1-instance="dev"
+							tm1-dimension="{{selections.dimension}}"
+							tm1-mdx="{[{{selections.dimension}}].[{{selections.elementTest}}].Children}"
+							tm1-attributes="{{selections.alias}}"
+							tm1-calculate-top-level="true"
+							ng-model="lists.mdx"
+							>
+						</tm1-ui-element-list>
+						{{lists.mdx}}
+					</div>
+				</div>
+				<div class="panel-footer">
+						
+				</div>				
+							
+			</div>
+		</div>
+
+		<div class="col-md-12" ng-if="selections.elementID">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Subset:{{selections.subset}}</h3>
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-md-12">
+						<tm1-ui-element-list
+						   tm1-instance="dev"
+						   tm1-dimension="{{selections.dimension}}"
+						   tm1-subset="{{selections.subset}}"
+						   tm1-calculate-top-level="true"
+						   ng-model="lists.subset"
+						   >
+						</tm1-ui-element-list>
+
+						{{lists.subset}}
+						
+					</div>
+				</div>
+				<div class="panel-footer">
+					
+				</div>				
+							
+			</div>
+		</div>
+
+	</div>
+
+	<!--=====================================-->
+	<!--           tm1-ui-rpt-view           -->
+
+	<h3>
+			tm1-ui-rpt-view
+	</h3>	
+			
+	<hr/>
+
+	<div class="row">
+		<div class="col-md-3">
+			<select class="form-control" ng-init="page.suppressZero = 'none'" ng-model="page.suppressZero">
+				<option value="none">Do not Suppress Zeroes</option>
+				<option value="row">Suppress Zero on Rows</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row">
+
+		<div class="col-md-12" ng-if="selections.elementID">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Active Form</h3>
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive" ng-init="page.size = 10">
+						<tm1-ui-rpt-view tm1-instance="dev" tm1-cube="General Ledger" ng-model="data" tm1-suppress-zero="{{page.suppressZero}}" tm1-page-size="{{page.size}}">
+						  <tm1-ui-rpt-config>
+							<tm1-ui-rpt-title tm1-dimension="Version" tm1-element="{{selections.version}}"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Year" tm1-element="{{selections.year}}"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="General Ledger Measure" tm1-element="{{selections.GLMeasure}}"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="{{selections.currency}}"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Region" tm1-element="{{selections.region}}"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Department" tm1-element="{{selections.department}}"></tm1-ui-rpt-title>
+							  
+							<tm1-ui-rpt-row tm1-dimension="Account" tm1-subset="{{selections.subset}}"></tm1-ui-rpt-row>
+							  
+							<tm1-ui-rpt-column tm1-dimension="Period" tm1-subset="Default"></tm1-ui-rpt-column>
+										
+						  </tm1-ui-rpt-config>
+						  
+						  <tm1-ui-rpt-template>
+							<table id="af1" class="table table-condensed">
+							  <thead>  
+								<tr>              
+									<th class="text-center">Account</th>
+									<th class="text-center">{{selections.attribute}}</th>
+									<th class="text-center">Year</th>
+									<th class="text-center">Jan</th>
+									<th class="text-center">Feb</th>
+									<th class="text-center">Mar</th>
+									<th class="text-center">Apr</th>
+									<th class="text-center">May</th>
+									<th class="text-center">Jun</th>
+								</tr>                
+							  </thead>
+							  <tbody>
+								<tr ng-repeat="rowData in data.rows track by $index" ng-if="rowData.inPage">
+								
+								  <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Account"></td>
+
+								  <td class="text-right">
+									          
+									</td>
+								
+								  <td class="text-right">
+									<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="Year"></tm1-ui-rpt-row-cell>             
+								  </td>
+								  <td class="text-right">
+									<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="01"></tm1-ui-rpt-row-cell>             
+								  </td>
+								  <td class="text-right">
+									<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="02"></tm1-ui-rpt-row-cell>             
+								  </td>
+								  <td class="text-right">
+									<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="03"></tm1-ui-rpt-row-cell>             
+								  </td>
+								  <td class="text-right">
+									<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="04"></tm1-ui-rpt-row-cell>             
+								  </td>
+								  <td class="text-right">
+									<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="05"></tm1-ui-rpt-row-cell>             
+								  </td>
+								  <td class="text-right">
+									<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="06"></tm1-ui-rpt-row-cell>             
+								  </td>
+								
+								</tr>
+							  </tbody>
+							  </table>
+							  
+							  <div>
+								<div class="btn-group" role="group" >
+								  <button type="button" class="btn btn-default" ng-click="data.pageFirst()"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></button>
+								  <button type="button" class="btn btn-default" ng-click="data.pagePrevious()"><i class="fa fa-angle-left"></i></button>
+								  <span class="btn btn-default" style="width: 70px;">{{data.page()}} of {{data.pages()}}</span>
+								  <button type="button" class="btn btn-default" ng-click="data.pageNext()"><i class="fa fa-angle-right"></i></button>
+								  <button type="button" class="btn btn-default" ng-click="data.pageLast()"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></button>
+								</div>
+								<div class="btn-group pull-right" role="group">
+								  <button type="button" class="btn btn-default" ng-class="{'active': data.isPageSize(10)}" ng-click="page.size = 10">10</button>
+								  <button type="button" class="btn btn-default" ng-class="{'active': data.isPageSize(25)}" ng-click="page.size = 25">25</button>
+								  <button type="button" class="btn btn-default" ng-class="{'active': data.isPageSize(50)}" ng-click="page.size = 50">50</button>
+								  <button type="button" class="btn btn-default" ng-class="{'active': data.isPageSize(0)}" ng-click="page.size = 0">All</button>
+								</div>
+							  </div>
+						  </tm1-ui-rpt-template>
+						</tm1-ui-rpt-view> 
+					  </div>  
+				</div>
+				<div class="panel-footer">
+						
+				</div>				
+							
+			</div>
+		</div>
+
+	</div>
+
+
+
+	<!--=====================================-->
+	<!--           tm1-ui-chart           -->
+
+	<h3>
+			tm1-ui-chart
+	</h3>
+				
+	<hr/>
+
+	<div class="row">
+
+		<div class="col-md-6" ng-if="selections.elementID">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Chart based on {[{{selections.dimension}}].[{{selections.elementTest}}].Children}</h3>
+				</div>
+				<div class="panel-body">
+
+					<tm1-ui-chart
+					   tm1-chart-type="discreteBar"
+					   tm1-height="300"
+					   tm1-axis-label-x=""
+					   tm1-axis-label-y=""
+					   tm1-data-decimal="0"
+					   tm1-duration="2000"
+					   tm1-margin="{top: 10, right: 10, bottom: 20, left: 50}"
+					   >
+					
+						<div ng-repeat="account in lists.mdx">
+
+							<tm1-ui-chart-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-label="{{account.alias}}" 
+											  tm1-elements='{{selections.version}},{{selections.year}},Year,{{selections.currency}},{{selections.region}},"{{selections.department}}",{{account.key}},{{selections.GLMeasure}}'>
+							</tm1-ui-chart-dbr>
+								
+						</div>
+					
+					</tm1-ui-chart>
+				
+				</div>
+				<div class="panel-footer">
+						
+				</div>				
+							
+			</div>
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,195 @@
+<div>
+
+
+  <!--=========================================-->
+  <!--                   ROW 0                 -->
+  <!--         LISTS USED IN THE TABLE         -->
+
+	<tm1-ui-element-list tm1-instance="dev" 
+						 tm1-dimension="Time" 
+						 tm1-mdx="{UNION({[Time].[{{options.HierarchyRow}}].[{{options.ConsolidationRow}}]},{[Time].[{{options.HierarchyRow}}].[{{options.ConsolidationRow}}].Children})}"
+	 					 ng-model="lists.rows">
+	</tm1-ui-element-list>
+
+	<!-- Period list -->
+	<tm1-ui-element-list tm1-instance="dev" 
+						tm1-dimension="Time" 
+						tm1-mdx="{UNION({[Time].[Month].[All Months]},{[Time].[Month].[All Months].Children})}"
+						ng-model="lists.columns">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" 
+		tm1-dimension="Time" 
+		tm1-mdx="{UNION({[Time].[Month].[All Months]},{[Time].[Month].[All Months].Children})}"
+		ng-model="lists.periods">
+	</tm1-ui-element-list>
+
+	<!-- Period FY list -->
+	<tm1-ui-element-list tm1-instance="dev" 
+		tm1-dimension="Time" 
+		tm1-mdx="{UNION(
+			{[Time].[Month].[All Months]},
+			{UNION(
+			{UNION({[Time].[Month].[Jul]},{UNION({[Time].[Month].[Aug]},{UNION({[Time].[Month].[Sep]},{UNION({[Time].[Month].[Oct]},{UNION({[Time].[Month].[Nov]},{[Time].[Month].[Dec]})})})})})},
+			{UNION({[Time].[Month].[Jan]},{UNION({[Time].[Month].[Feb]},{UNION({[Time].[Month].[Mar]},{UNION({[Time].[Month].[Apr]},{UNION({[Time].[Month].[May]},{[Time].[Month].[Jun]})})})})})}
+			)}
+		)}"
+		ng-model="lists.periodsFY">
+	</tm1-ui-element-list>
+
+	<!-- Half Year list -->
+	<tm1-ui-element-list tm1-instance="dev" 
+		tm1-dimension="Time" 
+		tm1-mdx="{UNION({[Time].[Half Year].[All Half Years]},{[Time].[Half Year].[All Half Years].Children})}"
+		ng-model="lists.halfYears">
+	</tm1-ui-element-list>
+
+	<!-- Quarter Year list -->
+	<tm1-ui-element-list tm1-instance="dev" 
+							tm1-dimension="Time" 
+							tm1-mdx="{UNION({[Time].[Quarter].[All Quarters]},{[Time].[Quarter].[All Quarters].Children})}"
+							ng-model="lists.quarters">
+	</tm1-ui-element-list>
+
+	<!-- Quarters FY Year list -->
+	<tm1-ui-element-list tm1-instance="dev" 
+	tm1-dimension="Time" 
+	tm1-mdx="{UNION(
+		{[Time].[Quarter].[All Quarters]},
+		{UNION({[Time].[Quarter].[Q1]},{UNION({[Time].[Quarter].[Q2]},{UNION({[Time].[Quarter].[Q3]},{[Time].[Quarter].[Q4]})})})}
+		)}"
+	 ng-model="lists.quartersFY">
+	</tm1-ui-element-list>
+
+	<!-- Half Year FY Year list -->
+	<tm1-ui-element-list tm1-instance="dev" 
+			tm1-dimension="Time" 
+			tm1-mdx="{UNION(
+				{[Time].[Half Year].[All Half Years]},
+				{UNION({[Time].[Half Year].[H1]},{[Time].[Half Year].[H2]})}
+				)}"
+				ng-model="lists.halfYearsFY">
+	</tm1-ui-element-list>
+
+  <!--=========================================-->
+  <!--                   ROW 1                 -->
+  <!--              TITLE + BUTTONS            -->
+
+	<div class="row">
+
+		<div class="btn-group col-md-6">
+			<h1 style="margin-top:0px">
+				<span style="float: left; width: 50px; ">
+					<i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i>
+					<i ng-if="!$root.isLoading" class="fa fa-exchange"></i>
+				</span>		{{'MESSAGESAMPLEITEM16' | translate}}
+			</h1>
+		</div>
+		
+	</div>
+
+  <!--=========================================-->
+  <!--                   ROW 2                 -->
+  <!--                INFORMATION              -->
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="well" style="margin-bottom:0px">
+			<p>This page is utilizing alternate hierarchies of the Time dimension,
+			in order to see it on your own application, <span style="font-weight:bold">PAL 2.0 or above is required</span>.</p>
+			<p>To turn on alternate hierarchy, you need to add the new parameter <span style="font-weight:bold">EnableNewHierarchyCreation=T</span>  to the <span style="font-weight:bold"> tm1.cfg  </span>file.</p>
+			<p>With tm1-ui-dbr, the syntax is <span style="font-weight:bold">"Hierarchy1::Element1 && Hierarchy2::Element2"</span></p>
+			<p>For example <span style="font-weight:bold">2009 Jan</span> value comes from these elements: 
+					'"Actual",<span style="font-weight:bold">"Year::2009 && Month::Jan"</span>,"Local","Total Europe","Corporate","Net Income","Amount"'</p>
+			</div>
+		</div>
+	</div>
+
+  <!--=========================================-->
+  <!--                   ROW 3                   -->
+  <!--                  BUTTONS                  -->
+
+<div class="row">
+		
+	<div  class="col-md-3">
+		<div class="btn-group" role="group">
+				<button class="btn" 
+						ng-class="{'btn-success': options.HierarchyRow=='Year'}" 
+						ng-click="options.HierarchyRow='Year';options.ConsolidationRow='All Years';options.HierarchyColumn='Month';lists.columns=lists.periods"
+						ng-init="options.HierarchyRow='Year';options.ConsolidationRow='All Years';">Year</button>
+				<button class="btn" 
+						ng-class="{'btn-info': options.HierarchyRow=='Fiscal Year'}" 
+						ng-click="options.HierarchyRow='Fiscal Year';options.ConsolidationRow='All Fiscal Years';options.HierarchyColumn='Month';lists.columns=lists.periodsFY">Fiscal Year</button>
+		</div>
+	</div>
+		
+	<div class="col-md-4">
+	
+		<div ng-if="options.HierarchyRow=='Year'" class="btn-group" role="group">
+			<button class="btn" 
+					ng-class="{'btn-success': options.HierarchyColumn=='Month'}" 
+					ng-click="lists.columns=lists.periods;options.HierarchyColumn='Month'"
+					ng-init="lists.columns=lists.periods;options.HierarchyColumn='Month'">Month</button>
+					
+			<button class="btn" 
+					ng-class="{'btn-success': options.HierarchyColumn=='Quarter'}" 
+					ng-click="lists.columns=lists.quarters;options.HierarchyColumn='Quarter'">Quarter</button>
+
+			<button class="btn" 
+					ng-class="{'btn-success': options.HierarchyColumn=='Half Year'}" 
+					ng-click="lists.columns=lists.halfYears;options.HierarchyColumn='Half Year'">Half Year</button>
+		</div>
+
+		<div ng-if="options.HierarchyRow!='Year'" class="btn-group" role="group">
+
+			<button class="btn" 
+				ng-class="{'btn-info': options.HierarchyColumn=='Month'}" 
+				ng-click="lists.columns=lists.periodsFY;options.HierarchyColumn='Month'">Month</button>
+
+			<button class="btn" 
+				ng-class="{'btn-info': options.HierarchyColumn=='Quarter FY'}" 
+				ng-click="lists.columns=lists.quartersFY;options.HierarchyColumn='Quarter FY'">Quarter</button>
+
+			<button class="btn" 
+					ng-class="{'btn-info': options.HierarchyColumn=='Half Year FY'}" 
+					ng-click="lists.columns=lists.halfYearsFY;options.HierarchyColumn='Half Year FY'">Half Year</button>
+
+		</div>
+
+	</div>
+		
+</div>
+  <!--=========================================-->
+  <!--                   ROW 4                 -->
+  <!--                   TABLE                 -->
+
+<div class="row">
+
+	<div class="col-md-12">
+		<table class="table table-striped">
+
+			<thead>
+				<tr class="alert alert-success" ng-class="{'alert-info': options.HierarchyRow=='Fiscal Year'}" >
+					<th class="text-center"> {{options.HierarchyRow}} </th>
+					<th class="text-center" ng-repeat="column in lists.columns"> {{column.key}} </th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr ng-repeat="row in lists.rows">
+					<td> {{row.key}} </td>
+					<td ng-repeat="column in lists.columns" class="text-right">
+						<tm1-ui-dbr tm1-instance="dev" tm1-cube="Balance Sheet" tm1-elements='"Actual","{{options.HierarchyRow}}::{{row.key}} && {{options.HierarchyColumn}}::{{column.key}}","Local","Total Europe","Corporate","Net Income","Amount"'
+							tm1-data-decimal="0">
+						</tm1-ui-dbr>
+					</td>
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
+
+</div>
+
+
+</div>

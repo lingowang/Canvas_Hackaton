@@ -1,0 +1,1063 @@
+<div ng-controller="ApplicationEmployeeCtrl">
+
+  <style>
+    #page-view {
+      background-color: #F8F8F8;
+    }
+
+    @media print {
+      #page-view {
+        background-color: #FFF;
+      }
+      #filter {
+        display: none;
+      }
+      div.other-pages {
+        page-break-before: always;
+      }
+      .btn {
+        display: none;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .modal-xl {
+        width: 90%;
+        max-width: 1200px;
+      }
+    }
+
+    .nopadding {
+      padding: 0px;
+    }
+
+    .tm1-ui-dbr {
+      text-align: right;
+    }
+
+    .tm1-ui-dbr input {
+      text-align: right;
+    }
+
+    .pointy-hand {
+      cursor: pointer;
+    }
+
+    .chart-header {
+      font-size: 1.2em;
+      text-align: center;
+      margin: 0px;
+      margin-top: 0px;
+      padding: 0px;
+      padding-right: 0px;
+    }
+
+    .title-border {
+      font-size: 1em;
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-right: 0px;
+      border-width: 1px;
+      border-top-style: dashed;
+      border-color: #CECECE
+    }
+
+    .chart-legend-2 {
+      font-size: 1em;
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 0px;
+      padding-top: 10px;
+      padding-right: 0px;
+      border-width: 1px;
+      border-top-style: dashed;
+      border-color: #CECECE
+    }
+
+    .region-progressbar {
+      height: 8px;
+      margin: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    .region-name {
+      font-weight: bold;
+      font-size: 1.2em;
+      font-weight: normal;
+    }
+
+    .region-value {
+      font-size: 1.2em;
+      text-align: right;
+      padding-right: 0px;
+    }
+
+    .category-progressbar {
+      height: 12px;
+      margin: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    .category-name {
+      font-weight: bold;
+      font-size: 1.2em;
+      font-weight: normal;
+    }
+
+    .category-value {
+      font-size: 1.2em;
+      text-align: right;
+      padding-right: 0px;
+    }
+
+    .year-progressbar {
+      height: 35px;
+      margin: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      border-radius: 0px;
+      margin-bottom: 1px;
+      margin-top: 1px;
+    }
+
+    .year-name {
+      padding-top: 30px;
+      font-weight: bold;
+      font-size: 1.2em;
+      font-weight: normal;
+    }
+
+    .year-value {
+      font-size: 1.2em;
+      text-align: right;
+    }
+
+    .year-value-bar {
+      margin-top: 7px;
+    }
+
+    .btn-icon {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    .panel-header {
+      font-size: 1.2em;
+      text-align: center;
+      margin: 0px;
+      margin-top: 0px;
+      padding: 0px;
+      padding-right: 0px;
+    }
+
+    .chart-min-height {
+      min-height: 385px;
+    }
+
+    .transparent {
+      background-color: transparent;
+    }
+
+    .left-border-none {
+      border-left: none;
+    }
+
+    .form-control {
+      border-top: 0;
+      border-right: 0;
+      border-left: 0;
+    }
+
+    .input-group-addon {
+      border-top: 0;
+      border-right: 0;
+      border-left: 0;
+    }
+
+    .form-control-new {
+      display: block;
+      width: 100%;
+      height: 34px;
+      padding: 6px 12px;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #555;
+      margin: 0px;
+      background-color: #fff;
+      background-image: none;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 0px;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+      -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+  </style>
+
+  <!--======================-->
+  <!--       Create List    -->
+
+  <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Department" tm1-mdx="{UNION({[Department].[Corporate]},
+                      {FILTER(
+                      {ORDER(
+                      {TM1FILTERBYLEVEL( {TM1SUBSETALL( [Department] )}, 0)}
+                      ,[Employee].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[Year],[Currency].[local],[Region].[{{selections.region}}],[Employee].[All Employees],
+                      [Employee Measure].[Full Time Base Salary])
+                      ,BDESC)}
+                      ,[Employee].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[Year],[Currency].[local],[Region].[{{selections.region}}],[Employee].[All Employees],[Employee Measure].[Full Time Base Salary])
+                      >0)}
+                      )}" tm1-calculate-top-level="false" tm1-attributes="Color,Short Description" ng-model="lists.departments">
+  </tm1-ui-element-list>
+
+  <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-mdx="{FILTER(
+                      {ORDER(
+                      {TM1FILTERBYLEVEL( {TM1SUBSETALL( [Region] )}, 0)}
+                      ,[Employee].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[Year],[Currency].[local],[Department].[{{selections.department}}],[Employee].[All Employees],
+                      [Employee Measure].[Full Time Base Salary])
+                      ,BDESC)}
+                      ,[Employee].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[Year],[Currency].[local],[Department].[{{selections.department}}],[Employee].[All Employees],[Employee Measure].[Full Time Base Salary])
+                      >0)}" tm1-calculate-top-level="true" tm1-attributes="Description" ng-model="lists.countries">
+  </tm1-ui-element-list>
+
+  <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Year" tm1-mdx="{[Year].[2015],[Year].[2016],[Year].[2017]}" ng-model="lists.years">
+  </tm1-ui-element-list>
+
+  <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Employee" tm1-subset="All Employees" tm1-calculate-top-level="true"
+    ng-model="lists.employees">
+  </tm1-ui-element-list>
+
+  <!-- Start Row 1 -->
+
+  <div class="row">
+
+    <!-- Row 1: Title + Filters  -->
+
+    <div class="col-lg-5 col-md-12 col-xs-12">
+
+      <h2 style="margin-top:0px">
+
+        <span style="float: left;"></span> Salary Forecast
+        <button class="btn panel panel-primary text-primary" ng-click="setRegion(defaults.region)" ng-if="selections.region != defaults.region">
+            {{selections.region}} <i class="fa fa-close"></i></button>
+        <button class="btn panel panel-primary text-primary" ng-click="setDepartment(defaults.department)" ng-if="selections.department != defaults.department">
+            {{selections.department}} <i class="fa fa-close"></i></button>
+
+      </h2>
+    </div>
+
+
+    <!--###############################################################-->
+    <!--                ROW 1: BUTTONS + ICONS                -->
+
+    <div class="col-lg-7 col-md-12 col-xs-12 text-right">
+
+      <div class="col-md-6 col-xs-12">
+
+        <button ng-repeat="year in lists.years" class="col-xs-4 btn panel panel-primary text-primary" ng-class="{'panel-info text-info': selections.year!=year.key}"
+          ng-click="setYear(year.key)">{{year.key}}</button>
+
+      </div>
+
+      <div class="col-md-6 col-xs-12">
+
+        <button ng-repeat="version in lists.versions" class="col-xs-4 btn panel panel-primary text-primary" ng-class="{'panel-info text-info': selections.version!=version.description}"
+          ng-click="setVersion(version.description)">{{version.description}}</button>
+
+      </div>
+
+    </div>
+
+    <!-- Only Show when printing -->
+    <div class="col-md-7 visible-print-block">
+      <h3> Filters: {{selections.version}} - {{selections.year}} - {{selections.month}} - {{selections.region}} - {{selections.department}}
+      </h3>
+    </div>
+
+  </div>
+
+
+
+
+  <!--###############################################################-->
+  <!--                           ROW 2: CHARTS                       -->
+
+  <div class="row" ng-init="getColorDepartment(selections.department)" ng-if="selections.showCharts=='true'">
+
+
+
+    <!--====================================-->
+    <!--          CHART BY DEPARTMENTS      -->
+
+    <div class="col-lg-4 col-md-6">
+      <div class="panel panel-primary">
+
+        <div class="panel-body">
+
+          <div class="chart-header"> {{selections.region}} Salary by Departments
+
+          </div>
+
+          <div class="title-border">
+          </div>
+
+          <div class="col-md-12 col-xs-12 nopadding chart-min-height">
+
+            <div class="col-md-12 col-xs-12" ng-repeat="category in lists.departments" style="margin-top:17px">
+
+              <div class="text-primary" ng-class="{'text-info':selections.product != category.key}" ng-click="setDepartment(category.ShortDescription)"
+                style="cursor:pointer">
+
+
+                <div class="col-md-9 nopadding category-name">
+                  {{category.ShortDescription}}
+                </div>
+
+                <div class="col-md-3 nopadding category-value">
+                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{selections.region}},{{category.key}},All Employees,Full Time Base Salary"
+                    tm1-hide-context-menu="true">
+                  </tm1-ui-dbr-read-only>
+                </div>
+
+                <div class="col-md-12 col-xs-12 nopadding">
+                  <div class="progress category-progressbar" ng-class="category.percentage > 0 ? '':'reverse'">
+
+                    <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Employee" tm1-elements='{{selections.version}},{{selections.year}},Year,Local,{{selections.region}},{{category.key}},All Employees,"Full Time Base Salary % Department"'
+                      tm1-data-decimal="0" ng-model="category.percentage">
+                    </tm1-ui-dbr-hidden>
+
+                    <div class="progress-bar" ng-class="{'progress-bar-striped' : selections.version === 'Budget'}" role="progressbar" aria-valuenow="80"
+                      aria-valuemin="0" aria-valuemax="100" style="width:{{renderPercentageAbsCategory(category.percentage)}}%;background-color:{{category.Color}}">
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!--====================================-->
+    <!--          CHART BY REGIONS          -->
+
+    <div class="col-lg-4 col-md-6">
+
+      <div class="panel panel-primary">
+
+        <div class="panel-body">
+
+          <div class="chart-header">{{selections.department}} Salary by Regions
+
+          </div>
+          <div class="title-border">
+          </div>
+
+          <div class="col-md-12 col-xs-12 nopadding chart-min-height">
+
+            <div class="col-md-12 col-xs-12" ng-repeat="region in lists.countries" style="margin-top:1px">
+
+              <div class="row text-primary" ng-class="{'text-info':selections.department != region.alias}" ng-click="setRegion(region.alias)"
+                style="cursor:pointer">
+
+
+                <div class="col-md-8 nopadding region-name">
+                  {{region.alias}}
+                </div>
+
+                <div class="col-md-4 nopadding region-value">
+                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{region.alias}},{{selections.department}},All Employees,Full Time Base Salary"
+                    tm1-hide-context-menu="true">
+                  </tm1-ui-dbr-read-only>
+                </div>
+
+
+                <div class="col-md-12 col-xs-12 nopadding">
+                  <div class="progress region-progressbar">
+
+                    <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Employee" tm1-elements='{{selections.version}},{{selections.year}},Year,Local,{{region.alias}},{{selections.department}},All Employees,"Full Time Base Salary % Region"'
+                      tm1-data-decimal="0" ng-model="region.percentage">
+                    </tm1-ui-dbr-hidden>
+
+                    <div class="progress-bar" ng-class="{'progress-bar-striped' : selections.version === 'Budget'}" role="progressbar" aria-valuenow="80"
+                      aria-valuemin="0" aria-valuemax="100" style="width:{{renderPercentageAbsRegion(region.percentage)}}%;background-color:{{selections.color}}">
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!--====================================================-->
+    <!--            Progress Bar By Version                 -->
+
+    <div class="col-lg-4 col-md-12">
+
+      <div class="panel panel-primary">
+
+        <!-- BAr charts -->
+
+        <div class="panel-body">
+
+          <div class="chart-header"> Salary by Version
+
+          </div>
+
+          </hr>
+
+          <div>
+
+            <div class="chart-legend-2">
+              <i class="fa fa-square" style="color:#5CBAE6"></i> Actual
+              <i class="fa fa-square" style="color:#9DD0E8"></i> Budget
+            </div>
+
+            <div class="col-md-12 col-xs-12 nopadding" style="margin-top:26px;margin-bottom:30px">
+
+              <div class="col-md-12 col-xs-12" ng-repeat="year in lists.years" style="margin-top:6px">
+
+                <div class="col-md-2 text-primary" ng-class="{'text-info':selections.year != year.key}" ng-click="setYear(year.key)" style="cursor:pointer">
+
+                  <div class="col-md-12 text-center nopadding year-name">
+                    {{year.key}}
+                  </div>
+
+                </div>
+
+                <div class="col-md-10">
+
+                  <div class="col-md-2 year-value">
+                    <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Employee" tm1-elements="Actual,{{year.key}},Year,Local,{{selections.region}},{{selections.department}},All Employees,Full Time Base Salary"
+                      ng-model="year.values.actual">
+                    </tm1-ui-dbr-hidden>
+
+                    <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Employee" tm1-elements="Budget,{{year.key}},Year,Local,{{selections.region}},{{selections.department}},All Employees,Full Time Base Salary"
+                      ng-model="year.values.budget">
+                    </tm1-ui-dbr-hidden>
+
+                  </div>
+
+
+                  <div class="col-md-12" style="margin-right:0px;padding-right:0px;border-width:2px; border-left-style:solid;border-color: #CECECE;padding-bottom:10px;padding-top:10px">
+
+                    <div class="progress year-progressbar" ng-class="year.percentage1 > 0 ? '':'reverse'">
+
+                      <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Employee" tm1-elements='Actual,{{year.key}},Year,Local,{{selections.region}},{{selections.department}},All Employees,"Full Time Base Salary % Version"'
+                        tm1-data-decimal="0" ng-model="year.percentage1">
+                      </tm1-ui-dbr-hidden>
+
+                      <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{{renderPercentageAbsVersion(year.percentage1)}}%;background-color:#5CBAE6">
+                      </div>
+
+                      <div class="year-value-bar"> &nbsp; {{year.values.actual | number:0}}</div>
+
+                    </div>
+
+                    <div class="progress year-progressbar" ng-class="year.percentage2 > 0 ? '':'reverse'">
+
+                      <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Employee" tm1-elements='Budget,{{year.key}},Year,Local,{{selections.region}},{{selections.department}},All Employees,"Full Time Base Salary % Version"'
+                        tm1-data-decimal="0" ng-model="year.percentage2">
+                      </tm1-ui-dbr-hidden>
+
+                      <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"
+                        style="width:{{renderPercentageAbsVersion(year.percentage2)}}%;background-color:#9DD0E8">
+                      </div>
+
+                      <div class="year-value-bar"> &nbsp; {{year.values.budget | number:0}} </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!--###############################################################-->
+  <!--                ROW 3:    Employee Table                       -->
+
+  <div class="row other-pages">
+
+    <div class="col-md-12">
+
+      <div class="panel panel-primary">
+
+        <!--###############################################################-->
+        <!--                ROW 3: BUTTONS FOR TABLE                       -->
+
+        <div class="panel-header">
+
+          <div class="row">
+            <div class="col-lg-12 col-md-12">
+
+              <div class="col-lg-12 col-md-12">
+                <span>
+                    List of employees - {{selections.region}} {{selections.department}} {{selections.version}} {{selections.year}}
+                </span>
+              </div>
+              
+              <div class="col-lg-12 col-md-12">
+                <div class="title-border"></div>
+              </div>
+
+              <div id="filter" class="col-lg-12 col-md-12 pull-left" style="margin-top:10px">
+
+                <div class="col-lg-2 col-md-6 text-left">
+                  <button class="btn panel text-primary btn-icon" ng-disabled="page.title.departmentDetails.level > 0 || page.title.regionDetails.level > 0"
+                    data-toggle="modal" data-target="#modalAdd">
+                      <i class="fa fa-plus-circle"></i>
+                      Add Employee
+                    </button>
+                </div>
+
+                <div class="col-lg-3 col-md-6 text-left">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon transparent" id="input-employee"><span class="fa fa-search"></span></span>
+                      <input id="form" type="text" class="form-control-new left-border-none" aria-describedby="input-employee" placeholder="Search employee..."
+                        ng-change="table.refresh()" ng-model="page.filter">
+                      </input>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="btn-group col-lg-7 col-mg-12" role="group">
+
+                  <button class="btn panel panel-primary text-primary btn-icon" ng-init="page.suppressZeros=true" ng-class="{'panel-info text-info': !page.suppressZeros}"
+                    ng-click="page.suppressZeros=!page.suppressZeros;table.refresh();">Suppress Zeroes</button>
+                  <button class="btn panel panel-primary text-primary btn-icon" ng-class="{'panel-info text-info': !options.showQ1}" ng-click="options.showQ1=!options.showQ1"
+                    ng-init="options.showQ1=true">Q1</button>
+                  <button class="btn panel panel-primary text-primary btn-icon" ng-class="{'panel-info text-info': !options.showQ2}" ng-click="options.showQ2=!options.showQ2"
+                    ng-init="options.showQ2=true">Q2</button>
+                  <button class="btn panel panel-primary text-primary btn-icon" ng-class="{'panel-info text-info': !options.showQ3}" ng-click="options.showQ3=!options.showQ3">Q3</button>
+                  <button class="btn panel panel-primary text-primary btn-icon" ng-class="{'panel-info text-info': !options.showQ4}" ng-click="options.showQ4=!options.showQ4">Q4</button>
+
+                  <button class="btn panel panel-primary text-primary btn-icon" ng-init="options.employmentPeriod=false" ng-class="{'panel-info text-info': !options.employmentPeriod}"
+                    ng-click="options.employmentPeriod=!options.employmentPeriod">Employment Period</button>
+
+                  <!-- Icon Show/Hide Chart -->
+                  <button class="btn panel panel-primary text-primary btn-icon" ng-if="selections.showCharts=='true'">
+                        <i class="fa fa-arrow-up" uib-tooltip="Hide Charts"  ng-click="selections.showCharts='false'">
+                        </i>
+                    </button>
+                  <button class="btn panel panel-primary text-primary btn-icon" ng-if="selections.showCharts=='false'">
+                        <i class="fa fa-arrow-down" uib-tooltip="Show Charts"  ng-click="selections.showCharts='true'">
+                        </i>
+                    </button>
+
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+          <!--                  TABLE                       -->
+
+          <div ng-hide="true">
+            <span ng-repeat="employee in lists.employees">
+                    <tm1-ui-dbr 
+                        tm1-instance="dev" 
+                        tm1-cube="Employee" 
+                        tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{selections.region}},{{selections.department}},{{employee.key}},Full Time Base Salary" 
+                        tm1-data-decimal="0" 
+                        ng-model="employee.yearTotal"></tm1-ui-dbr>
+                  </span>
+          </div>
+
+          <div class="panel-body table-responsive" style="border:0px;padding-top:0px">
+
+            <div class="row">
+              <div class="col-md-12">
+
+                <tm1-ui-progress tm1-ui-trigger="selections">
+
+                  <tm1-ui-progress-pending>
+
+                    <div class="text-center">
+                      <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                      <span class="sr-only">Loading...</span>
+                    </div>
+
+                  </tm1-ui-progress-pending>
+
+                  <tm1-ui-progress-ready>
+
+                    <table class="table">
+                      <tr class="alert alert-default">
+                        <th class="text-center" style="width:130px" id="filter"> Action </th>
+                        <th class="text-center"> Employee </th>
+                        <th ng-if="options.employmentPeriod" class="text-center">Start Date</th>
+                        <th ng-if="options.employmentPeriod" class="text-center">End Date</th>
+                        <th class="text-center">Pay Method</th>
+                        <th class="text-center">Last Year</th>
+                        <th class="text-center">
+                          Year
+                        </th>
+                        <th class="text-center" ng-if="options.showQ1" ng-repeat="month in q1">
+                          {{month}}
+                        </th>
+                        <th class="text-center" ng-if="options.showQ2" ng-repeat="month in q2">
+                          {{month}}
+                        </th>
+                        <th class="text-center" ng-if="options.showQ3" ng-repeat="month in q3">
+                          {{month}}
+                        </th>
+                        <th class="text-center" ng-if="options.showQ4" ng-repeat="month in q4">
+                          {{month}}
+                        </th>
+                      </tr>
+
+                      <tr ng-repeat-start="employee in table.data()" style="background-color:#FFF">
+
+                        <td style="border-right: 1px solid #CCC;" id="filter">
+
+                          <i style="color:red; cursor: pointer;" class="fa fa-times" aria-hidden="true" data-toggle="modal" data-target="#modalDelete"
+                            ng-click="employeeDelete(employee.key,employee.alias)">
+                          </i>
+                          <span ng-if="!employee.showLY" uib-tooltip="Click to show last year" ng-click="employee.showLY = !employee.showLY" style="cursor: pointer;">
+                                <span class="label label-info">LY</span>
+                          </span>
+                          <span uib-tooltip="Click to see moving employee" style="margin-right:5px;cursor: pointer;" ng-click="employeeDetailsShow(employee.key,employee.alias)"
+                            data-toggle="modal" data-target="#modalMove">
+                                <span class="label label-primary">Move</span>
+                          </span>
+                        </td>
+
+                        <td style="min-width: 100px; cursor: pointer;">
+                          <span class="tm1-ui-indent" ng-repeat="item in employee.indent() track by $index"></span>
+                          <i class="fa" ng-class="{'tm1-ui-element-consol-icon': !employee.isLeaf, 'tm1-ui-element-leaf-icon': employee.isLeaf}"></i>
+                          <span uib-tooltip="Click to show details" ng-click="employeeDetailsShow(employee.key,employee.alias)" data-toggle="modal"
+                            data-target="#modalDetails">{{employee.alias}}</span>
+                        </td>
+
+                        <td ng-if="options.employmentPeriod" class="text-right" style="min-width: 120px; width: 120px;">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year_Enter,Local,{{selections.region}},{{selections.department}},{{employee.key}},Start Date"
+                            tm1-date-option="{format:'yyyy-mm-dd'}"></tm1-ui-dbr>
+                        </td>
+                        <td ng-if="options.employmentPeriod" class="text-right" style="min-width: 120px; width: 120px;">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year_Enter,Local,{{selections.region}},{{selections.department}},{{employee.key}},End Date"
+                            tm1-date-option="{format:'yyyy-mm-dd'}"></tm1-ui-dbr>
+                        </td>
+
+                        <td class="text-right" style="width: 150px;">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year_Enter,Local,{{selections.region}},{{selections.department}},{{employee.key}},Pay Method"></tm1-ui-dbr>
+                        </td>
+
+                        <td class="text-right" style="font-weight: bold;">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary"
+                            tm1-data-decimal="0"></tm1-ui-dbr>
+                        </td>
+
+                        <td ng-show="employee.salaryYearEntered > 0 || !employee.salaryFullTimeCalc" class="text-right" style="width: 150px; font-weight: bold;">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year_Enter,Local,{{selections.region}},{{selections.department}},{{employee.key}},Enter Full Time Base Salary"
+                            tm1-data-decimal="0" ng-model="employee.salaryYearEntered"></tm1-ui-dbr>
+                        </td>
+
+                        <td ng-show="employee.salaryYearEntered == 0 && employee.salaryFullTimeCalc > 0" class="text-right" style="width: 150px; font-weight: bold;">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{selections.region}},{{selections.department}},{{employee.key}},Full Time Base Salary"
+                            tm1-data-decimal="0" ng-model="employee.salaryFullTimeCalc"></tm1-ui-dbr>
+                        </td>
+
+                        <td ng-repeat="month in q1" ng-if="options.showQ1" class="text-right">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},{{month}},Local,{{selections.region}},{{selections.department}},{{employee.key}},{{employeeMeasure(employee)}}"
+                            tm1-data-decimal="0"></tm1-ui-dbr>
+                        </td>
+                        <td ng-repeat="month in q2" ng-if="options.showQ2" class="text-right">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},{{month}},Local,{{selections.region}},{{selections.department}},{{employee.key}},{{employeeMeasure(employee)}}"
+                            tm1-data-decimal="0"></tm1-ui-dbr>
+                        </td>
+                        <td ng-repeat="month in q3" ng-if="options.showQ3" class="text-right">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},{{month}},Local,{{selections.region}},{{selections.department}},{{employee.key}},{{employeeMeasure(employee)}}"
+                            tm1-data-decimal="0"></tm1-ui-dbr>
+                        </td>
+                        <td ng-repeat="month in q4" ng-if="options.showQ4" class="text-right">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},{{month}},Local,{{selections.region}},{{selections.department}},{{employee.key}},{{employeeMeasure(employee)}}"
+                            tm1-data-decimal="0"></tm1-ui-dbr>
+                        </td>
+
+
+                      </tr>
+
+                      <!-- LAST YEAR ROW -->
+                      <tr ng-repeat-end ng-if="employee.showLY">
+                        <td>
+                          <span uib-tooltip="Click to hide last year" class="pull-right" style="cursor: pointer;" ng-click="employee.showLY = !employee.showLY">
+                                  <span class="label label-info">LY</span>
+                          </span>
+                        </td>
+                        <td style="min-width: 250px;">
+                          <span>{{employee.alias}}</span>
+                        </td>
+                        <td ng-show="options.employmentPeriod"></td>
+                        <td ng-show="options.employmentPeriod"></td>
+                        <td class="text-right" style="font-weight: bold;">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},Year,Local,{{selections.region}},{{selections.department}},{{employee.key}},Pay Method"
+                            tm1-data-decimal="0" tm1-read-only="true"></tm1-ui-dbr>
+                        </td>
+
+                        <td></td>
+
+                        <td class="text-right" style="font-weight: bold;">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},Year,Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary"
+                            tm1-data-decimal="0"></tm1-ui-dbr>
+                        </td>
+
+                        <td ng-if="options.showQ1" ng-repeat="month in q1" class="text-right">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},{{month}},Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary"
+                            tm1-data-decimal="0" tm1-read-only="true"></tm1-ui-dbr>
+                        </td>
+                        <td ng-if="options.showQ2" ng-repeat="month in q2" class="text-right">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},{{month}},Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary"
+                            tm1-data-decimal="0" tm1-read-only="true"></tm1-ui-dbr>
+                        </td>
+                        <td ng-if="options.showQ3" ng-repeat="month in q3" class="text-right">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},{{month}},Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary"
+                            tm1-data-decimal="0" tm1-read-only="true"></tm1-ui-dbr>
+                        </td>
+                        <td ng-if="options.showQ4" ng-repeat="month in q4" class="text-right">
+                          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},{{month}},Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary"
+                            tm1-data-decimal="0" tm1-read-only="true"></tm1-ui-dbr>
+                        </td>
+
+
+                      </tr>
+                    </table>
+
+                    <div>
+                      <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
+                        <span class="btn btn-default" style="width: 70px;">{{table.page()}} of {{table.pages()}}</span>
+                        <button type="button" class="btn btn-default" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
+                      </div>
+                      <div class="btn-group pull-right" role="group">
+                        <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(10)}" ng-click="table.pageSize(10)">10</button>
+                        <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(15)}" ng-click="table.pageSize(15)">15</button>
+                        <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(20)}" ng-click="table.pageSize(20)">20</button>
+                        <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(30)}" ng-click="table.pageSize(30)">30</button>
+                        <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(50)}" ng-click="table.pageSize(50)">50</button>
+                        <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(100)}" ng-click="table.pageSize(100)">100</button>
+                      </div>
+                    </div>
+
+                  </tm1-ui-progress-ready>
+
+                </tm1-ui-progress>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <!-- Modal (delete employee)-->
+  <div class="modal fade" id="modalDelete" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3>Delete Employee</h3>
+        </div>
+        <div class="modal-body">
+          <p>Do you want to delete <b>{{employeeToDelete.name}}</b>?</p>
+        </div>
+        <div class="modal-footer">
+          <tm1-ui-process tm1-instance="dev" tm1-name="Bedrock.Dim.Element.Delete" tm1-ui-button-class="btn-danger" tm1-parameters='pDimension=Employee&pElement={{employeeToDelete.id}}&pDebug=0'
+            tm1-display-name="Delete" tm1-message-error="Didn't work:(" tm1-message-success="Deleted" class="deleteButton col-md-6"
+            tm1-refresh-page="true"></tm1-ui-process>
+          <div class="col-md-6">
+            <button class="btn btn-block btn-default col-md-6" data-dismiss="modal" style="height:44px;">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal (delete employee)-->
+
+
+  <!-- Modal (add employee)-->
+  <div class="modal fade" id="modalAdd" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3>Add New Employee</h3>
+        </div>
+        <div class="modal-body">
+          <fieldset class="form-group">
+            <input class="form-control" type="text" placeholder="ID" ng-model="page.newEmployee.id">
+          </fieldset>
+          <fieldset class="form-group">
+            <input class="form-control" type="text" placeholder="Full Name" ng-model="page.newEmployee.name">
+          </fieldset>
+          <fieldset class="form-group">
+            <input class="form-control" type="text" placeholder="Annual Salary" ng-model="page.newEmployee.salary">
+          </fieldset>
+          <fieldset class="form-group">
+            <select class="form-control" ng-init="page.newEmployee.method='Monthly'" ng-model="page.newEmployee.method">
+                <option>Monthly</option>
+                <option>Weekly</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <label>
+                  Start Date
+              </label>
+            <tm1-ui-dbr tm1-instance="dev" tm1-cube="}ElementAttributes_Employee" tm1-elements="All Employees, StartDate" tm1-date-option="{format:'yyyy-mm-dd'}"
+              ng-model="page.newEmployee.startDate"></tm1-ui-dbr>
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+
+          <tm1-ui-process tm1-instance="dev" tm1-name="Dim.Employee.AddNewEmployee" tm1-ui-button-class="btn-success" tm1-parameters="pID={{page.newEmployee.id}}&pName={{page.newEmployee.name}}&pDept={{selections.department}}&pRegion={{selections.region}}&pMethod={{page.newEmployee.method}}&pSalary={{page.newEmployee.salary}}&pStartDate={{page.newEmployee.startDate}}"
+            tm1-disabled="!(page.newEmployee.id.length && page.newEmployee.name.length && page.newEmployee.salary.length)"
+            tm1-display-name="Add" tm1-message-error="Didn't work:(" tm1-message-success="Added" tm1-refresh-page="true" class="col-md-6"></tm1-ui-process>
+          <div class="col-md-6">
+            <button class="btn btn-block btn-default" data-dismiss="modal" style="height:44px;">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal (add employee)-->
+
+  <!-- Modal (employee move)-->
+  <div class="modal fade" id="modalMove" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3>Move</h3>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <tr>
+              <th>Name:</th>
+              <td style="width: 100%;">{{employeeDetails.name}}</td>
+            </tr>
+            <tr>
+              <th>Id:</th>
+              <td>{{employeeDetails.id}}</td>
+            </tr>
+            <tr>
+              <th>Region:</th>
+              <td>
+                <tm1-ui-dbra tm1-instance="dev" tm1-dimension="Employee" tm1-element="{{employeeDetails.id}}" tm1-attribute="Region" tm1-read-only="true">
+                </tm1-ui-dbra>
+              </td>
+            </tr>
+            <tr>
+              <th>Department:</th>
+              <td>
+                <tm1-ui-dbra tm1-instance="dev" tm1-dimension="Employee" tm1-element="{{employeeDetails.id}}" tm1-attribute="Department Name"
+                  tm1-read-only="true">
+                </tm1-ui-dbra>
+              </td>
+            </tr>
+          </table>
+          <h3>Move to </h3>
+          <div class="row">
+            <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-default-element="3" tm1-select-only="true"
+              ng-model="employeeDetails.region" tm1-subset="All Countries" class="col-md-6"></tm1-ui-subnm>
+            <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-attribute="Description" tm1-default-element="3" tm1-select-only="true"
+              ng-model="employeeDetails.dept" tm1-subset="DepartmentList" class="col-md-6"></tm1-ui-subnm>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <tm1-ui-process tm1-instance="dev" tm1-name="Cube.Employee.UpdateEmployee" tm1-ui-button-class="btn-success" tm1-parameters='pID={{employeeDetails.id}}&pRegion={{employeeDetails.region}}&pDept={{employeeDetails.dept}}'
+            tm1-display-name="Move" tm1-message-error="Didn't work:(" tm1-message-success="Moved" class="col-md-6" tm1-refresh-page="true"></tm1-ui-process>
+          <div class="col-md-6">
+            <button class="btn btn-block btn-default col-md-6" data-dismiss="modal" style="height:44px;">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal (employee move)-->
+
+  <!-- Modal (employee details)-->
+  <div class="modal fade" id="modalDetails" role="dialog">
+    <div class="modal-dialog  modal-xl">
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+          <h4 class="modal-title"> {{employeeDetails.name}}</h4>
+
+          <tm1-ui-dbra tm1-instance="dev" tm1-dimension="Employee" tm1-element="{{employeeDetails.id}}" tm1-attribute="Department Name"
+            tm1-read-only="true" ng-model="empoyeeDetails.dept">
+          </tm1-ui-dbra>,
+          <tm1-ui-dbra tm1-instance="dev" tm1-dimension="Employee" tm1-element="{{employeeDetails.id}}" tm1-attribute="Region" tm1-read-only="true"
+            ng-model="empoyeeDetails.region">
+          </tm1-ui-dbra>
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <div class="col-md-3">
+                <label> Start Date  </label>
+                <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year_Enter,Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},Start Date"
+                  tm1-date-option="{format:'yyyy-mm-dd'}"></tm1-ui-dbr>
+              </div>
+              <div class="col-md-3">
+                <label> End Date  </label>
+                <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year_Enter,Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},End Date"
+                  tm1-date-option="{format:'yyyy-mm-dd'}"></tm1-ui-dbr>
+              </div>
+              <div class="col-md-3">
+                <label> Salary (Year) </label>
+                <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},{{employeeDetails.salaryYear_enter1==(-1)?'Year':'Year_Enter'}},Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},{{employeeDetails.salaryYear_enter1==(-1)?'Full Time Base Salary':'Enter Full Time Base Salary'}}"
+                  tm1-data-decimal="0">
+                </tm1-ui-dbr>
+              </div>
+              <div class="col-md-3">
+                <label>Pay Method</label>
+                <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},{{employeeDetails.salaryYear_enter1==(-1)?'Year':'Year_Enter'}},Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},Pay Method"
+                  tm1-data-decimal="0">
+                </tm1-ui-dbr>
+              </div>
+
+            </div>
+
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year_Enter,Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},Enter Full Time Base Salary"
+              tm1-data-decimal="0" ng-model="employeeDetails.salaryYear_enter1"></tm1-ui-dbr-hidden>
+
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},Enter Full Time Base Salary"
+              tm1-data-decimal="0" ng-model="employeeDetails.salaryYearEnterTotal"></tm1-ui-dbr-hidden>
+
+          </div>
+        </div>
+        <div class="modal-body">
+
+          <table class="table">
+            <thead>
+              <tr class="alert alert-info">
+                <th>{{selections.year}}</th>
+                <th>Year</th>
+                <th ng-repeat="month in lists.months" ng-if="$index<12">{{month}}</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><label>Salary</label></td>
+                <td style="font-weight: bold;">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},{{(employeeDetails.salaryYear_enter1==-1 && employeeDetails.salaryYearEnterTotal>0) || (employeeDetails.salaryYear_enter1==0 && employeeDetails.salaryYearEnterTotal==0)?'Enter Full Time Base Salary':'Base Salary'}}"
+                    tm1-data-decimal="0"></tm1-ui-dbr>
+                </td>
+
+                <td ng-repeat="month in lists.months" ng-if="$index<12">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},{{month}},Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},{{(employeeDetails.salaryYear_enter1==-1 && employeeDetails.salaryYearEnterTotal>0) || (employeeDetails.salaryYear_enter1==0 && employeeDetails.salaryYearEnterTotal==0)?'Enter Full Time Base Salary':'Base Salary'}}"
+                    tm1-data-decimal="0"></tm1-ui-dbr>
+                </td>
+              </tr>
+
+              <tr>
+                <td><label>FTE</label></td>
+
+                <td style="font-weight: bold;">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},FTE"
+                    tm1-data-decimal="0"></tm1-ui-dbr>
+                </td>
+
+                <td ng-repeat="month in lists.months" ng-if="$index<12">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.year}},{{month}},Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},FTE"
+                    tm1-data-decimal="0"></tm1-ui-dbr>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+          <table class="table">
+            <thead>
+              <tr class="alert alert-info">
+                <th>{{selections.previousYear}}</th>
+                <th>Year</th>
+                <th ng-repeat="month in lists.months" ng-if="$index<12">{{month}}</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><label>Salary</label></td>
+                <td style="font-weight: bold;">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},Year,Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},{{(employeeDetails.salaryYear_enter1==-1 && employeeDetails.salaryYearEnterTotal>0) || (employeeDetails.salaryYear_enter1==0 && employeeDetails.salaryYearEnterTotal==0)?'Enter Full Time Base Salary':'Base Salary'}}"
+                    tm1-data-decimal="0"></tm1-ui-dbr>
+                </td>
+
+                <td ng-repeat="month in lists.months" ng-if="$index<12">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},{{month}},Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},{{(employeeDetails.salaryYear_enter1==-1 && employeeDetails.salaryYearEnterTotal>0) || (employeeDetails.salaryYear_enter1==0 && employeeDetails.salaryYearEnterTotal==0)?'Enter Full Time Base Salary':'Base Salary'}}"
+                    tm1-data-decimal="0"></tm1-ui-dbr>
+                </td>
+              </tr>
+
+              <tr>
+                <td><label>FTE</label></td>
+
+                <td style="font-weight: bold;">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},Year,Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},FTE"
+                    tm1-data-decimal="0"></tm1-ui-dbr>
+                </td>
+
+                <td ng-repeat="month in lists.months" ng-if="$index<12">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Employee" tm1-elements="{{selections.version}},{{selections.previousYear}},{{month}},Local,{{empoyeeDetails.region}},{{empoyeeDetails.dept}},{{employeeDetails.id}},FTE"
+                    tm1-data-decimal="0"></tm1-ui-dbr>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

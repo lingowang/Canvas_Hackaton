@@ -1,0 +1,102 @@
+<div ng-controller="SampleAdvanceChartCtrl">
+
+
+  <h1><a ui-sref="sample"><i class="fa fa-arrow-left"></i></a> {{'PAGEADVANCECHARTSAMPLE' | translate}} <i class="fa fa-cog fa-spin"
+      ng-if="$root.isLoading"></i> </h1>
+
+
+  <!--=========================================-->
+  <!--                   ROW 1                 -->
+  <!--                  DRIVERS                -->
+  <div class="row">
+
+    <!-- Drivers -->
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Region</label>
+        <tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" ng-model="selections.Region"
+          tm1-default-element="1"></tm1-ui-subnm>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Year</label>
+        <tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" ng-model="selections.Year"
+          tm1-default-element="2012"></tm1-ui-subnm>
+      </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Currency</label>
+        <tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Currency" tm1-subset="Default" ng-model="selections.Currency"
+          tm1-default-element="Local"></tm1-ui-subnm>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Version</label>
+        <tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Version" tm1-subset="Default" ng-model="selections.Version"
+          tm1-default-element="1"></tm1-ui-subnm>
+      </div>
+    </div>
+    
+  </div>
+
+  <!--=========================================-->
+  <!--                   ROW 2                 -->
+  <!--              INCLUDE THE PAGE           -->
+  
+  <div class="row">
+    <div class="col-md-6" ng-include="options.pageLeftlocation">
+    
+    </div>
+    
+    <div class="col-md-6" ng-include="options.pageRightlocation">
+      
+    </div>
+  </div>
+
+  <!--=========================================-->
+  <!--                   ROW 3                 -->
+  <!--                   TABLE                 -->
+  
+  <!--  Show the table only if barMonth is not empty -->
+  <div class="row" ng-if="selections.barMonth.length > 0">
+    <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-subset="All Countries" ng-model="lists.regions"></tm1-ui-element-list>
+    <div class="col-md-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th colspan="2">{{selections.barMonth}} Sales By Product</th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th class="text-right">Mountain Bikes</th>
+            <th class="text-right">Touring Bikes</th>
+            <th class="text-right">Road Bikes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="region in lists.regions">
+            <td>{{region.alias}}</td>
+            <td class="text-right">
+              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{selections.barMonth}},{{selections.Currency}},{{region.key}},Mountain Bikes,Sales Amount" tm1-data-decimal="0"></tm1-ui-dbr>
+            </td>
+            <td class="text-right">
+              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{selections.barMonth}},{{selections.Currency}},{{region.key}},Touring Bikes,Sales Amount" tm1-data-decimal="0"></tm1-ui-dbr>
+            </td>            
+            <td class="text-right">
+              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{selections.barMonth}},{{selections.Currency}},{{region.key}},Road Bikes,Sales Amount" tm1-data-decimal="0"></tm1-ui-dbr>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>

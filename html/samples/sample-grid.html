@@ -1,0 +1,86 @@
+<div ng-controller="SampleGridCtrl">
+
+  
+  <!--=========================================-->
+  <!--                   ROW 1                 -->
+  <!--                   TITLE                 -->
+  
+  <div class="toolbar" >
+     <h1><i class="fa fa-table"></i> Sample Grid</h1>
+  </div>
+
+  <!--=========================================-->
+  <!--                   ROW 2                 -->
+  <!--                  FILTERS                -->
+
+  <div class="row">
+    <div class="col-md-3">
+       <select class="form-control" ng-model="selections.year" ng-change="query(true)">
+          <option>2010</option>
+          <option>2011</option>
+          <option>2012</option>
+       </select>
+    </div>
+    <div class="col-md-3">
+       <select class="form-control" ng-model="selections.region" ng-change="query(true)">
+          <option>England</option>
+          <option>Finland</option>
+          <option>Wales</option>
+          <option>Scotland</option>
+          <option>Northern Ireland</option>
+          <option>France</option>
+       </select>
+    </div>
+    <div class="col-md-3">
+       <select class="form-control" ng-model="selections.department" ng-change="query(true)">
+          <option>Executive General and Administration</option>
+          <option>Inventory Management</option>
+          <option>Manufacturing</option>
+          <option>Quality Assurance</option>
+          <option>Sales and Marketing</option>
+          <option>Research and Development</option>
+       </select>
+    </div>
+    <div class="col-md-3">
+  	 
+    </div>
+  </div>
+  
+  <!--=========================================-->
+  <!--                 ROW 3                   -->
+  <!--              CREATE GRID                -->
+  
+  <div class="row">
+  
+    <div class="col-md-12">
+  	
+      <h4>Result | <a href="" ng-click="toggleFiltering()"><i class="fa fa-filter"></i> Filter</a> | 
+        <a ng-click="toggleShowEmpty()"><i class="fa" ng-class="{'fa-minus-square-o':selections.showEmpty, 'fa-plus-square-o':!selections.showEmpty}"></i> {{selections.showEmpty ? 'Suppress' : 'Show All'}}</a>
+      </h4>
+      
+      <div class="text-center" style="margin-top: 50px;" ng-if="loading">
+           <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+           <span class="sr-only">Loading...</span>
+      </div>
+      
+      <div ng-if="dataset && !loading && !message">
+  
+        <!-- Add ui-grid-edit to make the grid editable -->
+        <!-- Add ui-grid-cellNav to move cell to cell with arrow keys and tab/enter -->
+        <!-- Add ui-grid-resize-columns to resize columns by dragging the separator in between column headers -->
+        <!-- gridOptions is defined in the controller sample-grid.js -->
+        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-resize-columns style="height: 500px;"></div>
+        
+      </div>
+      
+      <div class="text-center" style="margin-top: 50px;" ng-if="message">
+        <span class="panel panel-danger" >
+          <span class="panel-heading">{{message}}</span>
+        </span>
+      </div>
+     
+     </div>
+    
+  </div>
+
+</div>

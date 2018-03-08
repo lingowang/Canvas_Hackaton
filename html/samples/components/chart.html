@@ -1,0 +1,1205 @@
+<div ng-controller="ChartCtrl">
+  <style>
+    .custom-chart{
+      background-color: #DCDCDC;
+    }
+  </style>
+  <h1>
+    <i class="fa fa-bar-chart" ></i> <i class="fa fa-line-chart" ></i> <i class="fa fa-area-chart" ></i> <i class="fa fa-pie-chart" ></i> Charts <i ng-if="$root.requestCount > 0"  class="fa fa-cog fa-spin" ></i>
+  </h1>
+  
+  <hr/>
+  
+      <div class="row">
+          
+          <!-- Drivers -->
+           <div class="col-md-2">
+
+             <div class="form-group">
+               <label>Region</label>
+               <tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" ng-model="selections.Region" tm1-default-element="1"></tm1-ui-subnm>
+             </div>
+        
+         </div>
+         
+         <div class="col-md-2">
+    
+            <div class="form-group">
+              <label>Year</label>
+              <tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" ng-model="selections.Year" tm1-default-element="2012"></tm1-ui-subnm>
+            </div>
+            
+         </div>
+         
+         <div class="col-md-2">
+    
+            <div class="form-group">
+              <label>Custom Value</label>
+              <input type="text" class="form-control" ng-init="values.Input = 0" ng-model="values.Input">
+            </div>
+            
+         </div>
+         
+         <div class="col-md-3">
+    
+            <div class="form-group">
+              <label>Currency</label>
+              <tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Currency" tm1-subset="Default" ng-model="selections.Currency" tm1-default-element="Local"></tm1-ui-subnm>              
+            </div>
+            
+         </div>
+         
+         <div class="col-md-3">
+    
+            <div class="form-group">
+              <label>Version</label>
+              <tm1-ui-subnm id="test-subnm-version" tm1-select-only="true" tm1-instance="dev" tm1-dimension="Version" tm1-subset="Default" ng-model="selections.Version" tm1-default-element="1"></tm1-ui-subnm>
+            </div>
+                  
+           </div>
+      </div>
+  
+  <div class="row">
+      
+      <div class="col-md-12">
+      
+        <div class="row">
+        
+          <div class="col-md-6">
+            
+               <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-bar-chart"></i> Bar
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-bar" tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+                      <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help002">
+                            <div class="well">
+                              <div hljs>
+<tm1-ui-chart tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help002" aria-expanded="false" aria-controls="help002" ng-init="message.help002 = 'Show'" 
+                        ng-click="message.help002 = message.help002== 'Show' ? 'Hide' : 'Show'">{{message.help002}} HTML Code</button>
+                  </div>                  
+              </div>
+            
+            </div>
+          
+           <div class="col-md-6">
+           
+              <div class="panel panel-primary">
+                <div class="panel-heading" ng-style="panel.body">
+                  <i class="fa fa-line-chart"></i> Line
+                </div>
+                <div class="panel-body" >
+                  <tm1-ui-chart id="test-chart-line" tm1-chart-type="line" tm1-height="300" tm1-margin="chart.margin"  tm1-data-decimal="0">
+                    
+                    <tm1-ui-chart-dbr tm1-label="Jan" tm1-order-no="1" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-dbr tm1-label="Feb" tm1-order-no="2" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-dbr tm1-label="Mar" tm1-order-no="3" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                       
+                    <tm1-ui-chart-dbr tm1-label="Jan" tm1-order-no="1" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-dbr tm1-label="Feb" tm1-order-no="2" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-dbr tm1-label="Mar" tm1-order-no="3" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr> 
+                               
+                  </tm1-ui-chart>
+                </div>
+                
+                
+                <div class="panel-footer">       
+                  <div class="collapse" id="help001">
+                    <div class="well">
+                      <div hljs>
+<tm1-ui-chart tm1-chart-type="line" tm1-height="300" tm1-margin="chart.margin"  tm1-data-decimal="0">                  
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-order-no="1" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr tm1-label="Feb" tm1-order-no="2" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr tm1-label="Mar" tm1-order-no="3" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>  
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-order-no="1" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr tm1-label="Feb" tm1-order-no="2" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr tm1-label="Mar" tm1-order-no="3" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>                                                              
+
+</tm1-ui-chart></div>
+                    </div>
+                  </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" 
+                    data-target="#help001" aria-expanded="false" aria-controls="help001" ng-init="message.help001 = 'Show'" 
+                    ng-click="message.help001 = message.help001== 'Show' ? 'Hide' : 'Show'">{{message.help001}} HTML Code</button>
+                  </div>
+              </div>
+           
+           </div>        
+        
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+          
+          <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-bar-chart"></i> Waterfall
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-waterfall" tm1-chart-type="waterfall" tm1-height="300" tm1-axis-label-x="Month" tm1-axis-label-y="Sales" tm1-min-y="200000" tm1-margin="chart.margin">
+                      <tm1-ui-chart-dbr tm1-order-no="1" tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="2" tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="3" tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="4" tm1-label="Apr" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Apr,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="5" tm1-label="May" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},May,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="6" tm1-label="Jun" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jun,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr tm1-order-no="7" tm1-label="Jul" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jul,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="8" tm1-label="Aug" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Aug,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="9" tm1-label="Sep" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Sep,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="10" tm1-label="Oct" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Oct,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="11" tm1-label="Nov" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Nov,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="12" tm1-label="Dec" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Dec,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr tm1-show-movement="false" tm1-order-no="13" tm1-label="Final" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Dec,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help002Waterfall">
+                            <div class="well">
+                              <div hljs>
+    <tm1-ui-chart tm1-chart-type="waterfall" tm1-height="300" tm1-axis-label-x="Month" tm1-axis-label-y="Sales" tm1-min-y="200000" tm1-margin="chart.margin">
+                      <tm1-ui-chart-dbr tm1-order-no="1" tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="2" tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="3" tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="4" tm1-label="Apr" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Apr,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="5" tm1-label="May" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},May,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="6" tm1-label="Jun" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jun,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr tm1-order-no="7" tm1-label="Jul" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jul,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="8" tm1-label="Aug" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Aug,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="9" tm1-label="Sep" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Sep,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="10" tm1-label="Oct" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Oct,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="11" tm1-label="Nov" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Nov,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr tm1-order-no="12" tm1-label="Dec" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Dec,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr tm1-show-movement="false" tm1-order-no="13" tm1-label="Final" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Dec,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                    </tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help002Waterfall" aria-expanded="false" aria-controls="help002Waterfall" ng-init="message.help002Waterfall = 'Show'" 
+                        ng-click="message.help002Waterfall = message.help002Waterfall== 'Show' ? 'Hide' : 'Show'">{{message.help002Waterfall}} HTML Code</button>
+                  </div>                  
+              </div>
+          
+          
+          </div>
+        </div>
+        
+        <div class="row">
+          
+           <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading" >
+                  <i class="fa fa-pie-chart"></i> Pie
+                </div>
+                <div class="panel-body">
+                  <tm1-ui-chart id="test-chart-pie" tm1-chart-type="pie" tm1-height="500"  tm1-duration="2500" tm1-margin="chart.margin">
+                    <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-value tm1-label="Apr" tm1-order-no="4" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+                  </tm1-ui-chart>
+                </div>
+                <div class="panel-footer">         
+                        <div class="collapse" id="help003">
+                            <div class="well">
+                              <div hljs><tm1-ui-chart tm1-chart-type="pie" tm1-height="500"  tm1-duration="2500" tm1-margin="chart.margin">
+
+
+  <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+
+  <tm1-ui-chart-value tm1-label="Apr" tm1-order-no="4" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help003" aria-expanded="false" aria-controls="help003" ng-init="message.help003 = 'Show'" 
+                        ng-click="message.help003 = message.help003== 'Show' ? 'Hide' : 'Show'">{{message.help003}} HTML Code</button>
+                  </div> 
+            </div>
+           </div>
+           
+           <div class="col-md-6">
+           
+              <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <i class="fa fa-bar-chart"></i> Multi Bar with Legends and Controls Hidden
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-multi-bar-hidden-legend-and-control" tm1-hide-controls="true" tm1-chart-type="multiBar" tm1-height="{{chart.height}}" tm1-margin="chart.margin" tm1-legend="none">
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+                    </tm1-ui-chart>
+                  </div>
+                  <div class="panel-footer">       
+                        <div class="collapse" id="help004">
+                            <div class="well">
+                              <div hljs><tm1-ui-chart tm1-hide-controls="true" tm1-chart-type="multiBar" tm1-height="{{chart.height}}" tm1-margin="chart.margin" tm1-legend="none">
+                      
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+
+
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help004" aria-expanded="false" aria-controls="help004" ng-init="message.help004 = 'Show'" 
+                        ng-click="message.help004 = message.help004== 'Show' ? 'Hide' : 'Show'">{{message.help004}} HTML Code</button>
+                  </div> 
+              </div>
+              
+              <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <i class="fa fa-bar-chart"></i> Multi Bar with Legends and Controls Hidden (Horizontal)
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-multi-bar-hidden-legend-and-control-horizontal" tm1-hide-controls="true" tm1-chart-type="multiBarHorizontal" tm1-height="{{chart.height}}" tm1-margin="chart.margin" tm1-legend="none">
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+                    </tm1-ui-chart>
+                  </div>
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help005">
+                            <div class="well">
+                              <div hljs><tm1-ui-chart tm1-hide-controls="true" tm1-chart-type="multiBarHorizontal" tm1-height="{{chart.height}}" tm1-margin="chart.margin" tm1-legend="none">
+                      
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+                      
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help005" aria-expanded="false" aria-controls="help005" ng-init="message.help005 = 'Show'" 
+                        ng-click="message.help005 = message.help005== 'Show' ? 'Hide' : 'Show'">{{message.help005}} HTML Code</button>
+                  </div> 
+              </div>
+           
+           </div>
+           
+         </div>
+         
+         <div class="row">
+             <div class="col-md-6">
+             
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <i class="fa fa-area-chart"></i> Line with Area
+                    </div>
+                    <div class="panel-body" >
+                      <tm1-ui-chart id="test-chart-line-area" tm1-chart-type="line" tm1-height="400" tm1-margin="chart.margin">
+                        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                         <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                          <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                        <tm1-ui-chart-value tm1-area="true" tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+                      </tm1-ui-chart>
+                    </div>
+                    <div class="panel-footer">        
+                        <div class="collapse" id="help008">
+                            <div class="well">
+                              <div hljs><tm1-ui-chart tm1-chart-type="line" tm1-height="400" tm1-margin="chart.margin">
+                        
+                        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                        
+                        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+
+
+                        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                        <tm1-ui-chart-value tm1-area="true" tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help008" aria-expanded="false" aria-controls="help008" ng-init="message.help008 = 'Show'" 
+                        ng-click="message.help008 = message.help008== 'Show' ? 'Hide' : 'Show'">{{message.help008}} HTML Code</button>
+                    </div> 
+                </div>
+             
+             </div>
+             
+             <div class="col-md-6">
+                 <div class="panel panel-primary">
+                    <div class="panel-heading" >
+                      <i class="fa fa-pie-chart"></i> Donut
+                    </div>
+                    <div class="panel-body">
+                      <tm1-ui-chart id="test-chart-donut" tm1-chart-type="donut" tm1-height="400"  tm1-duration="2500" tm1-margin="chart.margin">
+                        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-value tm1-label="Apr" tm1-order-no="4" tm1-value="{{values.Input}}"></tm1-ui-chart-value>               
+                      </tm1-ui-chart>
+                    </div>
+                    <div class="panel-footer">        
+                        <div class="collapse" id="help009">
+                            <div class="well">
+                              <div hljs><tm1-ui-chart tm1-chart-type="donut" tm1-height="400"  tm1-duration="2500" tm1-margin="chart.margin">
+                        
+                        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-label="Apr" tm1-order-no="4" tm1-value="{{values.Input}}"></tm1-ui-chart-value>               
+                      
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help009" aria-expanded="false" aria-controls="help009" ng-init="message.help009 = 'Show'" 
+                        ng-click="message.help009 = message.help009== 'Show' ? 'Hide' : 'Show'">{{message.help009}} HTML Code</button>
+                    </div> 
+                </div>
+             </div>
+         </div>
+         
+         <div class="row">
+           <div class="col-md-6">
+                   <div class="panel panel-primary">
+                    <div class="panel-heading">
+                    <i class="fa fa-bar-chart"></i> Multi Bar with Legends and Controls
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-multi-bar-legend-and-control" tm1-chart-type="multiBar" tm1-height="{{chart.height}}" tm1-margin="chart.margin">
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+                    </tm1-ui-chart>
+                  </div>
+                  <div class="panel-footer">      
+                        <div class="collapse" id="help006">
+                            <div class="well">
+                              <div hljs><tm1-ui-chart tm1-chart-type="multiBar" tm1-height="{{chart.height}}" tm1-margin="chart.margin">
+                              
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+
+
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help006" aria-expanded="false" aria-controls="help006" ng-init="message.help006 = 'Show'" 
+                        ng-click="message.help006 = message.help006== 'Show' ? 'Hide' : 'Show'">{{message.help006}} HTML Code</button>
+                  </div> 
+                </div>
+           </div>
+           <div class="col-md-6">
+              <div class="panel panel-primary">
+                     <div class="panel-heading">
+                    <i class="fa fa-bar-chart"></i> Multi Bar with Legends and Controls (Horizontal)
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-multi-bar-legend-and-control-horizontal" tm1-chart-type="multiBarHorizontal" tm1-height="{{chart.height}}" tm1-margin="chart.margin">
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+                    </tm1-ui-chart>
+                  </div>
+                  <div class="panel-footer">      
+                        <div class="collapse" id="help007">
+                            <div class="well">
+                              <div hljs><tm1-ui-chart tm1-chart-type="multiBarHorizontal" tm1-height="{{chart.height}}" tm1-margin="chart.margin">
+
+
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+
+                      <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb'] track by $index" tm1-order-no="{{$index + 1}}" tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                      <tm1-ui-chart-value tm1-series="Touring Bikes" tm1-order-no="3" tm1-label="Mar" tm1-value="{{values.Input}}"></tm1-ui-chart-value>
+
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help007" aria-expanded="false" aria-controls="help007" ng-init="message.help007 = 'Show'" 
+                        ng-click="message.help007 = message.help007== 'Show' ? 'Hide' : 'Show'">{{message.help007}} HTML Code</button>
+                  </div> 
+              </div>
+           </div>
+         </div>
+         
+         
+         <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <i class="fa fa-bar-chart"></i> Line Charts with Focus Chart
+              </div>
+              <div class="panel-body">
+                <tm1-ui-chart id="test-chart-line-with-focus" tm1-chart-type="lineWithFocus" tm1-height="300" tm1-margin="chart.margin"  tm1-data-decimal="0" ng-model="values.data">
+                    
+                    <tm1-ui-chart-dbr 
+                      ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']"                    
+                      tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" 
+                      tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                    
+                    <tm1-ui-chart-dbr 
+                      ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']"                           
+                      tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" 
+                      tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>   
+                    
+                    <tm1-ui-chart-dbr 
+                      ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']"                           
+                      tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" 
+                      tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                  </tm1-ui-chart>
+              </div>
+              <div class="panel-footer">      
+                <div class="collapse" id="help010">
+                 <div class="well">
+                    <div hljs><tm1-ui-chart tm1-chart-type="lineWithFocus" tm1-height="300" tm1-margin="chart.margin"  tm1-data-decimal="0" ng-model="values.data">
+                    
+                    <tm1-ui-chart-dbr 
+                      ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']"                    
+                      tm1-label="{{month}}" tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" 
+                      tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                    <tm1-ui-chart-dbr 
+                      ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']"                           
+                      tm1-label="{{month}}" tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" 
+                      tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>   
+                    
+                    <tm1-ui-chart-dbr 
+                      ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']"                           
+                      tm1-label="{{month}}" tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" 
+                      tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                      
+</tm1-ui-chart></div>
+                 </div>
+                </div>
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help010" aria-expanded="false" aria-controls="help010" ng-init="message.help010 = 'Show'" 
+                        ng-click="message.help010 = message.help010 == 'Show' ? 'Hide' : 'Show'">{{message.help010}} HTML Code</button>
+              </div> 
+            </div>
+           </div>
+         </div>
+
+         <div class="row">
+
+          <div class="col-md-6">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <i class="fa fa-bar-chart"></i> Update Month when Clicking on a Bar (<span id="test-chart-bar-action-value">{{selections.barMonth}}</span>)
+              </div>
+              <div class="panel-body">
+                <tm1-ui-chart id="test-chart-bar-action"
+                  tm1-on-chart-element-select="onChartElementClick(chartElement)"
+                  tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" 
+                  tm1-duration="2000" tm1-margin="chart.margin"
+                  style="cursor:pointer">
+                    
+                  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                  <tm1-ui-chart-dbr tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                  <tm1-ui-chart-dbr tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                
+                </tm1-ui-chart>
+              </div>
+              <div class="panel-footer">      
+                <div class="collapse" id="help030">
+                  <div class="well">
+                    <div hljs><tm1-ui-chart
+                      tm1-on-chart-element-select="onChartElementClick(chartElement)"
+                      tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" 
+                      tm1-duration="2000" tm1-margin="chart.margin"
+                      style="cursor:pointer">
+                        
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+
+</tm1-ui-chart></div>
+                  </div>
+                </div>
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help030" aria-expanded="false" aria-controls="help030" ng-init="message.help030 = 'Show'" 
+                        ng-click="message.help030 = message.help030 == 'Show' ? 'Hide' : 'Show'">{{message.help030}} HTML Code</button>
+              </div> 
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <i class="fa fa-bar-chart"></i> Show Pop-up when Clicking on a Bar
+              </div>
+              <div class="panel-body">
+                  <tm1-ui-chart id="test-chart-multi-bar-action" tm1-chart-type="multiBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000"
+                  tm1-margin="chart.margin" tm1-options-override="optionsOverride" style="cursor:pointer">
+                  <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+                    tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+          
+          
+                  <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+                    tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+          
+                  <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+                    tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+                </tm1-ui-chart>
+              </div>
+              <div class="panel-footer">      
+                <div class="collapse" id="help031">
+                  <div class="well">
+                    <div hljs><tm1-ui-chart tm1-chart-type="multiBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000"
+                      tm1-margin="chart.margin" tm1-options-override="optionsOverride" style="cursor:pointer">
+
+  <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+    tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+    tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+    tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+</tm1-ui-chart></div>
+                  </div>
+                </div>
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help031" aria-expanded="false" aria-controls="help031" ng-init="message.help031 = 'Show'" 
+                        ng-click="message.help031 = message.help031 == 'Show' ? 'Hide' : 'Show'">{{message.help031}} HTML Code</button>
+              </div> 
+            </div>
+          </div>
+
+         </div>
+         
+         <div class="row">
+          <div class="col-md-3">
+            
+               <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-bar-chart"></i> Custom Chart Color Scheme
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-custom-color-scheme" tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-color-scheme='["247BA0","70C1B3","#B2DBBF"]'>
+                      <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help011">
+                            <div class="well">
+                              <div hljs>
+<tm1-ui-chart tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-color-scheme='["247BA0","70C1B3","#B2DBBF"]'>
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help011" aria-expanded="false" aria-controls="help011" ng-init="message.help011 = 'Show'" 
+                        ng-click="message.help011 = message.help011== 'Show' ? 'Hide' : 'Show'">{{message.help011}} HTML Code</button>
+                  </div>                  
+              </div>
+            
+            </div>
+            <div class="col-md-3">
+              
+              <div class="panel panel-primary">
+                <div class="panel-heading" >
+                  <i class="fa fa-bar-chart"></i> Custom Colors per Bar
+                </div>
+                <div class="panel-body">
+                  <tm1-ui-chart id="test-chart-bar-custom-color" tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+                    <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"  tm1-color="#247BA0"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"  tm1-color="#70C1B3"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"  tm1-color="#B2DBBF"></tm1-ui-chart-dbr>
+                    
+                  </tm1-ui-chart>
+                </div>
+                
+                <div class="panel-footer">         
+                      <div class="collapse" id="help012">
+                          <div class="well">
+                            <div hljs>
+<tm1-ui-chart tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+
+<tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+<tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+<tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+
+</tm1-ui-chart></div>
+                        </div>
+                      </div>
+            
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help012" aria-expanded="false" aria-controls="help012" ng-init="message.help012 = 'Show'" 
+                      ng-click="message.help012 = message.help012== 'Show' ? 'Hide' : 'Show'">{{message.help012}} HTML Code</button>
+                </div>                  
+            </div>
+              
+              </div>
+
+            <div class="col-md-3">
+              
+                 <div class="panel panel-primary">
+                    <div class="panel-heading" >
+                      <i class="fa fa-bar-chart"></i> Custom Margin
+                    </div>
+                    <div class="panel-body">
+                      <tm1-ui-chart id="test-chart-bar-custom-margin" tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="{top:5,bottom:2,left:2, right:2}">
+                        <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                        <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                        <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      </tm1-ui-chart>
+                    </div>
+                    
+                    <div class="panel-footer">         
+                          <div class="collapse" id="help013">
+                              <div class="well">
+                                <div hljs>
+  <tm1-ui-chart tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="{top:5,bottom:2,left:2, right:2}">
+    
+    <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    
+  </tm1-ui-chart></div>
+                            </div>
+                          </div>
+                
+                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help013" aria-expanded="false" aria-controls="help013" ng-init="message.help013 = 'Show'" 
+                          ng-click="message.help013 = message.help013== 'Show' ? 'Hide' : 'Show'">{{message.help013}} HTML Code</button>
+                    </div>                  
+                </div>
+              
+              </div>
+
+              <div class="col-md-3">
+                
+                   <div class="panel panel-primary">
+                      <div class="panel-heading" >
+                        <i class="fa fa-bar-chart"></i> Rotate Label by -60
+                      </div>
+                      <div class="panel-body">
+                        <tm1-ui-chart id="test-chart-bar-rotate-label" tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-rotate-label="-60">
+                          <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                          <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                          <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                        </tm1-ui-chart>
+                      </div>
+                      
+                      <div class="panel-footer">         
+                            <div class="collapse" id="help014">
+                                <div class="well">
+                                  <div hljs>
+    <tm1-ui-chart tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin"  tm1-rotate-label="-60">
+      
+      <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+      
+    </tm1-ui-chart></div>
+                              </div>
+                            </div>
+                  
+                      <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help014" aria-expanded="false" aria-controls="help014" ng-init="message.help014 = 'Show'" 
+                            ng-click="message.help014 = message.help014== 'Show' ? 'Hide' : 'Show'">{{message.help014}} HTML Code</button>
+                      </div>                  
+                  </div>
+                
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-3">
+                  
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" >
+                      <i class="fa fa-line-chart"></i> Set Min Y and Max Y with Line Chart
+                    </div>
+                    <div class="panel-body">
+                      <tm1-ui-chart id="test-chart-line-min-xy" tm1-chart-type="line" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y=""  tm1-margin="chart.margin" tm1-duration="2000" tm1-min-y="300000" tm1-max-y="340000">
+                        <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                        <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                        <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      </tm1-ui-chart>
+                    </div>
+                    
+                    <div class="panel-footer">         
+                          <div class="collapse" id="help015">
+                              <div class="well">
+                                <div hljs>
+  <tm1-ui-chart tm1-chart-type="line" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y=""  tm1-margin="chart.margin" tm1-duration="2000"  tm1-min-y="300000" tm1-max-y="340000">
+    
+    <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    
+  </tm1-ui-chart></div>
+                            </div>
+                          </div>
+                
+                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help015" aria-expanded="false" aria-controls="help015" ng-init="message.help015 = 'Show'" 
+                          ng-click="message.help015 = message.help015== 'Show' ? 'Hide' : 'Show'">{{message.help015}} HTML Code</button>
+                    </div>                  
+                  </div>
+                  
+                </div>
+
+                  <div class="col-md-3">
+                      
+                    <div class="panel panel-primary">
+                      <div class="panel-heading" >
+                        <i class="fa fa-pie-chart"></i> Hide Chart labels
+                      </div>
+                      <div class="panel-body">
+                        <tm1-ui-chart id="test-chart-donut-hide-label" tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-hide-label="true">
+                          <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                          <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                          <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                        </tm1-ui-chart>
+                      </div>
+                      
+                      <div class="panel-footer">         
+                            <div class="collapse" id="help016">
+                                <div class="well">
+                                  <div hljs>
+    <tm1-ui-chart tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin"  tm1-hide-label="true">
+      
+      <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+      
+    </tm1-ui-chart></div>
+                              </div>
+                            </div>
+                  
+                      <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help016" aria-expanded="false" aria-controls="help016" ng-init="message.help016 = 'Show'" 
+                            ng-click="message.help016 = message.help016== 'Show' ? 'Hide' : 'Show'">{{message.help016}} HTML Code</button>
+                      </div>                  
+                  </div>
+                
+                </div>
+
+              <div class="col-md-3">
+                  
+                <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-bar-chart"></i> Show Values on Bars
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-bar-show-value" tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-show-values="true">
+                      <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help017">
+                            <div class="well">
+                              <div hljs>
+<tm1-ui-chart tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-show-values="true">
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help017" aria-expanded="false" aria-controls="help017" ng-init="message.help017 = 'Show'" 
+                        ng-click="message.help017 = message.help017== 'Show' ? 'Hide' : 'Show'">{{message.help017}} HTML Code</button>
+                  </div>                  
+                </div>
+                    
+              </div>
+
+              <div class="col-md-3">
+                  
+                <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-pie-chart"></i> Show Percentage Format
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-donut-show-percentage" tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-format-percentage="true">
+                      <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help018">
+                            <div class="well">
+                              <div hljs>
+<tm1-ui-chart tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin"  tm1-format-percentage="true">
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help018" aria-expanded="false" aria-controls="help018" ng-init="message.help018 = 'Show'" 
+                        ng-click="message.help018 = message.help018== 'Show' ? 'Hide' : 'Show'">{{message.help018}} HTML Code</button>
+                  </div>                  
+              </div>
+            
+            </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" >
+                      <i class="fa fa-bar-chart"></i> Custom Number Format
+                    </div>
+                    <div class="panel-body">
+                      <tm1-ui-chart id="test-chart-bar-custom-number-format" tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-accounting-settings-override="{currency:{symbol:'$', thousand:'.',decimal:',',precision:'2'}}">
+                        <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                        <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                        <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      </tm1-ui-chart>
+                    </div>
+                    
+                    <div class="panel-footer">         
+                          <div class="collapse" id="help019">
+                              <div class="well">
+                                <div hljs>
+  <tm1-ui-chart tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-accounting-settings-override="{currency:{symbol:'$', thousand:'.',decimal:',',precision:'2'}}">
+    
+    <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+    
+  </tm1-ui-chart></div>
+                            </div>
+                          </div>
+                
+                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help019" aria-expanded="false" aria-controls="help019" ng-init="message.help019 = 'Show'" 
+                          ng-click="message.help019 = message.help019== 'Show' ? 'Hide' : 'Show'">{{message.help019}} HTML Code</button>
+                    </div>                  
+                </div>
+                    
+              </div>
+
+              <div class="col-md-3">
+                  
+                <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-pie-chart"></i> Hide Label with tm1-ui-chart-dbr
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-donut-hide-label" tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+                      <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount" tm1-label-empty="true"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount" tm1-label-empty="true"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount" tm1-label-empty="true"></tm1-ui-chart-dbr>
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help020">
+                            <div class="well">
+                              <div hljs>
+<tm1-ui-chart tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help020" aria-expanded="false" aria-controls="help020" ng-init="message.help020 = 'Show'" 
+                        ng-click="message.help020 = message.help020== 'Show' ? 'Hide' : 'Show'">{{message.help020}} HTML Code</button>
+                  </div>                  
+              </div>
+            
+            </div>
+
+            <div class="col-md-3">
+                
+                <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-line-chart"></i> Line Chart with Area (DBR)
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-line-with-area-dbr" tm1-chart-type="line" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y=""  tm1-margin="chart.margin" tm1-duration="2000">
+                      <tm1-ui-chart-dbr  tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount" tm1-area="true"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help021a">
+                            <div class="well">
+                              <div hljs>
+<tm1-ui-chart tm1-chart-type="line" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y=""  tm1-margin="chart.margin" tm1-duration="2000">
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"  tm1-area="true"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help021a" aria-expanded="false" aria-controls="help021a" ng-init="message.help021a = 'Show'" 
+                        ng-click="message.help021a = message.help021a== 'Show' ? 'Hide' : 'Show'">{{message.help021a}} HTML Code</button>
+                  </div>                  
+                </div>
+                
+              </div>
+
+              <div class="col-md-3">
+                  
+                <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-pie-chart"></i> Chart with tm1-ui-class
+                  </div>
+                  <div class="panel-body">
+                    <p>
+                      <select class="form-control" ng-model="values.chartTheme" ng-init="values.chartTheme='custom-chart'">
+                        <option value="">None</option>
+                        <option value="custom-chart">Custom</option>
+                      </select>
+                    </p>
+                    <tm1-ui-chart id="test-chart-style" tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-ui-class="{{values.chartTheme}}">
+                      <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount" tm1-label-empty="true"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount" tm1-label-empty="true"></tm1-ui-chart-dbr>
+                      <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount" tm1-label-empty="true"></tm1-ui-chart-dbr>
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help021b">
+                            <div class="well">
+                              <div hljs>
+<tm1-ui-chart tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-ui-class="{{values.chartTheme}}">
+  
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  
+</tm1-ui-chart></div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help021b" aria-expanded="false" aria-controls="help021b" ng-init="message.help021b = 'Show'" 
+                        ng-click="message.help021b = message.help021b== 'Show' ? 'Hide' : 'Show'">{{message.help021b}} HTML Code</button>
+                  </div>                  
+              </div>
+            
+            </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" >
+                      <i class="fa fa-pie-chart"></i> Update Color with tm1-ui-chart-value
+                    </div>
+                    <div class="panel-body">
+                      <tm1-ui-chart id="test-chart-donut-custom-color" tm1-chart-type="line" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+                          <tm1-ui-chart-value tm1-series="A" tm1-order-no="1" tm1-label="Jan" tm1-value="100" tm1-color="#247BA0"></tm1-ui-chart-value>
+                          <tm1-ui-chart-value tm1-series="A" tm1-order-no="2" tm1-label="Feb" tm1-value="200"></tm1-ui-chart-value>
+                          <tm1-ui-chart-value tm1-series="A" tm1-order-no="3" tm1-label="Mar" tm1-value="300"></tm1-ui-chart-value>
+                          
+                          <tm1-ui-chart-value tm1-series="B" tm1-order-no="1" tm1-label="Jan" tm1-value="50" tm1-color="Red"></tm1-ui-chart-value>
+                          <tm1-ui-chart-value tm1-series="B" tm1-order-no="2" tm1-label="Feb" tm1-value="250"></tm1-ui-chart-value>
+                          <tm1-ui-chart-value tm1-series="B" tm1-order-no="3" tm1-label="Mar" tm1-value="275"></tm1-ui-chart-value>
+                      </tm1-ui-chart>
+                    </div>
+                    
+                    <div class="panel-footer">         
+                          <div class="collapse" id="help021">
+                              <div class="well">
+                                <div hljs>
+<tm1-ui-chart tm1-chart-type="line" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+    <tm1-ui-chart-value tm1-series="A" tm1-order-no="1" tm1-label="Jan" tm1-value="100" tm1-color="#247BA0"></tm1-ui-chart-value>
+    <tm1-ui-chart-value tm1-series="A" tm1-order-no="2" tm1-label="Feb" tm1-value="200"></tm1-ui-chart-value>
+    <tm1-ui-chart-value tm1-series="A" tm1-order-no="3" tm1-label="Mar" tm1-value="300"></tm1-ui-chart-value>
+    
+    <tm1-ui-chart-value tm1-series="B" tm1-order-no="1" tm1-label="Jan" tm1-value="50" tm1-color="Red"></tm1-ui-chart-value>
+    <tm1-ui-chart-value tm1-series="B" tm1-order-no="2" tm1-label="Feb" tm1-value="250"></tm1-ui-chart-value>
+    <tm1-ui-chart-value tm1-series="B" tm1-order-no="3" tm1-label="Mar" tm1-value="275"></tm1-ui-chart-value>
+</tm1-ui-chart></div>
+                            </div>
+                          </div>
+                
+                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help021" aria-expanded="false" aria-controls="help021" ng-init="message.help021 = 'Show'" 
+                          ng-click="message.help021 = message.help021== 'Show' ? 'Hide' : 'Show'">{{message.help021}} HTML Code</button>
+                    </div>                  
+                </div>
+                    
+              </div>
+
+                <div class="col-md-3">
+                    
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" >
+                      <i class="fa fa-pie-chart"></i> Hide Label with tm1-ui-chart-value
+                    </div>
+                    <div class="panel-body">
+                      <tm1-ui-chart id="test-chart-donut-hide-label-chart-value" tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+                          <tm1-ui-chart-value tm1-label="Jan" tm1-value="100" tm1-label-empty="true"></tm1-ui-chart-value>
+                          <tm1-ui-chart-value tm1-label="Feb" tm1-value="200" tm1-label-empty="true"></tm1-ui-chart-value>
+                          <tm1-ui-chart-value tm1-label="Mar" tm1-value="300" tm1-label-empty="true"></tm1-ui-chart-value>
+                      </tm1-ui-chart>
+                    </div>
+                    
+                    <div class="panel-footer">         
+                          <div class="collapse" id="help022">
+                              <div class="well">
+                                <div hljs>
+<tm1-ui-chart tm1-chart-type="donut" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+    <tm1-ui-chart-value tm1-label="Jan" tm1-value="100" tm1-label-empty="true"></tm1-ui-chart-value>
+    <tm1-ui-chart-value tm1-label="Feb" tm1-value="200" tm1-label-empty="true"></tm1-ui-chart-value>
+    <tm1-ui-chart-value tm1-label="Mar" tm1-value="300" tm1-label-empty="true"></tm1-ui-chart-value>
+</tm1-ui-chart>
+                                  </div>
+                            </div>
+                          </div>
+                
+                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help022" aria-expanded="false" aria-controls="help022" ng-init="message.help022 = 'Show'" 
+                          ng-click="message.help022 = message.help022== 'Show' ? 'Hide' : 'Show'">{{message.help022}} HTML Code</button>
+                    </div>                  
+                </div>
+                    
+              </div>
+
+              <div class="col-md-3">
+                <div class="panel panel-primary">
+                  <div class="panel-heading" >
+                    <i class="fa fa-bar-chart"></i> Stop Movement on Last Bar
+                  </div>
+                  <div class="panel-body">
+                    <tm1-ui-chart id="test-chart-waterfall-last-bar-no-movement" tm1-chart-type="waterfall" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+                        <tm1-ui-chart-value tm1-label="Actual" tm1-value="100"></tm1-ui-chart-value>
+                        <tm1-ui-chart-value tm1-label="vs" tm1-value="50"></tm1-ui-chart-value>
+                        <tm1-ui-chart-value tm1-show-movement="false" tm1-label="Budget" tm1-value="150"></tm1-ui-chart-value>
+                    </tm1-ui-chart>
+                  </div>
+                  
+                  <div class="panel-footer">         
+                        <div class="collapse" id="help023">
+                            <div class="well">
+                              <div hljs>
+<tm1-ui-chart tm1-chart-type="waterfall" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin">
+    <tm1-ui-chart-value tm1-label="Actual" tm1-value="100"></tm1-ui-chart-value>
+    <tm1-ui-chart-value tm1-label="vs" tm1-value="50"></tm1-ui-chart-value>
+    <tm1-ui-chart-value tm1-show-movement="false" tm1-label="Budget" tm1-value="150"></tm1-ui-chart-value>
+</tm1-ui-chart>
+                                </div>
+                          </div>
+                        </div>
+              
+                  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help023" aria-expanded="false" aria-controls="help023" ng-init="message.help023 = 'Show'" 
+                        ng-click="message.help023 = message.help023== 'Show' ? 'Hide' : 'Show'">{{message.help023}} HTML Code</button>
+                  </div>                  
+              </div>                  
+            </div>
+
+            <div class="col-md-3">
+                
+              <div class="panel panel-primary">
+                <div class="panel-heading" >
+                  <i class="fa fa-bar-chart"></i> Refresh Chart using tm1-state
+                </div>
+                <div class="panel-body">
+                  <tm1-ui-chart id="test-chart-bar-refresh-state" tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-state="{{selections.Version}},{{selections.Year}}">
+                    <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                    <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+                  </tm1-ui-chart>
+                </div>
+                
+                <div class="panel-footer">         
+                      <div class="collapse" id="help024">
+                          <div class="well">
+                            <div hljs>
+<tm1-ui-chart tm1-chart-type="discreteBar" tm1-height="300" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000" tm1-margin="chart.margin" tm1-state="{{selections.Version}},{{selections.Year}}">
+
+  <tm1-ui-chart-dbr tm1-label="Jan" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Jan,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Feb" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Feb,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+  <tm1-ui-chart-dbr  tm1-label="Mar" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},Mar,Local,{{selections.Region}},All Products by Category,Sales Amount"></tm1-ui-chart-dbr>
+
+</tm1-ui-chart></div>
+                        </div>
+                      </div>
+            
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help024" aria-expanded="false" aria-controls="help024" ng-init="message.help024 = 'Show'" 
+                      ng-click="message.help024 = message.help024== 'Show' ? 'Hide' : 'Show'">{{message.help024}} HTML Code</button>
+                </div>                  
+              </div>
+                  
+            </div>
+
+
+            </div>
+                 
+       </div>
+       
+      
+  </div>
+    
+</div>
+

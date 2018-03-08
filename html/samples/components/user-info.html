@@ -1,0 +1,119 @@
+<div>
+    <style>
+      code.hljs {
+       white-space: normal !important;
+      }
+      
+      .custom-user{
+        color: Blue;
+      }
+    </style>
+  
+   <h1>
+      <i class="fa fa-user-o"></i> User Info
+   </h1>
+   
+   <hr/>   
+   
+   <div class="row">
+      
+      <div class="col-lg-6">
+      	<div class="panel panel-primary">
+          <div class="panel-heading">
+          	<span>Retrieve User Information</span>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <tm1-ui-user id="test-user-general"></tm1-ui-user>
+            </div>                	    
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Retrieve information on instances and groups when the user has logged in.</div>              
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-user></tm1-ui-user></div>
+          </div>
+        </div>      
+      </div>
+      
+      
+      <div class="col-lg-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>Retrieve User Information for an Instance</span>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <tm1-ui-user id="test-user-instance" tm1-instance="dev"></tm1-ui-user>
+            </div>                      
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>You can retrieve for a specific instance too via <code>tm1-instance</code>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-user tm1-instance="dev"></tm1-ui-user></tm1-ui-user></div>
+          </div>
+        </div>      
+      </div>
+      
+      
+      
+      
+   </div>
+   
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Style the Table</span>
+        </div>
+        <div class="panel-body">
+          <select class="form-control" ng-model="values.style">
+            <option value="">None</option>
+            <option value="custom-user">Custom</option>
+          </select>
+          <tm1-ui-user id="test-user-style" tm1-ui-class="{{values.style}}" tm1-instance="dev"></tm1-ui-user>           
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>You can also grab these via the <code>ng-model</code> attribute and use it on your page.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><select class="form-control" ng-model="values.style">
+            <option value="">None</option>
+            <option value="custom-user">Custom</option>
+          </select>
+          <tm1-ui-user tm1-ui-class="{{values.style}}" tm1-instance="dev"></tm1-ui-user></div>
+        </div>
+      </div> 
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>Utilize the Information on your Page</span>
+          </div>
+          <div class="panel-body">
+            <tm1-ui-user id="test-user-model" ng-hide="true" tm1-instance="dev" ng-model="values.user"></tm1-ui-user>  
+            Hi <strong id="test-user-model-value">{{values.user.FriendlyName}}</strong>!               
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>You can also grab these via the <code>ng-model</code> attribute and use it on your page.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-user ng-hide="true" tm1-instance="dev" ng-model="values.user"></tm1-ui-user>  
+            Hi <strong>{{values.user.FriendlyName}}</strong>!</div>
+          </div>
+        </div>      
+      </div>
+      
+  </div>
+
+</div>

@@ -1,0 +1,18 @@
+<div ng-controller="Temp1Ctrl">
+  <div class="row">
+    <div class="col-md-6">
+    
+      <div class="form-group">
+        <label>Cube</label>
+        <select class="form-control" ng-model="selectedCube" ng-change="resetCubeViewer()">
+          <option ng-repeat="cube in lists.cubes" value="{{cube.Name}}">{{cube.Name}}</option>
+        </select>
+      </div>
+    
+    </div>
+  </div>
+    
+
+  <tm1-ui-cube-viewer ng-if="selectedCube && showViewer" tm1-instance="dev" tm1-cube="General Ledger" tm1-options="cubeOptions"></tm1-ui-cube-viewer>
+  <!--  <tm1-ui-cube-viewer ng-if="selectedCube && showViewer" tm1-instance="dev" tm1-cube="{{selectedCube}}" tm1-view="Default" tm1-options="{autoRecalculate: true}"></tm1-ui-cube-viewer> -->
+</div>

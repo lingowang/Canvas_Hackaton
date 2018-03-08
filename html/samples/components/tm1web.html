@@ -1,0 +1,198 @@
+<div>
+  <style>
+    .custom-web{
+      border: 10px dashed #DCDCDC;
+    }
+  </style>
+  <h1>
+    <i class="fa fa-globe"></i> TM1 Web
+  </h1>
+   
+  <hr/>  
+   
+  <div class="panel panel-default">
+   
+    <div class="panel-heading">
+      Criteria
+    </div>
+    
+    <div class="panel-body">    
+      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" tm1-default-element="2012" tm1-select-only="true" ng-model="page.version" ></tm1-ui-subnm>      
+    </div>
+   
+  </div> 
+   
+  <div class="row">
+   
+    <div class="col-lg-6">
+    
+      <div class="panel panel-primary">   
+        <div class="panel-heading">
+          Cube View
+        </div>
+        <div class="panel-body">        
+          <tm1-ui-web tm1-instance="dev" tm1-cube="General Ledger" tm1-cube-view="P&L" tm1-titles="Year={{page.version}}"></tm1-ui-web>          
+        </div>        
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-cube</code> and <code>tm1-cube-view to utilize TM1's Cube Viewer</code></div>
+            <div>You can update the title in your Cube View via <code>tm1-titles</code> </div>
+          </div>          
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-web tm1-instance="dev" tm1-cube="General Ledger" tm1-cube-view="P&L" tm1-titles="Year={{page.version}}"></tm1-ui-web></div>
+        </div>       
+      </div>   
+       
+    </div>
+    
+    <div class="col-lg-6">
+        
+      <div class="panel panel-primary">   
+        <div class="panel-heading">
+          Web Sheet
+        </div>
+        <div class="panel-body">        
+          <tm1-ui-web tm1-instance="dev" tm1-application="Applications/Finance/P&L.xlsx" tm1-titles="Year={{page.version}}"></tm1-ui-web>          
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code> tm1-application</code> to utilize TM1's Websheet Viewer</code></div>
+            <div>If it has a SUBNM, you can update it too via the <code>tm1-titles</code> attribute.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-web tm1-instance="dev" tm1-application="Applications/Finance/P&L.xlsx" tm1-titles="Year={{page.version}}"></tm1-ui-web></div>
+        </div>       
+      </div>
+            
+    </div>
+   
+  </div>
+  
+  <div class="row">
+   
+    <div class="col-lg-6">
+    
+      <div class="panel panel-primary">   
+        <div class="panel-heading">
+          Cube View with Toolbar Shown
+        </div>
+        <div class="panel-body">        
+          <tm1-ui-web tm1-instance="dev" tm1-cube="General Ledger" tm1-cube-view="P&L" tm1-titles="Year={{page.version}}" tm1-show-tool-bar="true"></tm1-ui-web>          
+        </div>        
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-show-tool-bar</code> to show the standard TM1 tool bar.</div>
+          </div>          
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-web tm1-instance="dev" tm1-cube="General Ledger" tm1-cube-view="P&L" tm1-titles="Year={{page.version}}" tm1-show-tool-bar="true"></tm1-ui-web> </div>
+        </div>       
+      </div>   
+       
+    </div>
+    
+    <div class="col-lg-6">
+        
+      <div class="panel panel-primary">   
+        <div class="panel-heading">
+          Web Sheet with Toolbar Shown
+        </div>
+        <div class="panel-body">        
+          <tm1-ui-web tm1-instance="dev" tm1-application="Applications/Finance/P&L.xlsx" tm1-titles="Year={{page.version}}" tm1-show-tool-bar="true"></tm1-ui-web>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>You can use <code>tm1-show-tool-bar</code> in here too.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-web tm1-instance="dev" tm1-application="Applications/Finance/P&L.xlsx" tm1-titles="Year={{page.version}}" tm1-show-tool-bar="true"></tm1-ui-web></div>
+        </div>       
+      </div>
+            
+    </div>
+   
+  </div>
+  
+  
+  <div class="row">
+   
+    <div class="col-lg-6">
+    
+      <div class="panel panel-primary">   
+        <div class="panel-heading">
+          Width within its Container
+        </div>
+        <div class="panel-body">        
+          <tm1-ui-web tm1-instance="dev" tm1-cube="General Ledger" tm1-cube-view="P&L" tm1-titles="Year={{page.version}}" tm1-width="50%"></tm1-ui-web>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-width</code> to assign it with a more specific width relative to its container.</div>
+          </div>          
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-web tm1-instance="dev" tm1-cube="General Ledger" tm1-cube-view="P&L" tm1-titles="Year={{page.version}}" tm1-width="50%"></tm1-ui-web></div>
+        </div>
+      </div>
+       
+    </div>
+    
+    <div class="col-lg-6">
+        
+      <div class="panel panel-primary">   
+        <div class="panel-heading">
+          Control the Height
+        </div>
+        <div class="panel-body">        
+          <tm1-ui-web tm1-instance="dev" tm1-application="Applications/Finance/P&L.xlsx" tm1-titles="Year={{page.version}}" tm1-height="100px"></tm1-ui-web>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-height</code> to control the height it will take when shown.</div>
+          </div>          
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-web tm1-instance="dev" tm1-application="Applications/Finance/P&L.xlsx" tm1-titles="Year={{page.version}}" tm1-height="100px"></tm1-ui-web></div>
+        </div>       
+      </div>
+            
+    </div>
+   
+  </div>
+  
+  <div class="row">
+   
+    <div class="col-lg-6">
+    
+      <div class="panel panel-primary">   
+        <div class="panel-heading">
+          Apply a CSS style on the Component
+        </div>
+        <div class="panel-body">
+          <p>
+            <select class="form-control" ng-model="values.webTheme" ng-init="values.webTheme='custom-web'">
+              <option value="">None</option>
+              <option value="custom-web">Custom</option>
+            </select>
+          </p>
+          
+          <tm1-ui-web tm1-instance="dev" tm1-cube="General Ledger" tm1-cube-view="P&L" tm1-titles="Year={{page.version}}" tm1-ui-class="{{values.webTheme}}"></tm1-ui-web>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-ui-class</code> to affect the style of the component further.</div>
+          </div>          
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-web tm1-instance="dev" tm1-cube="General Ledger" tm1-cube-view="P&L" tm1-titles="Year={{page.version}}" tm1-ui-class="{{values.webTheme}}"></tm1-ui-web></div>
+        </div>
+      </div>
+       
+    </div>
+   
+  </div>
+
+</div>

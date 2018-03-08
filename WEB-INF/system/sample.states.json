@@ -1,0 +1,276 @@
+{
+    "setup": {
+        "url": "/setup",
+        "templateUrl": "html/samples/setup.html"
+    },
+    
+    "component": {
+        "url": "/sample/components",
+        "templateUrl": "html/samples/component.html"
+    },
+    
+    "subnm": {
+        "url": "/sample/component/subnm",
+        "templateUrl": "html/samples/components/subnm.html"
+    },
+    
+    "store": {
+        "url": "/sample/component/store",
+        "templateUrl": "html/samples/components/store.html"
+    },
+    
+    "dbr": {
+        "url": "/sample/component/dbr",
+        "templateUrl": "html/samples/components/dbr.html"
+    },
+    
+    "dbr-group-update": {
+        "url": "/sample/component/dbr-group-update",
+        "templateUrl": "html/samples/components/dbr-group-update.html"
+    },
+    
+    "dbr-hierarchy": {
+        "url": "/sample/component/dbr-hierarchy",
+        "templateUrl": "html/samples/components/dbr-hierarchy.html"
+    },
+    
+    "dbr-hidden": {
+        "url": "/sample/component/dbr-hidden",
+        "templateUrl": "html/samples/components/dbr-hidden.html"
+    },
+    
+    "dbr-read-only": {
+        "url": "/sample/component/dbr-read-only",
+        "templateUrl": "html/samples/components/dbr-read-only.html"
+    },
+    
+    "dbr-image": {
+        "url": "/sample/component/dbr-image",
+        "templateUrl": "html/samples/components/dbr-image.html"
+    },
+    
+    "dbr-sandbox": {
+        "url": "/sample/component/dbr-sandbox",
+        "templateUrl": "html/samples/components/dbr-sandbox.html"
+    },
+    
+    "dbra": {
+        "url": "/sample/component/dbra",
+        "templateUrl": "html/samples/components/dbra.html"
+    },
+    
+    "activeform": {
+        "url": "/sample/component/activeform",
+        "templateUrl": "html/samples/components/activeform.html"
+    },
+    
+    "process": {
+        "url": "/sample/component/process",
+        "templateUrl": "html/samples/components/process.html"
+    },
+    
+    "tm1web": {
+        "url": "/sample/component/tm1web",
+        "templateUrl": "html/samples/components/tm1web.html"
+    },
+    
+    "mdx-chart": {
+        "url": "/sample/component/mdx-chart",
+        "templateUrl": "html/samples/components/mdx-chart.html"
+    },
+    
+    "element-list": {
+        "url": "/sample/component/element-list",
+        "templateUrl": "html/samples/components/element-list.html"
+    },
+    
+    "charts": {
+        "url": "/sample/component/charts",
+        "templateUrl": "html/samples/components/chart.html"
+    },
+    
+    "upload": {
+        "url": "/sample/component/upload",
+        "templateUrl": "html/samples/components/upload.html"
+    }, 
+    
+    "mdx-table": {
+        "url": "/sample/component/mdx-table",
+        "templateUrl": "html/samples/components/mdx-table.html"
+    },   
+    
+    "element-info": {
+        "url": "/sample/component/element-info",
+        "templateUrl": "html/samples/components/element-info.html"
+    },
+    
+    "login-info": {
+        "url": "/sample/component/login-info",
+        "templateUrl": "html/samples/components/login-info.html"
+    },
+    
+    "session-info": {
+        "url": "/sample/component/session-info",
+        "templateUrl": "html/samples/components/session-info.html"
+    },
+    
+    "progress-update": {
+        "url": "/sample/component/progress-update",
+        "templateUrl": "html/samples/components/progress-update.html"
+    },
+    
+    "user-info": {
+        "url": "/sample/component/user-info",
+        "templateUrl": "html/samples/components/user-info.html"
+    },
+    
+    "export-info": {
+        "url": "/sample/component/export-info",
+        "templateUrl": "html/samples/components/export-info.html"
+    },
+    
+    "cube-viewer": {
+        "url": "/sample/component/cube-viewer",
+        "templateUrl": "html/samples/components/cube-viewer.html"
+    },
+    
+    "subset-editor": {
+        "url": "/sample/component/subset-editor",
+        "templateUrl": "html/samples/components/subset-editor.html"
+    },
+    
+    "sample": {
+        "url": "/samples",
+        "templateUrl": "html/samples/sample.html"
+    },
+    
+    "sample-simple": {
+        "url": "/sample/sample-simple",
+        "templateUrl": "html/samples/sample-simple.html"
+    },
+    
+    "sample-skinning": {
+        "url": "/sample/sample-skinning",
+        "templateUrl": "html/samples/sample-skinning.html"
+    },
+    
+    "sample-dashboard": {
+        "url": "/sample/sample-dashboard",
+        "templateUrl": "html/samples/sample-dashboard.html"
+    },
+    
+    "sample-navigation-1": {
+        "url": "/sample/sample-navigation-1",
+        "templateUrl": "html/samples/sample-navigation-1.html"
+    },
+    
+    "sample-navigation-2": {
+        "url": "/sample/sample-navigation-2/:region",
+        "templateUrl": "html/samples/sample-navigation-2.html"
+    },
+    
+    "sample-data-entry": {
+        "url": "/sample/sample-data-entry",
+        "templateUrl": "html/samples/sample-data-entry.html"
+    },
+    
+    "sample-salary-budget": {
+        "url": "/sample/sample-salary-budget",
+        "templateUrl": "html/samples/sample-salary-budget.html"
+    },
+    
+    "sample7d": {
+        "url": "/sample/sample7d/:region/:dept",
+        "templateUrl": "html/samples/sample-salary-budget.html"
+    },
+    
+    "sample-advance-chart": {
+        "url": "/sample/sample-advance-chart",
+        "templateUrl": "html/samples/sample-advance-chart.html"
+    },
+    
+    "sample-upload": {
+        "url": "/sample/sample-upload",
+        "templateUrl": "html/samples/sample-upload.html"
+    },
+
+    "sample-sheetjs": {
+        "url": "/sample/sample-sheetjs",
+        "templateUrl": "html/samples/sample-sheetjs.html"
+    },
+    
+    "mdx-named": {
+        "url": "/sample/mdx-named",
+        "templateUrl": "html/samples/sample-mdx-named.html"
+    },
+    
+    "sample-table": {
+        "url": "/sample/sample-table",
+        "templateUrl": "html/samples/sample-table.html"
+    },
+    
+    "sample-print": {
+        "url": "/sample/sample-print",
+        "templateUrl": "html/samples/sample-print.html"
+    },
+    
+    "sample-cubes": {
+        "url": "/sample/sample-cubes",
+        "templateUrl": "html/samples/cubes.html"
+    },
+    
+    "temp": {
+        "url": "/sample/temp",
+        "templateUrl": "html/samples/temp.html"
+    }, 
+    
+    "templates": {
+        "url": "/sample/templates",
+        "templateUrl": "html/samples/templates.html"
+    },
+    
+    "template-dashboard": {
+        "url": "/sample/templates/template-dashboard",
+        "templateUrl": "html/samples/templates/dashboard.html"
+    },
+    
+    "sample-sql": {
+        "url": "/sample/sample-sql",
+        "templateUrl": "html/samples/sample-sql.html"
+    },
+    
+    "sample-performance": {
+        "url": "/sample/sample-performance",
+        "templateUrl": "html/samples/performance.html"
+    }, 
+    
+    "sample-grid": {
+        "url": "/sample/sample-grid",
+        "templateUrl": "html/samples/sample-grid.html"
+    },
+    
+    "application": {
+        "url": "/sample/applications",
+        "templateUrl": "html/samples/applications/application.html"
+    },
+    
+    "application-1": {
+        "url": "/sample/application/application-1",
+        "templateUrl": "html/samples/applications/application-1/application-1-home.html"
+    },
+    
+    "application-1-employee": {
+        "url": "/sample/application/application-1/application-employee",
+        "templateUrl": "html/samples/applications/application-1/application-1-employee.html"
+    },
+    
+    "application-1-pnl": {
+        "url": "/sample/application/application-1/application-pnl",
+        "templateUrl": "html/samples/applications/application-1/application-1-pnl.html"
+    },
+    
+    "application-1-product": {
+        "url": "/sample/application/application-1/application-product",
+        "templateUrl": "html/samples/applications/application-1/application-1-product.html"
+    }
+}

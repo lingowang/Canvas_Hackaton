@@ -1,0 +1,337 @@
+<div ng-controller="DbraCtrl">
+
+  <style>
+  
+    pre, code {
+     white-space: normal !important;
+    }
+        
+    .custom-dbra * input{
+      color: #778899;
+      background-color: #FFFFE0;
+      text-align: center; 
+    }
+  </style>
+
+   <h1>
+      <i class="fa fa-tag"></i> DBRA
+   </h1>
+   
+   <hr/>   
+   
+   <div class="row">
+      
+      <div class="col-lg-4">
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (Input)
+          </div>
+          <div class="panel-body">
+          
+            <tm1-ui-dbra id="test-dbra-input" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Account Type"></tm1-ui-dbra>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Set the <code>tm1-read-only</code> attribute to false (default) to make it writable</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Account Type"></tm1-ui-dbra></div>
+          </div>
+       </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+    
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (Read Only)
+          </div>
+          <div class="panel-body">        
+            
+            <tm1-ui-dbra id="test-dbra-read-only" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Account Type" tm1-read-only="true"></tm1-ui-dbra>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Set the <code>tm1-read-only</code> attribute to true to make the DBRA read only</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Account Type" tm1-read-only="true"></tm1-ui-dbra></div>
+          </div>
+          
+       </div>     
+    </div>
+    
+    
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (Input with Custom Empty Display)
+          </div>
+          <div class="panel-body">
+          
+            <tm1-ui-dbra id="test-dbra-empty-display" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="calculation" tm1-placeholder="I am empty..."></tm1-ui-dbra>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Set the <code>tm1-placeholder</code> attribute to set the background text when empty.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="calculation" tm1-placeholder="I am empty..."></tm1-ui-dbra></div>
+          </div>
+       </div>
+      </div>
+    
+      
+   </div>
+
+   <div class="row">
+      
+      <div class="col-lg-4">
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (Decimal Format)
+          </div>
+          <div class="panel-body">
+          
+            <tm1-ui-dbra id="test-dbra-decimal-format" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-data-decimal="2" tm1-read-only="true"></tm1-ui-dbra>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Set 2 decimals format using <code>tm1-data-decimal</code> when in read-only mode via <code>tm1-read-only</code></div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-data-decimal="2" tm1-read-only="true"></tm1-ui-dbra></div>
+          </div>
+       </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+    
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (Validation)
+          </div>
+          <div class="panel-body">        
+            
+            <tm1-ui-dbra id="test-dbra-validation" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-validate="@Value > 0" tm1-validate-message="@Value must be greater than 0"></tm1-ui-dbra>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+                <div>Validate entry on input boxes. Put your expression to evaluate in <code>tm1-validate</code>.</div>
+                <div>Show helpful hints when validation fails via <code>tm1-validate-message</code>.</div>    
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-validate="@Value > 0" tm1-validate-message="@Value must be greater than 0"></div>
+          </div>
+          
+       </div>     
+    </div>
+    
+    
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (Hide Cell Reference)
+          </div>
+          <div class="panel-body">
+          
+            <tm1-ui-dbra id="test-dbra-context-hide-reference" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-hide-reference="true"></tm1-ui-dbra>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Hide the context button using <code>tm1-hide-reference</code></div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-hide-reference="true"></tm1-ui-dbra></div>
+          </div>
+       </div>
+      </div>
+    
+      
+   </div>
+
+   <div class="row">
+      
+      <div class="col-lg-4">
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (tm1-api)
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-6">
+                <input type="number" ng-model="values.sessionTimeout" ng-init="values.sessionTimeout = 5" class="form-control" placeholder="Context Timeout">
+              </div>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-block" ng-click="updateSessionTimeout(values.dbraApi, values.sessionTimeout)">Set Timeout</button>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-12">
+                <tm1-ui-dbra id="test-dbra-api" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-api="values.dbraApi"></tm1-ui-dbra>
+                <div class="alert alert-success" id="test-dbra-api-message" role="alert" ng-if="values.dbraDisplayValue.length > 0">{{values.dbraDisplayValue}}</div>
+              </div>
+            </div>
+            
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Update how many seconds the context button will be displayed via <code>tm1-api</code>'s <strong>setContextTimeout(seconds)</strong> function</div>
+              <div>You can also do something whenever a value has been pushed into TM1 using <strong>onUpdate(status, data)</strong> function</div>
+              <p>Check out this page's controller at <code>js/controllers/samples/components/dbra.js</code> for more details.</p>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-api="values.dbraApi"></tm1-ui-dbra></div>
+          </div>
+       </div>
+      
+      </div>
+      
+      
+      <div class="col-lg-4">
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (ng-model)
+          </div>
+          <div class="panel-body">
+          
+            <tm1-ui-dbra id="test-dbra-model" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Account Type" ng-model="values.attribute"></tm1-ui-dbra>
+                        
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div> Use <code>ng-model</code> to store the dbra value in a variable: <span id="test-dbra-model-value">{{values.attribute}}</span> </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Account Type" ng-model="values.attribute"></tm1-ui-dbra></div>
+          </div>
+        </div>
+      
+      </div>
+        
+    
+    
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBRA (tm1-ui-class)
+          </div>
+          <div class="panel-body">
+            <p>
+              <select class="form-control" ng-model="values.dbraTheme" ng-init="values.dbraTheme='custom-dbra'">
+                <option value="">None</option>
+                <option value="custom-dbra">Custom</option>
+              </select>
+            </p>
+            <tm1-ui-dbra id="test-dbra-style" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-hide-reference="true" tm1-ui-class="{{values.dbraTheme}}"></tm1-ui-dbra>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Customize the look and feel of your login via <code>tm1-ui-class</code></div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-hide-reference="true" tm1-ui-class="{{values.dbraTheme}}"></tm1-ui-dbra></div>
+          </div>
+       </div>
+      </div>
+    
+      
+   </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBRA - Call a Function on Load
+        </div>
+        <div class="panel-body">        
+              
+          <tm1-ui-dbra id="test-dbra-on-load" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-on-load="onValueLoad(data)"></tm1-ui-dbra>
+          <div class="alert alert-success" role="alert" ng-if="values.messageOnValueLoad.length > 0">{{values.messageOnValueLoad}}</div>
+                       
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Call a function via <code>tm1-on-load</code> when the directive first loads.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-on-load="onValueLoad(data)"></tm1-ui-dbra></div>
+        </div>
+            
+      </div> 
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBRA - Call a Function on Change
+        </div>
+        <div class="panel-body">        
+              
+          <tm1-ui-dbra id="test-dbra-on-change" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-on-change="onValueChange(data)"></tm1-ui-dbra>
+          <div class="alert alert-success" role="alert" ng-if="values.messageOnValueChange.length > 0">{{values.messageOnValueChange}}</div>
+                       
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Call a function via <code>tm1-on-change</code> when the value subsequently changes.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-on-change="onValueChange(data)"></tm1-ui-dbra></div>
+        </div>
+            
+      </div> 
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBRA - Call a Function on Each Change
+        </div>
+        <div class="panel-body">        
+              
+          <tm1-ui-dbra id="test-dbra-on-each-change" tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-change="onEachValueChange(data)"></tm1-ui-dbra>
+          <div class="alert alert-success" role="alert" ng-if="values.messageOnEachValueChange.length > 0">{{values.messageOnEachValueChange}}</div>
+                       
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Call a function via <code>tm1-change</code> when the directive first loads.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbra tm1-instance="dev" tm1-dimension="Account" tm1-element="Net Income" tm1-attribute="Order Seed" tm1-change="onEachValueChange(data)"></tm1-ui-dbra></div>
+        </div>
+            
+      </div> 
+    </div>
+  </div>
+   
+
+</div>

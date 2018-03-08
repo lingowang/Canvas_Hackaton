@@ -1,0 +1,98 @@
+<div ng-controller="DbrSandboxCtrl">
+  <h1>
+    <i class="fa fa-connectdevelop"></i> {{'MESSAGESAMPLEITEM17' | translate}}
+  </h1>
+  
+  <style>
+    .custom-sandbox, .custom-sandbox input{
+      color: #A8A8A8;
+    }
+  </style>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well" style="margin-bottom:0px">
+        <p>This page showcases how to administer TM1's Sandboxing feature.</p>
+        <p>To utilize with a regular DBR, one just need to add <code>tm1-sandbox</code> to push and pull data from the sandbox. Unlike the traditional way of utilizing sandbox, one just needs to assign the name of an existing sandbox
+        into the DBR</p>
+        <p>By default, cells affected by changes in the sandbox are on <span class="tm1-ui-dbr-sandbox-changes">this color</span>. Further optimizations can be done by assigning a CSS class into <code>tm1-sandbox-class</code> attribute.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="pull-right">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td><label class="control-label">Sandbox</label></td>
+          <td>
+            <select class="form-control" ng-model="values.sandbox">
+              <option value="">None</option>
+              <option ng-repeat="sandbox in lists.sandboxes" value="{{sandbox.Name}}">{{sandbox.Name}}</option>              
+            </select>
+          </td>
+          <td>
+            <form class="form-inline">
+              <div class="form-group">
+                <input class="form-control" id="input-sandbox" placeholder="Sandbox To Create..." type="text" ng-model="values.currentSandbox">
+              </div>
+              
+              <button type="button" id="button-create-sandbox" class="btn btn-primary" ng-click="sandboxCreate(values.currentSandbox)" ng-disabled="!(values.currentSandbox.length > 0)">Create</button>    
+              <button type="button" id="button-publish-sandbox-changes" class="btn btn-success" ng-click="sandboxPublish(values.sandbox)" ng-disabled="!(values.sandbox.length > 0)">Publish</button>
+              <button type="button" id="button-discard-sandbox-changes" class="btn btn-default" ng-click="sandboxDiscard(values.sandbox)" ng-disabled="!(values.sandbox.length > 0)">Discard</button>
+              <button type="button" id="button-delete-sandbox" class="btn btn-danger" ng-click="sandboxDelete(values.sandbox)" ng-disabled="!(values.sandbox.length > 0)">Delete</button>
+            </form>          
+          </td>
+        </tr>
+        <tr>
+          <td><label class="control-label">Sandbox Change Styles</label></td>
+          <td>
+            <select class="form-control" ng-model="values.sandboxStyle">
+              <option value="">None</option>
+              <option value="custom-sandbox">Custom</option>            
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  <tm1-ui-element-list tm1-calculate-top-level="true" tm1-instance="dev" tm1-dimension="Product"
+    tm1-mdx="{TM1DRILLDOWNMEMBER({[Product].[Helmets]}, ALL, RECURSIVE)}" tm1-attributes="Code&Description"
+    ng-model="lists.products"></tm1-ui-element-list>          
+  <table id="test-table-sandbox" class="table table-hover">
+    <thead>
+      <tr>
+        <th rowspan="2">Product</th>
+        <th colspan="3">Standard Cost</th>
+      </tr>
+      <tr>
+        <th>No Sandbox</th>
+        <th ng-show="values.sandbox.length > 0">{{values.sandbox}} (Built-in Style)</th>
+        <th ng-show="values.sandbox.length > 0">{{values.sandbox}} (Custom Style)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in lists.products">
+        <td>
+          <tm1-ui-element-list-item tm1-item="item" tm1-item-display="{{item.alias}}"></tm1-ui-element-list-item>
+        </td>
+        <td>
+          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Product" 
+            tm1-elements="Actual,2011/12,Local,England,{{item.key}},Standard Cost" tm1-data-decimal="2"></tm1-ui-dbr>
+        </td>
+        <td ng-show="values.sandbox.length > 0">
+          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Product" tm1-sandbox="{{values.sandbox}}"
+            tm1-elements="Actual,2011/12,Local,England,{{item.key}},Standard Cost" tm1-data-decimal="2"></tm1-ui-dbr>
+        </td>
+        <td ng-show="values.sandbox.length > 0">
+          <tm1-ui-dbr tm1-instance="dev" tm1-cube="Product" tm1-sandbox="{{values.sandbox}}" tm1-sandbox-class="{{values.sandboxStyle}}"
+            tm1-elements="Actual,2011/12,Local,England,{{item.key}},Standard Cost" tm1-data-decimal="2"></tm1-ui-dbr>
+        </td>
+      </tr>
+    </tbody>
+    
+  </table>
+  
+</div>

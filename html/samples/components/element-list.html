@@ -1,0 +1,431 @@
+<div ng-controller="ElementListCtrl">
+
+  <style>
+  
+    pre, code {
+     white-space: normal !important;
+    }
+  	
+  	.tm1-ui-level-N{
+  		color: #162856;
+  	}
+    .tm1-ui-level-0{
+      color: #4F618F;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  	.tm1-ui-level-1{
+  		color: #4F618F;
+  		font-weight: bold;
+  		font-size: 16px;
+  	}
+    .tm1-ui-level-2{
+      color: #4F618F;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  	
+    .custom-list-item{
+      color: #b3b3cc;
+    }
+    
+  </style>
+
+   <h1>
+      <i class="fa fa-list-ul"></i> Element List
+   </h1>
+   
+   <hr/>   
+   
+   <div class="row">
+      
+      <div class="col-lg-4">
+      	<div class="panel panel-primary">
+          <div class="panel-heading">
+          	<span>List of Elements from Subset</span>
+          </div>
+          <div class="panel-heading">
+				    <input class="form-control" style="width: 100%;" type="text" ng-model="page.search1" placeholder="Search...">        
+          </div>
+          <div class="panel-body">          
+           	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" ng-model="page.list1"></tm1-ui-element-list>           	
+            <table id="test-element-list-item-display" class="table table-hover">
+            	<thead>
+            		<tr>
+            			<th>key</th>
+            			<th>alias</th>          			
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr ng-repeat="item in page.list1 | filter:page.search1">
+	            		<td>{{item.key}}</td>
+	            		<td>{{item.alias}}</td>
+	            	</tr>
+            	</tbody>
+            	
+            </table>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Retrieve elements from TM1 via <code>tm1-ui-element-list</code> and use them in your table.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" ng-model="page.list1"></tm1-ui-element-list></div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+      	<div class="panel panel-primary">
+      	  <div class="panel-heading">
+          	<span>List of Elements from Subset, Retrieve Other Attribute(s)</span>
+          </div>
+          <div class="panel-heading">
+				    <input class="form-control" type="text" ng-model="page.search2" placeholder="Search...">           
+          </div>
+          <div class="panel-body">          
+           	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" tm1-attributes="Description,Extra Long Name" ng-model="page.list2"></tm1-ui-element-list>           	
+            <table id="test-element-list-subset-and-attribute" class="table table-hover">
+            	<thead>
+            		<tr>
+            			<th>key</th>
+            			<th>Description</th>     
+            			<th>Extra Long Name</th>	
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr ng-repeat="item in page.list2 | filter:page.search2">
+	            		<td>{{item.key}}</td>
+	            		<td>{{item.Description}}</td>
+	            		<td>{{item['Extra Long Name']}}</td>
+	            	</tr>
+            	</tbody>
+            	
+            </table>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Retrieve elements from TM1 via <code>tm1-ui-element-list</code> and use them in your table.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" tm1-attributes="Description,Extra Long Name" ng-model="page.list2"></tm1-ui-element-list>  </div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>List of Elements via MDX</span>
+          </div>
+          <div class="panel-heading">
+				    <input class="form-control" type="text" ng-model="page.search3" placeholder="Search...">          
+          </div>
+          <div class="panel-body">
+           	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-attributes="Description,Extra Long Name" ng-model="page.list3"></tm1-ui-element-list>           	
+            <table id="test-element-list-mdx" class="table table-hover">
+            	<thead>
+            		<tr>
+            			<th>key</th>
+            			<th>Description</th>
+            			<th>Extra Long Name</th>       			
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr ng-repeat="item in page.list3 | filter:page.search3">
+	            		<td>{{item.key}}</td>
+	            		<td>{{item['Description']}}</td>
+	            		<td>{{item['Extra Long Name']}}</td>
+	            	</tr>
+            	</tbody>
+            	
+            </table>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Retrieve elements from TM1 via <code>tm1-ui-element-list</code> and use them in your table.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-attributes="Description,Extra Long Name" ng-model="page.list3"></tm1-ui-element-list></div>
+          </div>
+        </div>
+       </div>
+      
+   </div>
+   
+   <div class="row">
+   	<div class="col-lg-4">
+   		<div class="panel panel-primary">
+          <div class="panel-heading">
+          	<span>List of Elements with Indentation</span>
+          </div>
+          <div class="panel-heading">
+				    <input class="form-control" style="width: 100%;" type="text" ng-model="page.search4" placeholder="Search...">        
+          </div>
+          <div class="panel-body">          
+           	<tm1-ui-element-list tm1-calculate-top-level="true" tm1-instance="dev" tm1-dimension="Product" tm1-subset="Default" ng-model="page.list4"></tm1-ui-element-list>        	
+            <table id="test-element-list-item-indentation" class="table table-hover">
+            	<thead>
+            		<tr>
+            			<th>Product</th>
+            			<th>Alias</th>          			
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr ng-repeat="item in page.list4 | filter:page.search4">
+            			<td>
+            				<tm1-ui-element-list-item tm1-item="item" tm1-item-display="{{item.alias}}"></tm1-ui-element-list-item>
+            			</td>
+	            		<td>{{item.alias ? item.alias : item.key}}</td>
+	            	</tr>
+            	</tbody>
+            	
+            </table>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Combine with <code>tm1-ui-element-list-item</code> for more customizations per list item! Quickly apply a style on leaf and consolidated elements.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-element-list-item tm1-item="item" tm1-item-display="{{item.alias}}"></tm1-ui-element-list-item></div>
+          </div>
+        </div>
+   	</div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>List of Elements without Indentation</span>
+          </div>
+          <div class="panel-heading">
+            <input class="form-control" style="width: 100%;" type="text" ng-model="page.search5" placeholder="Search...">        
+          </div>
+          <div class="panel-body">          
+            <tm1-ui-element-list tm1-calculate-top-level="true" tm1-instance="dev" tm1-dimension="Product" tm1-subset="Default" ng-model="page.list5"></tm1-ui-element-list>             
+            <table id="test-element-list-item-no-indentation" class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Alias</th>                
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in page.list5 | filter:page.search5">
+                  <td>
+                    <tm1-ui-element-list-item tm1-item="item" tm1-item-display="{{item.alias}}" tm1-indent="false"></tm1-ui-element-list-item>
+                  </td>
+                  <td>{{item.alias ? item.alias : item.key}}</td>
+                </tr>
+              </tbody>
+              
+            </table>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Removed indentation (true by default) via <code>tm1-indent</code></div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-element-list-item tm1-item="item" tm1-item-display="{{item.alias}}" tm1-indent="false"></tm1-ui-element-list-item></div>
+          </div>
+        </div>
+    </div>
+    
+   	<div class="col-lg-4">
+   		<div class="panel panel-primary">
+          <div class="panel-heading">
+          	<span>List of Elements Combined with ng-class</span>
+          </div>
+          <div class="panel-heading">
+				    <input class="form-control" style="width: 100%;" type="text" ng-model="page.search6" placeholder="Search...">        
+          </div>
+          <div class="panel-body">          
+           	<tm1-ui-element-list tm1-calculate-top-level="true" tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" ng-model="page.list6"></tm1-ui-element-list>           	
+            <p>
+              <select class="form-control" ng-model="values.itemTheme" ng-init="values.itemTheme='custom-list-item'">
+                <option value="">None</option>
+                <option value="custom-list-item">Custom</option>
+              </select>
+            </p>
+            <table id="test-element-list-style" class="table table-hover">
+            	<thead>
+            		<tr>
+            			<th>Region</th>
+            			<th>Alias</th>          			
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr ng-repeat="item in page.list6 | filter:page.search6" ng-class="item.topLevelClass">
+            			<td>
+            				<tm1-ui-element-list-item tm1-ui-class="{{values.itemTheme}}" tm1-item="item" tm1-item-display="{{item.alias}}"></tm1-ui-element-list-item>
+            			</td>
+	            		<td>{{item.alias}}</td>
+	            	</tr>
+            	</tbody>
+            	
+            </table>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Use <code>tm1-ui-class</code> to affect the style of the component further.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-element-list-item tm1-ui-class="{{values.itemTheme}}" tm1-item="item" tm1-item-display="{{item.alias}}"></tm1-ui-element-list-item></div>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>For more advance formatting, use with Angular's <code>ng-class</code> to style the row <code>ng-class="item.topLevelClass"</code>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs>&lt;tr ng-repeat="item in page.list6 | filter:page.search6" ng-class="item.topLevelClass">...&lt;/tr></div>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>This property of the the current item exposes a CSS class which you can then use to customize the the row display, depending on its level.</div>
+              <div>Each row will have been added a class <strong>tm1-ui-level-*</strong> corresponding to N if it is a Leaf element (i.e. tm1-ui-level-N) or
+              a number, corresponding to whether it is a top level (i.e. tm1-ui-level-0) or one level below (i.e. tm1-ui-level-1) and so on.
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs>.tm1-ui-level-N{
+      color: #162856;
+    }
+    .tm1-ui-level-0{
+      color: #4F618F;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .tm1-ui-level-1{
+      color: #4F618F;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .tm1-ui-level-2{
+      color: #4F618F;
+      font-weight: bold;
+      font-size: 14px;
+    }</div>
+          </div>
+        </div>
+   	</div>
+   </div>
+   
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Directive's API</span>
+        </div>
+        <div class="panel-body">          
+          <div class="row">
+            <div class="col-md-6">
+              <select class="form-control" ng-model="values.accountSubset">
+                <option ng-repeat="subset in lists.accountSubsets" value="{{subset.Name}}">{{subset.Name}}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary" ng-click="refreshData(values.api)">Refresh List</button>
+            </div>
+          </div>
+          <tm1-ui-element-list tm1-calculate-top-level="true" tm1-instance="dev" tm1-dimension="Account" tm1-subset="{{values.accountSubset}}" tm1-api="values.api" ng-model="page.list7"></tm1-ui-element-list>          
+          <table id="test-element-list-api" class="table table-hover">
+            <thead>
+              <tr>
+                <th>Region</th>
+                <th>Alias</th>                
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in page.list7">
+                <td>
+                  <tm1-ui-element-list-item tm1-item="item" tm1-item-display="{{item.alias}}"></tm1-ui-element-list-item>
+                </td>
+                <td>{{item.alias}}</td>
+              </tr>
+            </tbody>
+            
+          </table>
+               
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>This directive has a low-level API which allows you to get the latest element list through <code>tm1-api</code>
+            and the function, <strong>refreshData()</strong>.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-element-list tm1-calculate-top-level="true" tm1-instance="dev" tm1-dimension="Account" tm1-subset="{{values.accountSubset}}" tm1-api="values.api" ng-model="page.list7"></tm1-ui-element-list></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Directive Options</span>
+        </div>
+        <div class="panel-body">          
+          <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-attributes="Description,Extra Long Name" tm1-options="elementListOptions" ng-model="page.list8"></tm1-ui-element-list>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <div class="checkbox" ng-init="elementListOptions.asObject = true;">
+                <label>
+                  <input ng-disabled="true" ng-model="elementListOptions.asObject" type="checkbox"> Output as Object <code>{asObject: true}</code>
+                </label>
+              </div>              
+            </div>
+          </div>
+          
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Value</th>
+              </tr>
+            </thead>            
+            <tbody>
+              <tr>
+                <td>
+                  <div hljs>{{page.list8['1'].alias}}</div>
+                </td>
+                <td>{{page.list8['1'].alias}}</td>
+              </tr>
+              <tr>
+                <td>
+                  <div hljs>{{page.list8['Total Europe'].key}}</div>
+                </td>
+                <td>{{page.list8['Total Europe'].key}}</td>
+              </tr>
+            </tbody>
+          </table>
+           
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Additional parameters passed through an options object. </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-attributes="Description,Extra Long Name" tm1-options="elementListOptions" ng-model="page.list8"></tm1-ui-element-list></div>
+        </div>
+      </div>
+    </div>  
+  </div>
+
+</div>

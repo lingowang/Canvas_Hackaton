@@ -1,0 +1,67 @@
+<div>
+
+  <style>
+  
+    pre, code {
+     white-space: normal !important;
+    }
+  
+  </style>
+
+   <h1>
+      <i class="fa fa-floppy-o"></i> Store Preferences
+   </h1>
+   
+   <hr/>   
+   
+   <div class="row">
+      
+      <div class="col-lg-4">
+      
+      </div>
+      
+      <div class="col-lg-4">
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Store Preference
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-store tm1-instance="dev" tm1-cube="System Info" tm1-elements="Enviroment,Comment" ng-model="page.preference" ng-hide="true" tm1-save-delay="300"></tm1-ui-store>
+            
+            <div class="form-group">
+			  <label for="usr">Message:</label>
+			  <input type="text" class="form-control" ng-model="page.preference.message">
+			</div>
+			
+			<label class="radio-inline"><input type="radio" name="optradio" value="Red" ng-model="page.preference.option">Red</label>
+			<label class="radio-inline"><input type="radio" name="optradio" value="Blue" ng-model="page.preference.option">Blue</label>
+			<label class="radio-inline"><input type="radio" name="optradio" value="Green" ng-model="page.preference.option">Green</label>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div><span ng-style="{'color': page.preference.option}">
+              Store user or global preferences</span> in your preferred TM1 cube. Ensure that it is a writable <code>String</code> cell. 
+              This directive can store any type of JSON data such as for example <code>{"name":"John", "age":25}</code>. 
+              To store a short string such as month or year it is recommended to use the directive <code>tm1-ui-dbr</code> instead. 
+              Depending on your connection to your TM1 server, type with a speed of at most, <i>1-character-per-second!</i> 
+              Or better yet, just paste it there.              
+              </div>
+              <p>If needed, you can adjust the time it will take before the store will push the changes into TM1 via <code>tm1-save-delay</code>.</p>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-store tm1-instance="dev" tm1-cube="System Info" tm1-elements="Enviroment,Comment" ng-model="page.preference" ng-hide="true" tm1-save-delay="300"></tm1-ui-store></div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+        
+      </div>
+      
+   </div>
+
+</div>

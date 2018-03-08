@@ -1,0 +1,171 @@
+<div ng-controller="DbrImageCtrl">
+
+	<style>
+		.custom-image{
+			background-color: #DCDCDC;
+		}
+    
+    .custom-image > img{
+      border: 10px dashed #DCDCDC;
+    }
+    
+	</style>
+
+  <h1>
+    <span style="float: left; width: 50px; ">
+			<i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i>
+			<i ng-if="!$root.isLoading" class="fa fa-file-image-o"></i>
+		</span> DBR Image
+  </h1>
+  
+	<!--=========================================-->
+  <!--                   ROW 1                 -->
+	<!--            Simple File Upload           -->
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="col-md-4">
+				<tm1-ui-upload tm1-instance="dev" tm1-after-upload="updatePreview(file)"></tm1-ui-upload>
+			</div>
+			<div class="col-md-8">
+				<h4>Select or Drag/Drop your files (max size is 5MB).</h4>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="col-md-4" style="margin-top:10px">
+				<button class="btn btn-info btn-lg" ng-click="removeImage()"> Clear Image
+				</button>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+			<div class="col-lg-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						DBR Image
+					</div>
+					<div class="panel-body">				
+						<div class="row">
+							<div class="col-md-12">
+								<tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment"></tm1-ui-dbr-image>
+							</div>
+						</div>									
+					</div>
+					<div class="panel-footer">
+						<div class="help-text">
+							<div>Upload an image with <code>tm1-ui-upload</code> and show it with <code>tm1-ui-dbr-image</code></div>
+						</div>
+					</div>
+					<div class="panel-footer">
+							<div hljs><tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment"></tm1-ui-dbr-image></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							DBR Image - Show Error Message if Missing File
+						</div>
+						<div class="panel-body">				
+							<div class="row">
+								<div class="col-md-12">
+									<tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment" tm1-alt="Image missing"></tm1-ui-dbr-image>
+								</div>
+							</div>									
+						</div>
+						<div class="panel-footer">
+							<div class="help-text">
+								<div>The alternative text displayed when image is not found using <code>tm1-alt</code>.</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+								<div hljs><tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment" tm1-alt="Image missing"></tm1-ui-dbr-image></div>
+						</div>
+					</div>
+				</div>
+			<div class="col-lg-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						DBR Image - Update CSS with tm1-ui-class
+					</div>
+					<div class="panel-body">				
+						<div class="row">
+							<div class="col-md-12">
+								<p>
+										<select class="form-control" ng-model="values.imageTheme" ng-init="values.imageTheme='custom-image'">
+											<option value="">None</option>
+											<option value="custom-image">Custom</option>
+										</select>
+									</p>
+							</div>
+							<div class="col-md-12">
+								<tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment" tm1-ui-class="{{values.imageTheme}}"></tm1-ui-dbr-image>
+							</div>
+						</div>									
+					</div>
+					<div class="panel-footer">
+						<div class="help-text">
+							<div>Show an image  <code>tm1-ui-dbr-image</code> and update CSS with <code>tm1-ui-class</code></div>
+						</div>
+					</div>
+					<div class="panel-footer">
+							<div hljs><tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment" tm1-ui-class="{{values.imageTheme}}"></tm1-ui-dbr-image></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						DBR Image - Store the File Path in a Variable
+					</div>
+					<div class="panel-body">				
+						<div class="row">
+							<div class="col-md-12">
+								<tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment" ng-model="values.image"></tm1-ui-dbr-image>
+							</div>
+						</div>									
+					</div>
+					<div class="panel-footer">
+						<div class="help-text">
+							<div>Store the image path using <code>ng-model</code></div>
+							<div>Image path: {{values.image}}</div>
+						</div>
+					</div>
+					<div class="panel-footer">
+							<div hljs><tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment"></tm1-ui-dbr-image></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">            
+						DBR Image with Refresh Group						
+					</div>
+					<div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-info" ng-click="functions.refreshGroup('Group 1');">Refresh Group 1</button>
+              </div>
+            </div>
+            		
+						<div class="row">
+							<div class="col-md-12">
+								<tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment" tm1-refresh-group="Group 1"></tm1-ui-dbr-image>
+							</div>
+						</div>									
+					</div>
+					<div class="panel-footer">
+						<div class="help-text">
+							<div> Use <code>tm1-ui-refresh-group</code> as with any other DBRs with this property to refresh by group.</div>
+						</div>
+					</div>
+					<div class="panel-footer">
+							<div hljs><tm1-ui-dbr-image tm1-instance="dev" tm1-cube="System Info" tm1-elements="Current Date, Comment" tm1-refresh-group="Group 1"></tm1-ui-dbr-image></div>
+					</div>
+				</div>
+			</div>
+      
+	</div>
+
+</div>

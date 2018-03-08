@@ -1,0 +1,33 @@
+<div ng-controller="Temp2Ctrl">
+
+  
+  <button class="btn btn-primary"
+  	ng-click="test.dimension='Large Dimension'">
+  	Large Dimension
+  </button>
+  
+  <button class="btn btn-primary"
+  	ng-click="test.dimension='Time'"
+  	ng-init="test.dimension='Time'">
+  	Time
+  </button>
+  
+  <p>ng-model: {{test.model}}</p>
+
+  
+  <a ng-click="test.option=!test.option">Change an option for the directive.</a>
+  
+  <tm1-ui-subset-editor
+  	tm1-instance="dev"
+  	tm1-dimension="{{test.dimension}}"
+  	tm1-subset="All C Elements"
+  	tm1-mdx="{TM1SubsetToSet([Time].[Time],'All C Elements')}"
+  	tm1-elements="2010,2012,2014"
+  	ng-model="test.model"
+  	tm1-options="{allowSubsetSave: false}">
+  
+  </tm1-ui-subset-editor>
+  
+ 
+
+</div>

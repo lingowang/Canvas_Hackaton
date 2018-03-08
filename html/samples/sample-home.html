@@ -1,0 +1,765 @@
+<style>
+  /*
+    these are page specific styles. Moving them into its own CSS will clash with existing Bootstrap classes. Use with care.
+  */
+  .page-view{
+      padding:0px;
+  }
+  
+  .outside_box {
+      border:0px solid #FFF;
+      margin-top:0px;
+      padding:0px;
+      background:#333;
+      color:#fff;
+      z-index:0;
+      height:0px ;
+      min-height:180px;
+      display:inline-block;
+      position:relative;
+      overflow:hidden;
+      border-color: 1px solid #000; 
+      background-color:#fff; /* For browsers that do not support gradients */
+      -webkit-transition: height 0.3s;
+      -moz-transition: height 0.3s;
+      transition: height 0.3s;
+      min-width:200px;
+      max-width:200px;  
+      border: thin solid #ccc;  
+      float:none; 
+      margin:10px;  
+      display:-ms-inline-grid; 
+      top:0px;  
+  }
+     
+  .outside_box.bigger {
+      padding:0px;
+      height:180px;   
+  } 
+  
+  .ourcontent {
+      /* Initially we don't want any height, and we want the contents to be hidden */
+      position:absolute;
+      color:#666;
+      bottom:-1px;
+      height:180px;
+      background-color:#fff;
+      max-height: 0px;
+      max-width: 100%;
+      overflow: hidden;
+      width:100%;
+      z-index:999;
+        
+      /* Set our transitions up. */
+      -webkit-transition: max-height 0.5s;
+      -moz-transition: max-height 0.5s;
+      transition: max-height 0.5s;
+  }
+  
+  .outside_box:hover .ourcontent {
+      /* On hover, set the max-height to something large. In this case there's an obvious limit. */
+      max-height: 180px;
+  }
+  
+  .h1{
+      font-size:18px;
+  }
+  
+  .btn{
+      border: none;  
+      margin:0 auto;
+      width:20px; 
+      height:20px;
+      position:absolute;
+      display:block;
+      bottom:0px;
+  }
+  
+  .bgimage{
+      height: 400px; 
+      background-position: initial;
+      background-repeat: no-repeat; 
+      background-size: 100% auto; 
+      background-position: center center;
+      background-color:transparent;
+  }
+   
+  @media(min-width:876px) {
+      .bgimage{
+          height: 400px; 
+          background-position: initial;
+          background-repeat: no-repeat; 
+          background-size: 100% auto; 
+          background-position: center top ;
+          background-color:transparent;
+          pointer-events:none;
+      }
+  }
+   
+  
+  input[type=range] {
+      width: 300px; 
+  }
+  
+  ul[rn-carousel] {
+      overflow: hidden;
+      padding: 0;
+      white-space: nowrap;
+      position: relative;
+      -webkit-perspective: 1000px;
+      -ms-perspective: 1000px;
+      perspective: 1000px;
+      -ms-touch-action: pan-y;
+      touch-action: pan-y; 
+  }
+  
+  ul[rn-carousel] > li {
+      color: black;
+      -webkit-backface-visibility: hidden;
+      -ms-backface-visibility: hidden;
+      backface-visibility: hidden;
+      overflow: visible;
+      vertical-align: top;
+      position: absolute;
+      left: 0;
+      right: 0;
+      white-space: normal;
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+      width: 100%;
+      height: 100%;
+      display: inline-block; 
+  }
+  
+  /* prevent flickering when moving buffer */
+  ul[rn-carousel-buffered] > li {
+      display: none; 
+  }
+  
+  ul[rn-carousel-transition="hexagon"] {
+      overflow: visible; 
+  }
+  
+  /* indicators */
+  div.rn-carousel-indicator span {
+      cursor: pointer;
+      color: #ccc; 
+      margin-left:2px;
+      margin-right:2px;
+  }
+  
+  div.rn-carousel-indicator span.active {
+      color:#777; 
+  }
+  
+  /* prev/next controls */
+  .rn-carousel-control {
+      -webkit-transition: opacity 0.2s ease-out;
+      transition: opacity 0.2s ease-out;
+      font-size: 2rem;
+      position: absolute;
+      top: 35%;
+      opacity: 1;
+      cursor: pointer;
+  }
+  
+  .rn-carousel-control:hover {
+      opacity: 1; 
+      -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75); 
+      -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75); 
+      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  }
+  
+  .rn-carousel-control.rn-carousel-control-prev {
+      left: 0em;
+  }
+  
+  .rn-carousel-control.rn-carousel-control-prev:before {
+      content: "<"; 
+  }
+  
+  .rn-carousel-control.rn-carousel-control-next {
+      right: 0em;
+  }
+  
+  .rn-carousel-control.rn-carousel-control-next:before {
+      content: ">"; 
+  }
+  
+  .carousel-btn{
+      color:#777;
+      width:auto; z-index:0; 
+      background-color:transparent; 
+      border:1px solid #777; 
+      position:relative; 
+      float:left;
+      left:0px; 
+      height:auto; 
+      font-weight:bold; 
+      padding:10px; 
+      font-size:1.5vmin;
+  }
+  
+  .carousel-btn:hover{
+      color:#fff;
+      background-color:#777;
+      text-decoration: none;
+  }
+  
+  .rn-carousel-control-prev{
+      color:#777;
+      display:block;
+      position:absolute;
+      padding-left:20px;
+      padding-right:20px;
+      padding-top:10px;
+      padding-bottom:10px;
+      float:left;
+      left:0px;
+      background-color:#fff;
+      border-radius: 0px 5px 5px 0px;
+      -moz-border-radius: 0px 5px 5px 0px;
+      -webkit-border-radius: 0px 5px 5px 0px;
+      border: 0px solid #000000;
+  }
+  
+  .rn-carousel-control-next{
+      color:#777;
+      padding-left:20px;
+      padding-right:20px;
+      padding-top:10px;
+      padding-bottom:10px;
+      display:block;
+      position:absolute;
+      right:0px;
+      float:right;
+      background-color:#fff;
+      border-radius: 5px 0px 0px 5px;
+      -moz-border-radius: 5px 0px 0px 5px;
+      -webkit-border-radius: 5px 0px 0px 5px;
+      border: 0px solid #000000;
+  }
+  
+  .carousel-demo{
+      width:100%; 
+      left:0px; 
+      height:400px; 
+      background-color:transparent; 
+      position:relative; 
+      min-width:240px; 
+      overflow:hidden;
+      margin-bottom:0px; 
+      overflow:hidden;  
+      -webkit-box-shadow: inset 0px -10px 20px -1px rgba(0,0,0,0.16); 
+      -moz-box-shadow: inset 0px -10px 20px -1px rgba(0,0,0,0.16); 
+      box-shadow: inset 0px -10px 20px -1px rgba(0,0,0,0.16);
+  }
+  
+  .carousel-shade{
+      color:rgba(0,0,0,0.7);   
+      background-color: #fff;   
+      position:absolute; 
+      padding:20px; 
+      z-index:999999;
+      height:auto; 
+      float:left; 
+      width:25%; 
+      left:7%; 
+      font-size:4vmin; 
+      min-width:200px; 
+      padding:25px;  
+      bottom:0px; 
+      margin-bottom:0px; 
+      border-radius: 10px 10px 0px 0px; 
+      -moz-border-radius: 10px 10px 0px 0px; 
+      -webkit-border-radius: 10px 10px 0px 0px;  
+      -webkit-box-shadow: inset 0px -10px 20px -1px rgba(0,0,0,0.16); 
+      -moz-box-shadow: inset 0px -10px 20px -1px rgba(0,0,0,0.16); 
+      box-shadow: inset 0px -10px 20px -1px rgba(0,0,0,0.16);
+  }
+  
+  .carousel2{
+      width:100%; 
+      height:100%; 
+      padding:0px; 
+      margin:0px; 
+      max-height:400px; 
+  }
+  
+  .carousel2 > li{
+      height:400px;  
+      width:100%; 
+      background-color:transparent;
+  
+  } 
+.homectrl{
+  padding:0px; 
+  margin:0px auto;  
+  width:100%;  
+  padding:10px; 
+  background-color: #f8f8f8;
+
+}
+.carousel-demo-gradient1{
+   background: -webkit-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0.3));   
+   background: -o-linear-gradient(top,rgba(255,255,255,0),rgba(0,0,0,0.3));  
+   background: -moz-linear-gradient(top,rgba(255,255,255,0),rgba(0,0,0,0.3));   
+   background: linear-gradient(to top, rgba(255,255,255,0), rgba(0,0,0,0.3));  
+   position:absolute; 
+   z-index:0; 
+   height:40%; 
+   float:right; 
+   width:100%; 
+   right:0px; 
+   bottom:0px; 
+   pointer-events:none;
+}
+.carousel-demo-gradient2{
+  background: -webkit-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0.3));   
+  background: -o-linear-gradient(top,rgba(255,255,255,0),rgba(0,0,0,0.3));   
+  background: -moz-linear-gradient(top,rgba(255,255,255,0),rgba(0,0,0,0.3));   
+  background: linear-gradient(to top, rgba(255,255,255,0), rgba(0,0,0,0.3));  
+  position:absolute;
+  z-index:0; 
+  height:100%; 
+  float:right; 
+  width:100%; 
+  right:0px; 
+  top:0px; 
+  pointer-events:none;
+}
+.carousel-demo-gradient3{
+   background: -webkit-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.7));   
+   background: -o-linear-gradient(left,rgba(255,255,255,0),rgba(0,0,0,0.7));   
+   background: -moz-linear-gradient(left,rgba(255,255,255,0),rgba(0,0,0,0.7));  
+   background: linear-gradient(to left, rgba(255,255,255,0), rgba(0,0,0,0.7));  
+   position:absolute; 
+   z-index:0; 
+   height:100%; 
+   float:right; 
+   width:35%; 
+   left:0px; 
+   top:0px; 
+   pointer-events:none;
+}
+.carousel-heading{
+  font-size:3.5vmin;
+}
+.carousel-tab-panel{
+  font-size:13px; 
+  font-size:2.2vmin;
+}
+.carousel-icon{
+  padding-left:10px; 
+  font-size:2.2vmin;
+}
+.row-home{
+  padding:0px; 
+  margin:0px auto;  
+  padding-bottom:20px; 
+  background-color:#f8f8f8; 
+  border-top:1px solid #e7e7e7;
+
+}
+.row-heading{
+  font-size:1.0em; 
+  background-color:transparent; 
+  color:#777; 
+  padding:10px; 
+  margin:0px; 
+  left:10px;
+  width:auto;
+
+}
+#page-view-v2 > div{
+  padding:0px;
+}
+.home-heading-section{
+  font-size:1.0em; 
+  background-color:transparent; 
+  color:#777; 
+  padding:10px; 
+  margin:0px; 
+  left:10px;
+  width:auto;
+}
+.down-icon{
+  padding-left:10px; 
+  float:right; 
+  right:0px;   
+  font-size:2.2vmin;
+}
+.samples-section{
+  width:100%; 
+  min-width:300px;   
+  margin:0 auto; 
+  float:none; 
+  text-align: center;
+}
+.components-section{
+  width:100%; 
+  min-width:300px;   
+  margin:0 auto; 
+  float:none; 
+  text-align: center;
+  top-margin:20px;
+}
+.applications-section{
+  width:100%; 
+  min-width:300px;   
+  margin:0 auto; 
+  float:none; 
+  text-align: center;
+  top-margin:20px;
+}
+.templates-section{
+  width:100%; 
+  min-width:300px;   
+  margin:0 auto; 
+  float:none; 
+  text-align: center;
+   top-margin:20px;
+}
+.card-holder{
+  background-color:transparent; 
+  color:#fff; 
+  padding:30px;
+}
+.samples-card{
+  padding-left: 0px;
+  padding-right: 0px;
+  left: 0px;
+  right: auto; 
+  color:#fff; 
+  background-color:#9FD000; 
+}
+.components-card{
+ padding-left: 0px;
+ padding-right: 0px;
+ left: 0px;
+ right: auto; 
+ color:#fff; 
+ background-color:#0085B9;
+}
+.applications-card{
+ padding-left: 0px;
+ padding-right: 0px;
+ left: 0px;
+ right: auto; 
+ color:#fff; 
+ background-color:#FF4A4A;
+}
+.templates-card{
+  padding-left: 0px;
+  padding-right: 0px;
+  left: 0px;
+  right: auto; 
+  color:#fff; 
+  background-color:#FF9214;
+}
+.card-btn{
+  position:relative; 
+  padding:0px; 
+  background-color:transparent;
+}
+.white-icon{
+  color:#fff;
+}
+.carousel-indicator{
+  padding-left:10px; 
+  float:right; 
+  right:20px; 
+  font-size:2.2vmin;
+}
+.inner-card{
+  pointer-events:none; 
+  text-align: center; 
+  pointer-events:none; 
+  text-align: center; 
+  padding:10px;
+
+}
+.inner-card-heading{
+  width:100%;font-size:1em;  
+  position:absolute;
+  top:100%; 
+  padding-left:0px; 
+  margin:0 auto; 
+  color:rgba(0,0,0,0.6) 
+}
+.inner-card-footer{
+  position:relative; 
+  bottom:0px; 
+  padding-top:10px; 
+  font-size: 0.9em; 
+  color:rgba(0,0,0,0.6); 
+  width:100%; 
+  height:50px; 
+  text-align:center; 
+  border:none;   
+  background-color:#fff;
+}
+.inner-card-text{
+  padding: 30px; 
+  text-align: center; 
+}
+</style>
+<div ng-controller="SampleHomeCtrl" class="homectrl"   >
+  <div class="row" >      
+    <div class="col-md-12" >
+      <div class="carousel-demo">
+        <div class="carousel-demo-gradient1" >
+        </div>
+        <div class="carousel-demo-gradient2">
+        </div>
+        <div class="carousel-demo-gradient3">
+        </div>
+        <ul rn-carousel class="carousel2" rn-carousel-index="carouselIndex2" rn-carousel-auto-slide rn-carousel-controls rn-carousel-pause-on-hover rn-carousel-buffered  rn-carousel-locked="isLocked" >
+          <!-- carousel list item 'Application' start  -->
+          <li >
+            <div  class="bgimage"  style="background-image:url('assets/img/download-6.png');">                      
+            </div>
+            <div  class="carousel-shade">   
+              <h1 class="carousel-heading"> 
+                Get Inspired
+              </h1>
+               
+              <p class="carousel-tab-panel">
+                Custom application example. 
+              </p>
+              <a class="carousel-btn" href="#/sample/applications"  >
+                Find out more 
+                <i class="fa fa-chevron-down fa-1x down-chevron" class="carousel-icon"></i>
+              </a>
+            </div>
+          </li><!-- carousel item 'Application' finished  -->
+          
+          <!-- carousel list item 1  start  -->
+          <li >
+            <div  class="bgimage"  style="background-image:url('assets/img/download-1.png');">                      
+            </div>
+            <div  class="carousel-shade">   
+              <h1 class="carousel-heading"> 
+                Full Dashboard Example 
+              </h1>
+               
+              <p class="carousel-tab-panel">
+                Dashboard example with advanced filtering feature. 
+              </p>
+              <a class="carousel-btn" href="#/sample/sample-dashboard"  >
+                Find out more 
+                <i class="fa fa-chevron-down fa-1x down-chevron" class="carousel-icon"></i>
+              </a>
+            </div>
+          </li><!-- carousel item 1 finished  -->
+          <!-- carousel list item 2  start  -->
+          <li >
+            <div  class="bgimage" style="background-image:url('assets/img/download-2.png');">                      
+            </div>
+            <div  class="carousel-shade">    
+              <h1 class="carousel-heading"> 
+                Data Entry Template <br />
+              </h1>
+              <p class="carousel-tab-panel">
+                Simple data entry template with search option. 
+              </p>
+              <a class="carousel-btn" href="#/sample/sample-data-entry"  >
+                Find out more 
+                <i class="fa fa-chevron-down fa-1x down-chevron" class="carousel-icon"></i>
+              </a>
+            </div>
+          </li><!-- carousel item 2 finished  -->
+          <!-- carousel list item 3  start  -->
+          <li >
+            <div  class="bgimage"  style="background-image:url('assets/img/download-3.png');" >                       
+            </div>
+            <div  class="carousel-shade">   
+              <h1 class="carousel-heading"> 
+                Visualisations <br />
+              </h1>
+              <p class="carousel-tab-panel">
+                Advance visualization with clickable chart. 
+              </p>
+              <a class="carousel-btn" href="#/sample/sample-advance-chart"  >
+                Find out more 
+                <i class="fa fa-chevron-down fa-1x down-chevron" class="carousel-icon"></i>
+              </a>
+            </div>
+          </li><!-- carousel item 3 finished  -->
+          <!-- carousel list item 4  start  -->
+           <li >
+            <div  class="bgimage" style="background-image:url('assets/img/download-4.png');" >                       
+            </div>
+            <div  class="carousel-shade">      
+              <h1 class="carousel-heading"> 
+                Salary Template<br />
+              </h1>
+              <p class="carousel-tab-panel">
+                Advance data entry template with suppress zero and run TI. 
+              </p>
+              <a class="carousel-btn" href="#/sample/sample-salary-budget"  >
+                Find out more 
+                <i class="fa fa-chevron-down fa-1x down-chevron" class="carousel-icon"></i>
+              </a>
+            </div>
+          </li><!-- carousel item 4 finished  -->
+          <!-- carousel list item 5  start  -->
+          <li >
+            <div  class="bgimage"   style="background-image:url('assets/img/download-5.png');">                      
+            </div>
+            <div  class="carousel-shade">
+              <h1 class="carousel-heading"> 
+                Navigation<br />
+              </h1>
+              <p class="carousel-tab-panel">
+                How to navigate between pages. 
+              </p>
+              <a class="carousel-btn" href="#/sample/sample-navigation-1"  >
+                Find out more 
+                <i class="fa fa-chevron-down fa-1x down-chevron" class="carousel-icon"></i>
+              </a>
+            </div>
+          </li><!-- carousel item 5 finished  -->
+        
+        </ul>
+      </div> <!-- carousel-demo finished  --> 
+    </div>  <!-- carousel col-md-12 finished  --> 
+  </div> <!-- carousel row finished  --> 
+ 
+  <!-- START TAB -->
+  <ul class="nav nav-tabs" ng-init="activeTab = 1">
+    <li class="active"><a id="sample-home-tab-1" ng-click="activeTab = 1" data-toggle="tab">Samples</a></li>
+    <li><a id="sample-home-tab-2" ng-click="activeTab = 2" data-toggle="tab">Components</a></li>
+    <li><a id="sample-home-tab-3" ng-click="activeTab = 3" data-toggle="tab">Templates</a></li>
+    <li><a id="sample-home-tab-4" ng-click="activeTab = 4" data-toggle="tab">Applications</a></li>
+  </ul>
+  <div class="tabbable">
+    <div class="tab-content">
+      <div id="sample-home-tab-1-content" class="tab-pane active" ng-show="activeTab == 1">
+      
+        <div class="row row-home"  >
+          <div class="samples-section" >
+            <div class=" col-sm-1 outside_box"  ng-repeat="x in $root.menuData[0].children[$root.samplesMenuIndex].children"  ng-if="x.label != 'Components' && x.label != 'Templates' && x.label != 'Setup' && x.label != 'Full Dashboard Example' && x.label != 'Data Entry Template' && x.label != 'Salary Template' && x.label != 'Navigation' && x.label != 'Visualisations' && x.label != 'Applications' " >
+             
+              <a href="#/sample/{{x.data.page}}"  class="card-holder" >
+                <div class="col-md-12 ourcontent samples-card "    >
+                  <!-- contenteditable=""  -->
+                  <p class="inner-card-text"> 
+                    {{menuDescription[x.data.page]}}
+                    <br /><br /> 
+                    <button class="btn btn-primary card-btn" >
+                      <i class="fa fa-chevron-circle-down fa-2x white-icon " ></i>
+                    </button>  
+                  </p>
+                </div>
+                <div class="col-md-12 inner-card"  >
+                  <h1 class="col-md-12 inner-card-heading"  >
+                    <i class="fa {{x.icon_class}} fa-4x"> </i>
+                    <br /><br /> 
+                  </h1>
+                  <footer  class="inner-card-footer">
+                    <strong>{{x.label}}</strong>
+                  </footer>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div><!--  samples row end-->
+
+      </div>
+      <div id="sample-home-tab-2-content" class="tab-pane active" ng-show="activeTab == 2">
+        <div class="row row-home">
+          <div  class="components-section">
+            <div    class=" col-sm-2 outside_box"  ng-repeat="x in $root.menuData[0].children[$root.samplesMenuIndex].children[$root.samplesComponentMenuIndex].children" >
+              <a ng-href="#/sample/component/{{x.data.page}}" class="card-holder" >
+                <div class="col-md-12 ourcontent components-card"  ng-class="{'show': x.bigger}" >
+                  <!-- contenteditable=""  -->
+                  <p class="inner-card-text "> 
+                    {{menuDescription[x.data.page]}}
+                    <br /><br /> 
+                    <button class="btn btn-primary card-btn" >
+                      <i class="fa fa-chevron-circle-down fa-2x white-icon" > </i>
+                    </button>  
+                  </p>
+                </div>
+                <div class="col-md-12 inner-card"  >
+                  <h1 class="col-md-12 inner-card-heading"  >
+                   <i class="fa {{x.icon_class}} fa-4x"> </i><br /><br />
+                  </h1>  
+                  <footer  class="inner-card-footer">
+                    <strong>{{x.label}}</strong>
+                  </footer>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div><!-- components row end  -->
+
+      </div>      
+      <div id="sample-home-tab-3-content" class="tab-pane active" ng-show="activeTab == 3">
+        <div class="row row-home" >
+          <div  class="templates-section" >
+            <div class=" col-sm-2 outside_box"  ng-repeat="x in $root.menuData[0].children[$root.samplesMenuIndex].children[$root.samplesTemplatesMenuIndex].children"> 
+              <a ng-href="#/sample/templates/{{x.data.page}}" class="card-holder" >
+                <div class="col-md-12 ourcontent templates-card" ng-if="!x.sectionName" ng-class="{'show': x.bigger}" >
+                  <!-- contenteditable=""  -->
+                  <p class="inner-card-text"> 
+                    HTML template ready to fill in
+                    <br /><br /> 
+                    <button class="btn btn-primary card-btn" >
+                      <i class="fa fa-chevron-circle-down fa-2x white-icon " > </i>
+                    </button>  
+                  </p> 
+                </div>
+                <div class="col-md-12 inner-card"  >
+                  <h1 class="col-md-12 inner-card-heading"  >
+                    <i class="fa {{x.icon_class}} fa-4x"> </i>
+                    <br><br> 
+                  </h1>  
+                  <footer  class="inner-card-footer">
+                    <strong>{{x.label}}</strong>
+                  </footer>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div><!-- templates row end  -->
+      </div>
+      
+      <div id="sample-home-tab-4-content" class="tab-pane active" ng-show="activeTab == 4">
+        <div class="row row-home">
+          <div  class="applications-section">
+            <div    class=" col-sm-2 outside_box"  ng-repeat="x in $root.menuData[0].children[$root.samplesMenuIndex].children[$root.samplesApplicationMenuIndex].children" >
+              <a ng-href="#/sample/application/{{x.data.page}}" class="card-holder" >
+                <div class="col-md-12 ourcontent applications-card"  ng-class="{'show': x.bigger}" >
+                  <!-- contenteditable=""  -->
+                  <p class="inner-card-text "> 
+                    {{menuDescription[x.data.page]}}
+                    <br /><br /> 
+                    <button class="btn btn-primary card-btn" >
+                      <i class="fa fa-chevron-circle-down fa-2x white-icon" > </i>
+                    </button>  
+                  </p>
+                </div>
+                <div class="col-md-12 inner-card"  >
+                  <h1 class="col-md-12 inner-card-heading"  >
+                   <i class="fa {{x.icon_class}} fa-4x"> </i><br /><br />
+                  </h1>  
+                  <footer  class="inner-card-footer">
+                    <strong>{{x.label}}</strong>
+                  </footer>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div><!-- application row end  -->
+      </div>
+      
+    </div>
+  </div> 
+
+    <!-- ENBD TAB -->
+       
+
+</div>

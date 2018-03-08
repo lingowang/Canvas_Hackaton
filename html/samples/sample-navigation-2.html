@@ -1,0 +1,27 @@
+<div>
+
+  <h1>Retrieving a Parameter from the URL</h1>
+  
+  <hr/>
+  
+  <p><strong>Region: </strong>{{$root.$stateParams.region}}</p>
+  
+  <hr/>
+  
+  <p><strong>Description: </strong>
+    <tm1-ui-dbra 
+      tm1-instance="dev" 
+      tm1-dimension="Region" 
+      tm1-element={{$root.$stateParams.region}} 
+      tm1-attribute="Description" 
+      tm1-read-only="true">
+    </tm1-ui-dbra>
+  </p>
+  
+  <hr/>
+  
+  <h4>Use $root.$stateParams.[NameofParameter] to use the parameter in the page</h4>
+  
+  <div hljs><p><strong>Id:</strong> {{$root.$stateParams.region}}</p></div>
+
+</div>

@@ -1,0 +1,77 @@
+<div>
+  <style>
+    .custom-table{
+      border: 2px dashed #DCDCDC;
+    }
+  </style>
+  
+  <h1><i class="fa fa-table"></i> {{'TABLEMDX' | translate}} </h1>
+  
+  <!--=========================================-->
+  <!--                   ROW 1                 -->
+  <!--                  FILTERS                -->
+
+  <div class="row">
+      <div class="col-md-3">
+         <input type="text" class="form-control" ng-init="selections.mdxId = 'P&L'" ng-model="selections.mdxId"></input>
+      </div>
+      <div class="col-md-3">
+         <select class="form-control" ng-init="selections.year = '2012'" ng-model="selections.year">
+            <option>2010</option>
+            <option>2011</option>
+            <option>2012</option>
+         </select>
+      </div>
+      <div class="col-md-3">
+         <select class="form-control" ng-init="selections.region = 'England'" ng-model="selections.region">
+            <option>England</option>
+            <option>Finland</option>
+            <option>Wales</option>
+            <option>Scotland</option>
+            <option>Northern Ireland</option>
+            <option>France</option>
+         </select>
+      </div>
+      <div class="col-md-3">
+        <select class="form-control" ng-model="values.tableTheme" ng-init="values.tableTheme=''">
+          <option value="">None</option>
+          <option value="custom-table">Custom</option>
+        </select>
+      </div>
+  </div>
+
+  <!--=========================================-->
+  <!--                   ROW 2                 -->
+  <!--                   TABLE                -->
+    
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            tm1-ui-table-mdx
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-table-mdx tm1-instance="dev" tm1-cube="General Ledger" 
+              tm1-mdx-id="{{selections.mdxId}}" id="test-table-mdx" 
+              tm1-mdx-parameters="{Year:selections.year, Region:selections.region}" tm1-dimension-attribute="{Account:'Description', Department:'Description', Period: 'Short Description', Version: 'Description'}"
+              tm1-ui-class="{{values.tableTheme}}">
+            </tm1-ui-table-mdx>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Use the tm1-ui-table-mdx to generate a HTML table from the result of a named MDX query. Named MDX queries are stored in the <code>WEB-INF\resources\mdx-named.json</code> file.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs>
+            
+<tm1-ui-table-mdx tm1-instance="dev" tm1-cube="General Ledger" tm1-mdx-id="{{selections.mdxId}}" tm1-mdx-parameters="{Year:selections.year, Region:selections.region}" tm1-dimension-attribute="{Account:'Description', Department:'Description', Period: 'Short Description', Version: 'Description'}"></tm1-ui-table-mdx>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+    
+</div>

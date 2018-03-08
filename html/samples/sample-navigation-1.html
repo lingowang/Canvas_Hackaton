@@ -1,0 +1,47 @@
+<div>
+
+  <h1>Using tm1-ui-element-list to link to another page</h1>
+  
+  <hr/>
+  
+  <tm1-ui-element-list
+    tm1-instance="dev"
+    tm1-dimension="Region"
+    tm1-subset="Default"
+    tm1-attributes="Extra Long Name,Currency"
+    ng-model="page.regions"
+  >
+  
+  </tm1-ui-element-list>
+  
+  <h4>Click on the <b>Region</b> link to <u>drill</u> to a page for that Region</h4>
+
+  <table class="table table-striped">
+      <tr>
+        <th>key</th>
+        <th>Region (Alias)</th>
+        <th>Currency (Text Attribute)</th>
+      </tr>
+      <tr ng-repeat="item in page.regions">
+        <td>{{item.key}}</td>
+        <td><a href="#/sample/sample-navigation-2/{{item.key}}" >{{item['Extra Long Name']}}</a></td>
+        <td>{{item.Currency}}</td>
+      </tr>
+  </table>
+  
+  <hr/>
+  
+  <h4>In states.json create add a parameter to the url, it can be any name (characters and underscore only):</h4>
+  
+  <div hljs>
+    "sample-navigation-2": {
+        "url": "/sample/sample-navigation-2/:region",
+        "templateUrl": "html/sample/sample-navigation-2.html"
+    },
+  </div>
+  
+  <h4>Create a link to navigate to another page</h4>
+  
+  <p hljs><a href="#/sample/sample-navigation-2/{{item.key}}" >{{item.alias}}</a></p>
+  
+</div>

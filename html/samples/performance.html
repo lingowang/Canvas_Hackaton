@@ -1,0 +1,35 @@
+<div>
+  <h1>Performance</h1>
+  
+  <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" ng-model="page.accounts"></tm1-ui-element-list>
+  <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Period" ng-model="page.periods"></tm1-ui-element-list>
+ 
+  
+  <tm1-ui-progress>
+    
+      <tm1-ui-progress-pending>
+        <div class="text-center">
+             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+             <span class="sr-only">Loading...</span>
+         </div>
+      </tm1-ui-progress-pending>
+    
+      <tm1-ui-progress-ready>
+        <h4>Done - {{page.accounts.length * page.periods.length}}</h4>
+        <button ng-click="show = !show">Show</button>
+        <pre ng-if="show">
+          {{page.first | json}}
+        </pre>
+      </tm1-ui-progress-ready>
+      
+   </tm1-ui-progress>
+   
+   <div ng-hide="true">
+     <div ng-repeat="account in page.accounts">
+        <div ng-repeat="period in page.periods">
+          <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2011/12,{{period.key}},Local,Total Europe,Corporate,{{account.key}},Amount" ng-model="page.first[period.key][account.key]" ></tm1-ui-dbr-hidden>
+        </div>
+     </div>
+   </div>
+  
+</div>

@@ -1,0 +1,372 @@
+<div ng-controller="SubnmCtrl">
+
+  <style>
+  
+    pre, code {
+     white-space: normal !important;
+    }
+    
+    .custom-subnm > select {
+      color: Green;
+      background-color: #DCDCDC;  
+    }
+  </style>
+
+   <h1>
+      <i class="fa fa-search"></i> SUBNM
+   </h1>
+   
+   <hr/>   
+   
+   <div class="row">
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            SEARCH
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-subnm id="test-subnm-search" tm1-instance="dev" tm1-dimension="Account" tm1-subset="Net Income" tm1-show-hierarchy="false" ng-model="page.subnm1"></tm1-ui-subnm>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Selected (Outside Directive): <span id="test-subnm-search-value">{{page.subnm1}}</span></div>
+              <div>Used to search and display elements with a dropdown functionality</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Account" tm1-subset="Net Income" tm1-show-hierarchy="false" ng-model="page.subnm1"></tm1-ui-subnm></div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            SUBNM (Hierarchy)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-subnm id="test-subnm-hierarchy" tm1-instance="dev" tm1-dimension="Account" tm1-subset="Net Income" ng-model="page.subnm2"></tm1-ui-subnm>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Selected (Outside Directive): <span id="test-subnm-hierarchy-value">{{page.subnm2}}</span></div>
+              <div>Used to search and display elements with a dropdown functionality</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Account" tm1-subset="Net Income" ng-model="page.subnm2"></tm1-ui-subnm></div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            SUBNM (Pure-Dropdown)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-subnm id="test-subnm-pure-dropdown" tm1-instance="dev" tm1-dimension="Account" tm1-subset="Net Income" tm1-default-element="5020" tm1-select-only="true" ng-model="page.subnm3"></tm1-ui-subnm>        
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Selected (Outside Directive): <span id="test-subnm-pure-dropdown-value">{{page.subnm3}}</span></div>
+              <div>Used to search and display elements with a dropdown functionality</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Account" tm1-subset="Net Income" tm1-default-element="5020" tm1-select-only="true" ng-model="page.subnm3"></tm1-ui-subnm></div>
+          </div>
+        </div>
+
+      </div>
+      
+   </div>
+   
+   <div class="row">
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            SUBNM (Pure-Radio-Vertical)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-subnm id="test-subnm-pure-radio-vertical" tm1-instance="dev" tm1-dimension="Currency" tm1-subset="Default" tm1-default-element="EUR" tm1-radio-only="vertical" ng-model="page.subnm4"></tm1-ui-subnm>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Selected (Outside Directive): <span id="test-subnm-pure-radio-vertical-value">{{page.subnm4}}</span></div>
+              <div>Used to search and display elements with a radio functionality and with selection, defaulted to an element (EUR)</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Currency" tm1-subset="Default" tm1-default-element="EUR" tm1-radio-only="vertical" ng-model="page.subnm4"></tm1-ui-subnm></div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            SUBNM (Pure-Radio-Horizontal)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-subnm id="test-subnm-pure-radio-horizontal" tm1-instance="dev" tm1-dimension="Currency" tm1-subset="Default" tm1-radio-only="horizontal" ng-model="page.subnm5"></tm1-ui-subnm>        
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Selected (Outside Directive): <span id="test-subnm-pure-radio-horizontal-value">{{page.subnm5}}</span></div>
+              <div>Used to search and display elements with a radio functionality and with selection</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Currency" tm1-subset="Default" tm1-radio-only="horizontal" ng-model="page.subnm5"></tm1-ui-subnm></div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+    	
+  	   <div class="panel panel-primary">
+          <div class="panel-heading">
+            SUBNM (Server Mode)
+          </div>
+          <div class="panel-body">
+
+            <tm1-ui-subnm id="test-subnm-server-mode" tm1-instance="dev" tm1-dimension="Destination" tm1-attribute="Description" tm1-server-mode="true" tm1-batch-size="10" ng-model="page.subnm6"></tm1-ui-subnm>
+
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Selected (Outside Directive): <span id="test-subnm-server-mode-value">{{page.subnm6}}</span></div>
+              <div>Used to search and display N elements anytime with <code>tm1-server-mode</code>. Use this to query large dimension <strong>efficiently</strong>.</div>
+              <div>Control the size being returned on query through <code>tm1-batch-size</code>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Destination" tm1-attribute="Description" tm1-server-mode="true" tm1-batch-size="10" ng-model="page.subnm6"></tm1-ui-subnm></div>
+          </div>
+        </div>
+    
+      </div>
+      
+   </div>
+   
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          SEARCH (with MDX)
+        </div>
+        <div class="panel-body">
+                  
+          <tm1-ui-subnm id="test-subnm-mdx" tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-show-hierarchy="false" ng-model="page.subnm7"></tm1-ui-subnm>
+                  
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Selected Element: <span id="test-subnm-mdx-value">{{page.subnm7}}</span></div>
+            <div>Used to search and display elements utilizing MDX</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-show-hierarchy="false" ng-model="page.subnm7"></tm1-ui-subnm></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+    
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          SUBNM (Hierarchy) (with MDX)
+        </div>
+        <div class="panel-body">
+                  
+          <tm1-ui-subnm id="test-subnm-hierarchy-mdx" tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" ng-model="page.subnm8"></tm1-ui-subnm>
+                  
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Selected Element: <span id="test-subnm-hierarchy-mdx-value">{{page.subnm8}}</span></div>
+            <div>Used to search and display elements with a dropdown functionality with the results of your MDX</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" ng-model="page.subnm8"></tm1-ui-subnm></div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            SUBNM (Pure-Dropdown) (with MDX)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-subnm id="test-subnm-dropdown-mdx" tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}"  tm1-default-element="2" tm1-select-only="true" ng-model="page.subnm9"></tm1-ui-subnm>        
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Selected (Outside Directive): <span id="test-subnm-dropdown-mdx-value">{{page.subnm9}}</span></div>
+              <div>Used to search and display elements with a dropdown functionality and MDX.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}"  tm1-default-element="2" tm1-select-only="true" ng-model="page.subnm9"></tm1-ui-subnm></div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+    
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Directive API's
+        </div>
+        <div class="panel-body">
+          <p>
+            <button type="button" class="btn btn-primary" ng-click="refreshElements(values.subnm.api)">Refresh</button>
+            <button type="button" class="btn btn-primary" ng-click="getElements(values.subnm.api)" id="test-subnm-api-button-retrieve">Retrieve</button>
+            <button type="button" class="btn btn-default" ng-click="clearElements()">Clear</button>
+          </p>
+          <tm1-ui-subnm id="test-subnm-api" tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-subset="Default" tm1-api="values.subnm.api" ng-model="page.subnm10"></tm1-ui-subnm>
+                  
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Selected Element: <span id="test-subnm-api-value">{{page.subnm10}}</span></div>
+            <div>This directive has a low-level API which allows you to refresh the element list through <code>tm1-api</code>
+            with the function, <strong>refreshData()</strong>, or extract the actual elements on this SUBNM via <strong>getElements()</strong></div>
+            <div>With the refreshData() API, you can refresh the content of the SUBNM without reloading the whole page! Try to update the content of the subset Default for Region</div>            
+            <div>On clicking Retrieve: {{lists.elements}}</div>
+            <div>Total Elements Retrieved: <span id="test-subnm-api-element-size">{{lists.elements.length}}</span></div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-api="values.subnm.api" ng-model="page.subnm10"></tm1-ui-subnm></div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">   
+        <div class="panel-heading">
+          Apply a CSS style on the Component
+        </div>
+        <div class="panel-body">
+          <p>
+            <select class="form-control" ng-model="values.subnmTheme" ng-init="values.subnmTheme='custom-subnm'">
+              <option value="">None</option>
+              <option value="custom-subnm">Custom</option>
+            </select>
+          </p>
+          
+          <tm1-ui-subnm id="test-subnm-style" tm1-instance="dev" tm1-dimension="Region" tm1-ui-class="{{values.subnmTheme}}" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-default-element="2" tm1-select-only="true" ng-model="page.subnm11"></tm1-ui-subnm>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-ui-class</code> to affect the style of the component further.</div>
+          </div>          
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-ui-class="{{values.subnmTheme}}" tm1-attribute="Description" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL)}" tm1-default-element="2" tm1-select-only="true" ng-model="page.subnm11"></tm1-ui-subnm></div>
+        </div>
+      </div>
+    </div>    
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-4">
+    
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Call a Function on Load
+        </div>
+        <div class="panel-body">
+          <tm1-ui-subnm id="test-subnm-on-load" tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-subset="Default" tm1-on-load="onValueLoad(data)" ng-model="page.subnm12a"></tm1-ui-subnm>
+          <div class="alert alert-success" role="alert" ng-if="values.messageOnSubnmLoad.length > 0">{{values.messageOnSubnmLoad}}</div>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Selected Element - OnLoad: <span id="test-subnm-on-load-value">{{page.subnm12a}}</span></div>
+            <div>Call a function via <code>tm1-on-load</code> when the directive first loads.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-subset="Default" tm1-on-load="onValueLoad(data)" ng-model="page.subnm12a"></tm1-ui-subnm></div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="col-lg-4">
+    
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Call a Function on Change
+        </div>
+        <div class="panel-body">          
+          <tm1-ui-subnm id="test-subnm-on-change" tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-subset="Default" tm1-on-change="onValueChange(data)" ng-model="page.subnm12b"></tm1-ui-subnm>
+          <div class="alert alert-success" role="alert" ng-if="values.messageOnSubnmChange.length > 0">{{values.messageOnSubnmChange}}</div>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Selected Element - OnChange: <span id="test-subnm-on-change-value">{{page.subnm12b}}</span></div>
+            <div>Call a function via <code>tm1-on-change</code> on subsequent selection changes.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-subset="Default" tm1-on-change="onValueChange(data)" ng-model="page.subnm12b"></tm1-ui-subnm></div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="col-lg-4">
+    
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Call a Function on Each Change
+        </div>
+        <div class="panel-body">
+          <tm1-ui-subnm id="test-subnm-on-each-change" tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-subset="Default" tm1-change="onEachValueChange(data)" ng-model="page.subnm12c"></tm1-ui-subnm>
+          <div class="alert alert-success" role="alert" ng-if="values.messageOnSubnmEachChange.length > 0">{{values.messageOnSubnmEachChange}}</div>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Selected Element - OnEachChange: <span id="test-subnm-on-each-change-value">{{page.subnm12c}}</span></div>
+            <div>Call a function via <code>tm1-change</code> whenever the selection changes whether on load or subsequent changes.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-subset="Default" tm1-change="onEachValueChange(data)" ng-model="page.subnm12c"></tm1-ui-subnm></div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

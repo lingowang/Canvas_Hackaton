@@ -1,0 +1,226 @@
+<div ng-controller="CubeViewerCtrl">
+  <h1>
+    <i class="fa fa-dashcube"></i> {{'MESSAGESAMPLEITEM18' | translate}}
+  </h1>
+  
+  <hr />
+  
+  <div class="row">
+    <div class="col-md-12">    
+      <form class="form-inline">      
+        <div class="form-group">
+          <label>Cube</label>
+          <select class="form-control tm1-ui-indent" ng-model="selectedCube" ng-change="resetCubeViewer()">
+            <option ng-repeat="cube in lists.cubes" value="{{cube.Name}}">{{cube.Name}}</option>
+          </select>
+          
+          <div class="checkbox tm1-ui-indent">
+            <label>
+              <input type="checkbox" ng-model="values.hideOptions"> Hide Options
+            </label>
+          </div>
+        </div>        
+      </form>            
+    </div>
+  </div>
+  
+  <hr />
+  <div class="row" ng-hide="values.hideOptions">
+    <div class="col-md-4">
+      <div class="form-group">      
+        <label class="control-label">View Operation</label>
+      </div>
+      
+      <div class="form-group">      
+        
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.autoRecalculate"> Auto Recalculate Views
+          </label>
+        </div>
+        
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.allowViewSave"> Allow View to be Saved
+          </label>
+        </div>
+                
+      </div>
+      
+      <div class="form-group">
+        <label class="tm1-ui-indent">Preferred View Type To Load</label>
+        <select class="form-control tm1-ui-indent" ng-model="cubeOptions.viewTypePriority">
+          <option value="canvas">Canvas</option>
+          <option value="native">Perspective / Architect Compatible View</option>
+        </select>
+      </div>
+      
+    </div>
+  
+    <div class="col-md-4">
+      <div class="form-group">      
+        <label class="control-label">Sandbox Operation</label>
+      </div>
+      
+      <div class="form-group">
+        <label class="tm1-ui-indent">Sandbox To Set</label>
+        <select class="form-control tm1-ui-indent" ng-model="cubeOptions.forceSandboxName">
+          <option ng-repeat="sandbox in lists.sandboxes" value="{{sandbox.sandbox}}">{{sandbox.display}}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">      
+        
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.allowSandboxOperation"> Allow Sandbox Operation(s)
+          </label>
+        </div>
+        
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.allowSandboxPublishChanges"> Allow Sandbox Changes to be Published
+          </label>
+        </div>
+        
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.allowSandboxCreateDelete"> Allow Sandbox Creation / Deletion
+          </label>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+    <div class="col-md-4">
+      <div class="form-group">      
+        <label class="control-label">Table Mode</label>
+      </div>
+      
+      <div class="form-group">      
+        <div class="radio tm1-ui-indent">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" ng-model="cubeOptions.tableMode">No Preference
+          </label>
+        </div>
+        <div class="radio tm1-ui-indent">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="cubeOptions.tableMode">Read-Only Mode
+          </label>
+        </div>
+        <div class="radio tm1-ui-indent">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios3" value="2" ng-model="cubeOptions.tableMode">Edit Mode
+          </label>
+        </div>
+        
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.hideHierarchies"> Hide Hierarchies
+          </label>
+        </div>
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.hideToolbar"> Hide Toolbar
+          </label>
+        </div>
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.hideTitle"> Hide Title
+          </label>
+        </div>
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="cubeOptions.hideMdx"> Hide MDX Button
+          </label>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="row" ng-hide="values.hideOptions">
+    <div class="col-md-4">
+      <div class="form-group">      
+        <label class="control-label">Pagination</label>
+      </div>
+      
+      <div class="form-group">
+        <label class="tm1-ui-indent">Page Size</label>        
+        <select class="form-control tm1-ui-indent" ng-model="cubeOptions.pageSize">
+          <option ng-repeat="item in lists.pageSizes" value="{{item.value}}">{{item.display}}</option>
+        </select>
+        
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="values.useCustomPagination" ng-change="initPageControls()"> Use your own customized pagination
+          </label>
+        </div>
+      </div>
+      
+      <!-- Custom Pagination Controls -->
+      <div ng-if="values.useCustomPagination">
+        <button type="button" class="btn btn-primary" ng-click="values.api.getTableData().pageFirst();"><i class="fa fa-step-backward"></i></button>
+        <button type="button" class="btn btn-primary" ng-click="values.api.getTableData().pagePrevious();"><i class="fa fa-caret-left"></i></button>
+        <span class="h5">Page {{values.api.getTableData().page()}} of {{values.api.getTableData().pages()}}</span>
+        <button type="button" class="btn btn-primary" ng-click="values.api.getTableData().pageNext();"><i class="fa fa-caret-right"></i></button>
+        <button type="button" class="btn btn-primary" ng-click="values.api.getTableData().pageLast();"><i class="fa fa-step-forward"></i></button>
+      </div>
+      
+    </div>
+    
+    <div class="col-md-4">
+      <div class="form-group">      
+        <label class="control-label">Other(s)</label>
+      </div>
+      
+      <div class="form-group">
+        <label class="tm1-ui-indent">Table Style</label>
+        <select class="form-control tm1-ui-indent" ng-model="cubeOptions.tableClass">
+          <option ng-repeat="item in lists.tableStyles" value="{{item.tableStyle}}">{{item.display}}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">              
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="values.useOwnMDX"> Use your own MDX
+          </label>
+        </div>
+        <div class="checkbox tm1-ui-indent">
+          <label>
+            <input type="checkbox" ng-model="values.useGLOverride" ng-change="updateCubeOptions()"> Use sample override for General Ledger cube
+          </label>
+        </div>
+        
+        <uib-accordion close-others="false" ng-if="values.useGLOverride">
+          <div uib-accordion-group heading="Sample Columns Configuration" class="panel panel-default">
+            <div class="panel-body">
+              <pre>{{cubeOptions.columns | json}}</pre>
+            </div>
+          </div>
+          <div uib-accordion-group heading="Sample Rows Configuration" class="panel panel-default">
+            <div class="panel-body">
+              <pre>{{cubeOptions.rows | json}}</pre>
+            </div>
+          </div>
+          <div uib-accordion-group heading="Sample Titles Configuration" class="panel panel-default">
+            <div class="panel-body">
+              <pre>{{cubeOptions.titles | json}}</pre>
+            </div>
+          </div>
+        </uib-accordion>
+             
+      </div>
+      
+    </div>
+    
+    
+  </div>
+  
+  <hr ng-hide="values.hideOptions" />
+  <tm1-ui-cube-viewer ng-if="selectedCube && showViewer && !values.useOwnMDX" tm1-instance="dev" tm1-api="values.api" tm1-cube="{{selectedCube}}" tm1-options="cubeOptions"></tm1-ui-cube-viewer>
+  <tm1-ui-cube-viewer ng-if="selectedCube && showViewer && values.useOwnMDX" tm1-instance="dev" tm1-api="values.api" tm1-cube="{{selectedCube}}" tm1-mdx="{{values.mdx}}" tm1-options="cubeOptions"></tm1-ui-cube-viewer>
+    
+</div>

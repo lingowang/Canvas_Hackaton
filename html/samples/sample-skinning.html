@@ -1,0 +1,82 @@
+<div>
+   
+    <style>
+    
+      section {
+        margin-top: 20px;
+      }
+      
+      .tm1-ui-dbr {
+         color: Green;
+      }
+    
+      .Underline {
+        color: Blue;
+        text-decoration: underline;
+      }
+      
+      .Boxed{
+        color: Red;
+        border: solid 1px #000;
+        margin: 20px;
+        padding: 10px;
+      }
+      
+      .Very-Big{
+        color: #1979D3;
+        font-size: 45px;
+      }
+    
+    </style>
+
+    <h1>
+      <a ui-sref="home"><i class="fa fa-arrow-left"></i></a> Skinning Sample
+    </h1>	
+    
+    <section>
+      <h2>Eastern Europe</h2>
+      DBR: <tm1-ui-dbr tm1-instance="dev" 
+                       tm1-cube="General Ledger" 
+                       tm1-elements="Actual,2012,Year,Local,Eastern Europe,Corporate,Net Income,Amount" 
+                       tm1-data-decimal="2"
+                       ng-model="selections.EasternEurope" >
+            </tm1-ui-dbr>
+    </section>
+  	
+    <section>
+      <h2>Total Europe</h2>
+      DBR: <tm1-ui-dbr tm1-instance="dev" 
+                       tm1-cube="General Ledger" 
+                       tm1-elements="Actual,2012,Year,Local,Total Europe,Corporate,Net Income,Amount" 
+                       tm1-data-decimal="2"
+                       tm1-ui-class="Boxed" 
+                       ng-model="values.Europe"  >
+            </tm1-ui-dbr>
+    </section>
+    
+    <hr/>
+    
+    <div class="row">
+      <div class="col-md-12">
+        Skinning DBR Sample: 
+        <select class="form-control" ng-model="options.dbrStyle">
+          <option>None</option>
+          <option>Underline</option>
+          <option>Boxed</option>
+          <option>Very-Big</option>
+        </select>
+      </div>
+    </div>
+    
+    <section>
+      <h2>United Kingdom</h2>
+      DBR: <tm1-ui-dbr tm1-instance="dev"  
+                       tm1-cube="General Ledger" 
+                       tm1-elements="Actual,2012,Year,Local,United Kingdom,Corporate,Net Income,Amount" 
+                       tm1-data-decimal="2"
+                       tm1-ui-class="{{options.dbrStyle}}" 
+                       ng-model="values.UK" >
+            </tm1-ui-dbr>
+    </section>
+    
+</div>

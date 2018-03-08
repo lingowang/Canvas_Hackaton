@@ -1,0 +1,279 @@
+<div ng-controller="ProcessCtrl">
+
+  <style>
+  
+    pre, code {
+     white-space: normal !important;
+    }
+    
+    .custom-process{
+      border: 2px dashed #DCDCDC;
+    }
+    
+    .custom-process-button{
+      border: 10px dashed #D3D3D3;
+    }
+  </style>
+
+   <h1>
+      <i class="fa fa-play-circle-o"></i> Execute Process
+   </h1>
+   
+   <hr/>   
+   
+  <!--================================================-->
+  <!--                       ROW 1                    -->
+  <!-- CONTAINS 3 CLOCKS FOR EACH TM1 PROCESS EXAMPLE -->
+   
+  <div class="row">
+
+    <!-- Execute TM1 process -->
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Execute a Process
+          </div>
+          <div class="panel-body">
+            <p>Change Button Display</p>
+            <input id="test-process-button-name" class="form-control" ng-init="values.buttonDisplay='Run Me!'" ng-model="values.buttonDisplay" placeholder="Update Button Display">
+          
+            <p>Success</p>
+            <tm1-ui-process id="test-process-message-success" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-display-name="{{values.buttonDisplay}}" tm1-message-success="Greeeat!" tm1-message-running="Wait..."></tm1-ui-process>
+            
+            <p>With Error</p>
+            <tm1-ui-process id="test-process-message-error" tm1-instance="dev" tm1-name="Cube.GeneralLedger.LoadFromFile" tm1-display-name="Run with Errors" tm1-message-success="Greeeat!" tm1-message-running="Wait..." tm1-message-error="Warning: Error Found"></tm1-ui-process>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Customize messages via <code>tm1-message-running</code>, <code>tm1-message-success</code> and <code>tm1-message-error</code>.</div>
+              <div>Easily update the button to run the TI process via <code>tm1-display-name</code></div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-process tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-display-name="Run Me!" tm1-message-success="Greeeat!" tm1-message-running="Wait..."></tm1-ui-process></div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-process tm1-instance="dev" tm1-name="Cube.GeneralLedger.LoadFromFile" tm1-display-name="Run Me!" tm1-message-success="Greeeat!" tm1-message-running="Wait..." tm1-message-error="Warning: Error Found"></tm1-ui-process></div>
+          </div>
+        </div>
+      	
+      </div>
+      
+      <!-- Execute Process with Parameters -->
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Execute Process with Parameters
+          </div>
+          <div class="panel-body">
+            
+            <div class="form-group">
+              <div class="checkbox">
+		    	       <label><input id="test-process-parameters-popup-flag" type="checkbox" ng-init="options.processDialog=false" ng-model="options.processDialog"> Show Dialog</label>
+		          </div>
+            </div>
+            
+            <div class="form-group">
+              <label>Source Dimension</label>
+              <input type="text" class="form-control" ng-init="selections.sourceDim = 'Department'" ng-model="selections.sourceDim">
+            </div>
+            
+            <div class="form-group">
+              <label>Target Dimension</label>
+              <input id="test-process-parameters-target-dimension" type="text" class="form-control" ng-init="selections.targetDim = 'New Dimension'" ng-model="selections.targetDim">
+            </div>
+            
+            <div class="row">
+              <div class="col-md-12">
+                <tm1-ui-process id="test-process-parameters" tm1-instance="dev" tm1-name="Bedrock.Dim.Clone" tm1-parameter-pSourceDim="{{selections.sourceDim}}" tm1-parameter-pTargetDim="{{selections.targetDim}}" tm1-display-name="Clone {{selections.sourceDim}} into {{selections.targetDim}}" tm1-message-error="Uh-oh!" tm1-show-dialog="options.processDialog"></tm1-ui-process>  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-danger btn-block" type="button" id="test-process-parameters-dimension-delete" ng-click="dimensionDelete(selections.targetDim)">Delete <strong>'{{selections.targetDim}}'</strong> Dimension</button>  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-info btn-block" type="button" id="test-process-parameters-dimension-check" ng-click="dimensionCheck(selections.targetDim)">Check <strong>'{{selections.targetDim}}'</strong> Dimension</button>  
+              </div>
+            </div>
+            
+            <p>
+              <div id="test-process-parameters-message" class="alert alert-info" role="alert" ng-if="values.message.length > 0">{{values.message}}</div>
+            </p>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Update button names dynamically via <code>tm1-display-name</code> attribute!</div>              
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-process tm1-instance="dev" tm1-name="Bedrock.Dim.Clone" tm1-parameter-pSourceDim="{{selections.sourceDim}}" tm1-parameter-pTargetDim="{{selections.targetDim}}" tm1-display-name="Clone {{selections.sourceDim}} into {{selections.targetDim}}" tm1-message-error="Uh-oh!" tm1-show-dialog="options.processDialog"></tm1-ui-process></div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <!-- Execute a Process then Call a Function Afterwards -->
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Execute a Process then Call a Function Afterwards
+          </div>
+          <div class="panel-body">
+            
+            <!-- onAfterRun function is defined in the controller process.js -->  
+            <tm1-ui-process id="test-process-after-run-function" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-display-name="Run Me Again!" tm1-message-success="Greeeat!" tm1-message-running="Wait..." tm1-after-run="onAfterRun(success);"></tm1-ui-process>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Run a custom function after the process call via <code>tm1-after-run</code></div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-process tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-display-name="Run Me Again!" tm1-message-success="Greeeat!" tm1-message-running="Wait..." tm1-after-run="onAfterRun(success);"></tm1-ui-process></div>
+          </div>
+        </div>
+      
+      </div>
+      
+   </div>
+   
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Apply a CSS style on the Component
+        </div>
+        <div class="panel-body">
+          <p>
+            <select class="form-control" ng-model="values.processTheme" ng-init="values.processTheme='custom-process'">
+              <option value="">None</option>
+              <option value="custom-process">Custom</option>
+            </select>
+          </p>
+          
+          <tm1-ui-process id="test-process-style" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-ui-class="{{values.processTheme}}"></tm1-ui-process>
+                      
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-ui-class</code> to affect the style of the component further.</div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+            <div hljs><tm1-ui-process tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-ui-class="{{values.processTheme}}"></tm1-ui-process></div>
+        </div>
+
+      </div>
+    </div> 
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Apply a CSS style on the Button
+        </div>
+        <div class="panel-body">
+          <p>
+            <select class="form-control" ng-model="values.processButtonTheme" ng-init="values.processButtonTheme='custom-process-button'">
+              <option value="">None</option>
+              <option value="custom-process-button">Custom</option>
+            </select>
+          </p>
+          
+          <p>
+            <tm1-ui-process id="test-process-style-no-popup" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-ui-button-class="{{values.processButtonTheme}}"></tm1-ui-process>          
+          </p>
+          <p>(without pop-up)</p>
+          
+          <p>
+            <tm1-ui-process id="test-process-style-popup" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-ui-button-class="{{values.processButtonTheme}}" tm1-show-dialog="true"></tm1-ui-process>          
+          </p>
+          <p>(with pop-up)</p>
+                      
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-ui-button-class</code> to affect the style of the buttons.</div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+            <div hljs><tm1-ui-process tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-ui-button-class="{{values.processButtonTheme}}"></tm1-ui-process></div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Trigger a Page Update on Process Completion
+        </div>
+        <div class="panel-body">
+          <p>
+            Server Time: <strong><tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="System Info" tm1-elements="Server Time, String"></tm1-ui-dbr-read-only></strong>
+          </p>
+          
+          <p>
+            <tm1-ui-process id="test-process-page-refresh" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-refresh-page="true" tm1-message-success="Success!"></tm1-ui-process>          
+          </p>
+                      
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code> tm1-refresh-page</code> to trigger a page wide refresh, on completion of running a TM1 Process. For this example, 
+            take a note of the displayed server time above, which is pulled from TM1 every time the process complete its run.</div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+            <div hljs><tm1-ui-process tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-refresh-page="true" tm1-message-success="Success!"></tm1-ui-process> </div>
+        </div>
+
+      </div>
+    </div>
+    
+      
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Disable Buttons at the Front End
+        </div>
+        <div class="panel-body">          
+          <p>
+            <tm1-ui-process id="test-process-no-popup-disabled" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-disabled="true"></tm1-ui-process>          
+          </p>
+          <p>(without pop-up)</p>
+          
+          <p>
+            <tm1-ui-process id="test-process-popup-disabled" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-disabled="true" tm1-show-dialog="true"></tm1-ui-process>          
+          </p>
+          <p>(with pop-up)</p>            
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-disabled</code> to disable the buttons.</div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+            <div hljs><tm1-ui-process tm1-instance="dev" tm1-name="Bedrock.Server.Wait" tm1-disabled="true" tm1-show-dialog="true"></tm1-ui-process></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+</div>

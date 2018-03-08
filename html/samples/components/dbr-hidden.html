@@ -1,0 +1,91 @@
+<div ng-controller="DbrHiddenCtrl">
+		
+	<style>
+	
+		pre, code {
+			white-space: normal !important;
+		}
+	
+	</style>
+
+		<h1>
+			<i class="fa fa-eye-slash"></i> DBR Hidden
+		</h1>
+		
+		<hr/>   
+		
+		
+		
+	<div class="row">
+
+		<div class="col-lg-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					DBR Hidden
+				</div>
+				<div class="panel-body">
+					
+					<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" ng-model="values.dbr1"></tm1-ui-dbr-hidden>
+											
+				</div>
+				<div class="panel-footer">
+					<div class="help-text">
+						<div>A lighter DBR whose only purpose is to get a value and populate into an <code>ng-model</code>. Value retrieved is: <span id="test-dbr-hidden-model-value">{{values.dbr1}}</span></div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<div hljs><tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" ng-model="values.dbr1"></tm1-ui-dbr-hidden></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">DBR Hidden Group Update</h3>
+				</div>
+				<div class="panel-body">
+								
+					<div class="row">
+
+						<div class="col-md-12">
+							<h4>Sales and Marketing</h4>
+							<tm1-ui-dbr
+                id="test-dbr-hidden-group1"
+								tm1-instance="dev"
+								tm1-cube="General Ledger"
+								tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount'
+								tm1-refresh-group="Group 1">
+							</tm1-ui-dbr>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+								<button class="btn btn-primary" ng-click="functions.refreshAll();">Refresh All</button>
+						</div>
+
+					</div>
+										
+				</div>
+				<div class="panel-footer">
+					<div>DBR Hidden with no group: <span id="test-dbr-hidden-group0-value">{{values.hidden.dbr1}}</span></div>
+					<div>DBR Hidden with Group 1: <span id="test-dbr-hidden-group1-value">{{values.hidden.dbr2}}</span></div>
+						  
+						<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" 
+															 tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount' ng-model="values.hidden.dbr1"></tm1-ui-dbr-hidden>
+						<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" 
+															 tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount' ng-model="values.hidden.dbr2" tm1-refresh-group="Group 1"></tm1-ui-dbr-hidden>
+
+				</div>
+				<div class="panel-footer">
+					<div hljs><tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" 
+						tm1-elements='Actual,2011/12,Mar,Local,England,Sales and Marketing,Employee Benefits,Amount' ng-model="values.hidden.dbr2" tm1-refresh-group="Group 1"></tm1-ui-dbr-hidden></div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+</div>

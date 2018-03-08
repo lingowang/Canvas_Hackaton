@@ -1,0 +1,47 @@
+<div>
+
+  <h1>
+    <a ui-sref="home"><i class="fa fa-arrow-left"></i></a> Sample Page 1
+  </h1>	
+  
+  <hr/>
+
+  <tm1-ui-subnm
+    tm1-instance="dev"
+    tm1-dimension="Department"
+    tm1-subset="Default"
+    tm1-default-element="6"
+    tm1-select-only="true"
+    ng-model="selections.department">
+  </tm1-ui-subnm>
+
+  <hr/>
+  
+
+  <tm1-ui-dbr
+
+    tm1-instance="dev"
+    tm1-cube="General Ledger"
+    tm1-elements='Actual,2011/12,Mar,Local,England,{{selections.department}},Employee Benefits,Amount'
+    tm1-comment-elements="Actual,2012,Mar,Local,England,{{selections.department}},Employee Benefits,Comment"
+    
+   >
+
+  </tm1-ui-dbr>
+
+  <hr/>
+  
+  <h2>Corporate</h2>
+
+  <tm1-ui-dbr
+
+    tm1-instance="dev"
+    tm1-cube="General Ledger"
+    tm1-elements="Actual,2012,Mar,Local,England,Corporate,Employee Benefits,Amount"
+    tm1-comment-elements="Actual,2012,Mar,Local,England,Corporate,Employee Benefits,Comment"
+    
+   >
+
+  </tm1-ui-dbr>
+
+</div>

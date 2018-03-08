@@ -1,0 +1,192 @@
+<div ng-controller="LoginSessionCtrl">
+  <style>
+    code.hljs {
+     white-space: normal !important;
+    }
+    
+    
+    .custom-session > a{
+      color: Green;
+    }
+    
+    .custom-login * input[type]{
+      font-size: 20px; 
+      border: none;
+      border-bottom: 2px solid rgb(255, 43, 85);
+      border-radius: 0px;
+    }
+    
+    .custom-login * .panel-heading{
+      background-color: rgb(255, 43, 85);
+      color: White;
+    }
+    
+    .custom-login > .panel{
+      border-color: rgb(255, 43, 85);
+    }
+    
+    .custom-login * button{
+      background-color: rgb(255, 43, 90);
+      border-color: White;
+    }
+    
+    .custom-login * button:hover{
+      background-color: rgb(255, 43, 90);
+      border-color: White;
+      
+      filter:alpha(opacity=50);
+      -moz-opacity:0.5;
+      -khtml-opacity: 0.5;
+      opacity: 0.5;
+    }
+  </style>
+  
+  <h1>
+    <i class="fa fa-key"></i> Login and Session
+  </h1>
+   
+  <hr/>   
+   
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Check your current Login and use this directive to Logout.</span>
+        </div>
+        <div class="panel-body">          
+          <p class="text-center"><tm1-ui-session></tm1-ui-session></p>            
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Show / Hide this icon on your page to allow user to check his/her session(s).</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-session></tm1-ui-session></div>
+        </div>
+      </div>      
+    </div>
+    <div class="col-lg-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Style the Session Icon</span>
+        </div>
+        <div class="panel-body">        
+          <p>
+            <select class="form-control" ng-model="values.sessionTheme" ng-init="values.sessionTheme = 'custom-session'">
+              <option value="">None</option>
+              <option value="custom-session">Custom</option>
+            </select>
+          </p>  
+          <p class="text-center">
+            <tm1-ui-session tm1-ui-class="{{values.sessionTheme}}"></tm1-ui-session>
+          </p>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Customize this icon via <code>tm1-ui-class</code> attribute.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-session></tm1-ui-session></div>
+        </div>
+      </div> 
+    </div>
+  </div>
+  
+  
+   
+   
+   <div class="row">
+      
+      <div class="col-lg-6">
+      	<div class="panel panel-primary">
+          <div class="panel-heading">
+          	<span>Handle your User's Login</span>
+          </div>
+          <div class="panel-body">          
+            <tm1-ui-login tm1-after-login="runThisafterUserhasLoggedIn(instance)"></tm1-ui-login>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Use the attribute <code>tm1-after-login</code> to call your custom Javascript functions after the user has logged in.</div>
+              <p></p>
+              <div>Checkout this page's controller - js\controllers\samples\components\login-session.js on how the above function and the 
+              <a href="https://github.com/eriktufvesson/ngBootbox" target="_blank">$ngBootbox</a> service was utilize to show the pop-up.</div>
+              <p></p>
+              <div>Multiple instances will automatically be shown in a dropdown. If there is only one, the dropdown is hidden.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-login tm1-after-login="runThisafterUserhasLoggedIn(instance)"></tm1-ui-login></div>
+          </div>
+        </div>      
+      </div>
+      
+      <div class="col-lg-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>Customize your Login Page</span>
+          </div>
+          <div class="panel-body">    
+            <p>
+              <select class="form-control" ng-model="values.loginTheme" ng-init="values.loginTheme='custom-login'">
+                <option value="">None</option>
+                <option value="custom-login">Custom</option>
+              </select>
+            </p>
+            <p>
+              <tm1-ui-login tm1-after-login="runThisafterUserhasLoggedIn(instance)" tm1-ui-class="{{values.loginTheme}}"></tm1-ui-login>
+            </p>                  
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Customize the look and feel of your login via <code>tm1-ui-class</code></div>
+              <p>Choose "Custom" from the above to see one of the many possibilities!</p>
+              <pre>.custom-login * input[type]{
+        font-size: 20px; 
+        border: none;
+        border-bottom: 2px solid rgb(255, 43, 85);
+        border-radius: 0px;
+      }
+      
+      .custom-login * .panel-heading{
+        background-color: rgb(255, 43, 85);
+        color: White;
+      }
+      
+      .custom-login > .panel{
+        border-color: rgb(255, 43, 85);
+      }
+      
+      .custom-login * button{
+        background-color: rgb(255, 43, 90);
+        border-color: White;
+      }
+      
+      .custom-login * button:hover{
+        background-color: rgb(255, 43, 90);
+        border-color: White;
+        
+        filter:alpha(opacity=50);
+        -moz-opacity:0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+      }</pre>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-login tm1-after-login="runThisafterUserhasLoggedIn(instance)" tm1-ui-class="custom-login"></tm1-ui-login></div>
+          </div>
+        </div>      
+      </div>
+      
+      
+      
+      
+   </div>
+   
+   
+  
+   
+</div>

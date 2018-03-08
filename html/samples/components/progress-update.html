@@ -1,0 +1,127 @@
+<div>
+    <style>
+      code.hljs {
+       white-space: normal !important;
+      }
+      
+      .custom-progress * tm1-ui-progress-pending{
+        color: Red;
+      }
+      
+      .custom-progress * tm1-ui-progress-ready{
+        color: Blue;
+      }
+    </style>
+  
+   <h1>
+      <i class="fa fa-retweet"></i> Progress Update
+   </h1>
+   
+   <hr/>   
+   
+   <div class="row">
+      
+      <div class="col-lg-4">
+      	<div class="panel panel-primary">
+          <div class="panel-heading">
+          	<span>Display Something while Users Wait</span>
+          </div>
+          <div class="panel-body">
+            <p>
+              <tm1-ui-process id="test-progress-button-wait" tm1-instance="dev" tm1-name="Bedrock.Server.Wait" 
+                  tm1-display-name="Wait"
+                  tm1-message-running="Running... "
+                  tm1-message-success="Success!"
+                  tm1-parameter-pWait="5">
+                </tm1-ui-process>
+            </p>
+            <p class="text-center"><tm1-ui-progress id="test-progress-default"></tm1-ui-progress></p>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>This will be triggered every time there is a pending request to TM1 on that page where it is at.</div>
+              <div>Indicate the status of the process running by utilizing this directive. It shows a spinning gear icon (<i class="fa fa-gear"></i>) by default.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-progress></tm1-ui-progress></div>
+          </div>
+        </div>      
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>Customize Waiting Display</span>
+          </div>
+          <div class="panel-body">            
+            <p>
+              <tm1-ui-process id="test-progress-button-server-wait" tm1-instance="dev" 
+                tm1-name="Bedrock.Server.Wait" tm1-parameter-pWait="5" 
+                tm1-message-success="Success!">
+              </tm1-ui-process>
+            </p>
+            <p class="text-center">
+              <tm1-ui-progress id="test-progress-custom">
+                <tm1-ui-progress-pending>Please Wait...</tm1-ui-progress-pending>
+                <tm1-ui-progress-ready>
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2"></tm1-ui-dbr>
+                </tm1-ui-progress-ready>
+              </tm1-ui-progress>
+            </p>            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>You can also use this to switch between pending requests via <div hljs><tm1-ui-progress-pending></tm1-ui-progress-pending></div> and 
+                <div hljs><tm1-ui-progress-ready></tm1-ui-progress-ready></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-progress>
+                <tm1-ui-progress-pending>Please Wait...</tm1-ui-progress-pending>
+                <tm1-ui-progress-ready><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2"></tm1-ui-dbr></tm1-ui-progress-ready>
+              </tm1-ui-progress></div>
+          </div>
+        </div>      
+      </div>
+      
+      
+      
+      
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>Style the States Differently</span>
+          </div>
+          <div class="panel-body">            
+            <p class="text-center">
+              <tm1-ui-progress id="test-progress-style" tm1-ui-class="custom-progress">
+                <tm1-ui-progress-pending>Please Wait...</tm1-ui-progress-pending>
+                <tm1-ui-progress-ready>Ready</tm1-ui-progress-ready>
+              </tm1-ui-progress>
+            </p>            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>
+                Use different styles when showing pending and when the page is ready via the <code>tm1-ui-class</code> attribute.
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-progress tm1-ui-class="custom-progress">
+                <tm1-ui-progress-pending>Please Wait...</tm1-ui-progress-pending>
+                <tm1-ui-progress-ready>Ready</tm1-ui-progress-ready>
+              </tm1-ui-progress></div>
+          </div>
+        </div>      
+      </div>
+      
+      
+      
+   </div>
+   
+   
+
+</div>

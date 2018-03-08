@@ -1,0 +1,31 @@
+
+<!--=================================================-->
+<!--                     ROW 1                       -->
+<!-- CHART USED IN sample-advance-chart.html page    -->
+
+<div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label translate="CHARTTYPE2"></label>
+        <select class="form-control" ng-options="chartType.type as chartType.name for chartType in options.type2Charts" ng-init="chart.right = 'line'" ng-model="chart.right"></select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <tm1-ui-chart tm1-chart-type="{{chart.right}}" tm1-height="400" tm1-axis-label-x="Amount(s)" tm1-axis-label-y="" tm1-duration="2000"
+        tm1-margin="chart.margin" tm1-state="{{chart.right}}" tm1-options-override="optionsOverride">
+        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+          tm1-series="Mountain Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Mountain Bikes,Sales Amount"></tm1-ui-chart-dbr>
+
+
+        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+          tm1-series="Touring Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Touring Bikes,Sales Amount"></tm1-ui-chart-dbr>
+
+        <tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+          tm1-series="Road Bikes" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.Version}},{{selections.Year}},{{month}},{{selections.Currency}},{{selections.Region}},Road Bikes,Sales Amount"></tm1-ui-chart-dbr>
+      </tm1-ui-chart>
+    </div>
+  </div>
+</div>

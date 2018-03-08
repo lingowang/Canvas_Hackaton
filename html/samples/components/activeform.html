@@ -1,0 +1,780 @@
+<div>
+
+  <style>
+  
+    pre, code {
+     white-space: normal !important;
+    }
+    
+    .custom-cell, .custom-cell * input{
+      color: #C8C8C8;
+    }
+  
+  </style>
+
+   <h1>
+      <i class="fa fa-indent"></i> Active Form
+   </h1>
+   
+   <hr/>   
+  
+   <!--===================Active Form Default ========================-->
+
+  <div class="row">
+   <div class="col-md-12">
+      
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Active Form
+      </div>
+      <div class="panel-body">
+        
+        <div>
+          <tm1-ui-export tm1-target-id="af1"></tm1-ui-export>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6">
+           <tm1-ui-subnm id="test-af1-select" tm1-instance="dev" tm1-dimension="Version" tm1-attribute="Description" tm1-default-element="1" tm1-select-only="true" ng-model="selections.versionAF1"></tm1-ui-subnm>
+          </div>
+          <div class="col-md-6">
+            <select id="test-af1-select-suppression" class="form-control" ng-init="options.suppressZeroAF1 = 'none'" ng-model="options.suppressZeroAF1">
+              <option value="none">Do not Suppress Zeroes</option>
+              <option value="row">Suppress Zero on Rows</option>
+              <option value="column">Suppress Zeroes on Columns</option>
+              <option value="both">Suppress Zeroes on Both Rows and Columns</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 15px;" ng-init="options.sizeAF1 = 10">
+          <tm1-ui-rpt-view id="test-active-form" tm1-instance="dev" tm1-cube="Retail" ng-model="values.dataAF1" tm1-suppress-zero="{{options.suppressZeroAF1}}" tm1-page-size="{{options.sizeAF1}}">
+              <tm1-ui-rpt-config> 
+                <tm1-ui-rpt-title tm1-dimension="Version" tm1-element="{{selections.versionAF1}}"></tm1-ui-rpt-title>
+                <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+                <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2012"></tm1-ui-rpt-title>
+                <tm1-ui-rpt-title tm1-dimension="Retail Measure" tm1-element="Sales Amount"></tm1-ui-rpt-title>
+                
+                <tm1-ui-rpt-row tm1-dimension="Product" tm1-mdx="{TM1DRILLDOWNMEMBER({[Product].[All Products by Category]}, ALL, RECURSIVE)}" tm1-attribute="Code&Description"></tm1-ui-rpt-row>
+                <tm1-ui-rpt-row tm1-dimension="Region" tm1-element="1" tm1-attribute="Description"></tm1-ui-rpt-row>
+                
+                <tm1-ui-rpt-column tm1-dimension="Period" tm1-mdx="{TM1DRILLDOWNMEMBER({[Period].[All Months]}, ALL)}"></tm1-ui-rpt-column>
+             </tm1-ui-rpt-config>
+            
+             <tm1-ui-rpt-template>
+                <table id="af1" class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Region</th>
+                        <th class="text-center">Full Year</th>
+                        <th class="text-center">January</th>
+                        <th class="text-center">February</th>
+                        <th class="text-center">March</th>
+                        <th class="text-center">April</th>
+                        <th class="text-center">May</th>
+                        <th class="text-center">Jun</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="rowData in values.dataAF1.rows track by $index" ng-if="rowData.inPage">
+                        <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Product"></td>
+                        <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Region"></td>
+                        
+                        <td class="text-right">
+                            <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="All Months"></tm1-ui-rpt-row-cell>
+                        </td>
+                        <td class="text-right">
+                            <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="01"></tm1-ui-rpt-row-cell>
+                        </td>
+                        <td class="text-right">
+                            <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="02"></tm1-ui-rpt-row-cell>
+                        </td>
+                        <td class="text-right">
+                            <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="03"></tm1-ui-rpt-row-cell>
+                        </td>
+                        <td class="text-right">
+                            <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="04"></tm1-ui-rpt-row-cell>
+                        </td>
+                        <td class="text-right">
+                            <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="05"></tm1-ui-rpt-row-cell>
+                        </td>
+                        <td class="text-right">
+                            <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="06"></tm1-ui-rpt-row-cell>
+                        </td>
+                                                
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                  <div>
+                    <div class="btn-group" role="group" >
+                      <button type="button" class="btn btn-default" ng-click="values.dataAF1.pageFirst()"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></button>
+                      <button type="button" class="btn btn-default" ng-click="values.dataAF1.pagePrevious()"><i class="fa fa-angle-left"></i></button>
+                      <span class="btn btn-default" style="width: 70px;">{{values.dataAF1.page()}} of {{values.dataAF1.pages()}}</span>
+                      <button type="button" class="btn btn-default" ng-click="values.dataAF1.pageNext()"><i class="fa fa-angle-right"></i></button>
+                      <button type="button" class="btn btn-default" ng-click="values.dataAF1.pageLast()"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></button>
+                    </div>
+                    <div class="btn-group pull-right" role="group">
+                      <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF1.isPageSize(10)}" ng-click="options.sizeAF1 = 10">10</button>
+                      <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF1.isPageSize(25)}" ng-click="options.sizeAF1 = 25">25</button>
+                      <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF1.isPageSize(50)}" ng-click="options.sizeAF1 = 50">50</button>
+                      <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF1.isPageSize(0)}" ng-click="options.sizeAF1 = 0">All</button>
+                    </div>
+                  </div>
+                  
+               </tm1-ui-rpt-template>
+            </tm1-ui-rpt-view> 
+         </div>      
+      </div>
+      <div class="panel-footer">
+        <div>Use <code>tm1-ui-rpt-row-cell</code> as an alternative with the Active form for a simpler reporting display.</div>
+        <div hljs>&lt;td>
+          <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="All Months"></tm1-ui-rpt-row-cell>
+        &lt;/td></div>
+        <div>Move the expandable row into a different column. The two columns above is current being represent as:</div>
+        <div hljs>&lt;td tm1-ui-rpt-row-element="rowData" tm1-dimension="Product">&lt;/td>
+        
+                        &lt;td tm1-ui-rpt-row-element="rowData" tm1-dimension="Region">&lt;/td></div>
+      </div>
+      <div class="panel-footer">
+        <div hljs>Please see HTML Page for the full details on the structure of this active form.</div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!--===================Active Form with DBRs ========================-->
+
+  <div class="row">
+      <div class="col-md-12">
+          
+        <div class="panel panel-primary">
+         <div class="panel-heading">
+           Specify Elements to Collapse and Expand
+         </div>
+         <div class="panel-body">
+           
+           <div class="row">
+             <div class="col-md-6">
+              <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-attribute="Description" tm1-default-element="1" tm1-select-only="true" ng-model="selections.versionAF2"></tm1-ui-subnm>
+             </div>
+             <div class="col-md-6">
+               <select class="form-control" ng-init="options.suppressZeroAF2 = 'none'" ng-model="options.suppressZeroAF2">
+                 <option value="none">Do not Suppress Zeroes</option>
+                 <option value="row">Suppress Zero on Rows</option>
+                 <option value="column">Suppress Zeroes on Columns</option>
+                 <option value="both">Suppress Zeroes on Both Rows and Columns</option>
+               </select>
+             </div>
+           </div>
+   
+           <div style="margin-top: 15px;" ng-init="options.sizeAF2 = 10">
+             <tm1-ui-rpt-view id="test-active-form-specify-elements" tm1-instance="dev" tm1-cube="Retail" ng-model="values.dataAF2" tm1-suppress-zero="{{options.suppressZeroAF2}}" tm1-page-size="{{options.sizeAF2}}" tm1-show-message="true">
+                 <tm1-ui-rpt-config> 
+                   <tm1-ui-rpt-title tm1-dimension="Version" tm1-element="{{selections.versionAF2}}"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2012"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Retail Measure" tm1-element="Sales Amount"></tm1-ui-rpt-title>
+                   
+                   <tm1-ui-rpt-row tm1-dimension="Product" tm1-subset="All Elements" tm1-attribute="Code&Description" tm1-collapse-elements="Bike Racks" tm1-expand-elements="Bike Stands"></tm1-ui-rpt-row>
+                   <tm1-ui-rpt-row tm1-dimension="Region" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Total Europe]}, ALL, RECURSIVE)}" tm1-attribute="Description" tm1-collapse-elements="1"></tm1-ui-rpt-row>
+                   
+                   <tm1-ui-rpt-column tm1-dimension="Period" tm1-subset="Default"></tm1-ui-rpt-column>
+                </tm1-ui-rpt-config>
+               
+                <tm1-ui-rpt-template>
+                   <table id="af2" class="table table-condensed">
+                       <thead>
+                         <tr>
+                           <th>Product</th>
+                           <th>Region</th>
+                           <th class="text-center">Full Year</th>
+                           <th class="text-center">January</th>
+                           <th class="text-center">February</th>
+                           <th class="text-center">March</th>
+                           <th class="text-center">April</th>
+                           <th class="text-center">May</th>
+                           <th class="text-center">Jun</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr ng-repeat="rowData in values.dataAF2.rows track by $index" ng-if="rowData.inPage">
+                           <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Product"></td>
+                           <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Region"></td>
+                           
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF2" tm1-rpt-row-cell="rowData.getCell('Year')" tm1-column-no="1"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF2" tm1-rpt-row-cell="rowData.getCell('01')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF2" tm1-rpt-row-cell="rowData.getCell('02')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF2" tm1-rpt-row-cell="rowData.getCell('03')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF2" tm1-rpt-row-cell="rowData.getCell('04')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF2" tm1-rpt-row-cell="rowData.getCell('05')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF2" tm1-rpt-row-cell="rowData.getCell('06')"></tm1-ui-dbr>
+                           </td>
+                                                   
+                         </tr>
+                       </tbody>
+                     </table>
+                     
+                     <div>
+                       <div class="btn-group" role="group" >
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF2.pageFirst()"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></button>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF2.pagePrevious()"><i class="fa fa-angle-left"></i></button>
+                         <span class="btn btn-default" style="width: 70px;">{{values.dataAF2.page()}} of {{values.dataAF2.pages()}}</span>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF2.pageNext()"><i class="fa fa-angle-right"></i></button>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF2.pageLast()"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></button>
+                       </div>
+                       <div class="btn-group pull-right" role="group">
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF2.isPageSize(10)}" ng-click="options.sizeAF2 = 10">10</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF2.isPageSize(25)}" ng-click="options.sizeAF2 = 25">25</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF2.isPageSize(50)}" ng-click="options.sizeAF2 = 50">50</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF2.isPageSize(0)}" ng-click="options.sizeAF2 = 0">All</button>
+                       </div>
+                     </div>
+                     
+                  </tm1-ui-rpt-template>
+               </tm1-ui-rpt-view> 
+            </div>      
+         </div>
+         <div class="panel-footer">
+          <div>Use <code>tm1-collapse-elements</code> to pre-define a collapse element on load.</div>
+          <div>Combine with <code>tm1-expand-elements</code> to target specific elements to expand.</div>
+         </div>
+         <div class="panel-footer">
+           <div hljs>Please see HTML Page.</div> 
+         </div>
+       </div>
+        </div>
+     </div>
+     
+     <!--=================== Active Form and Inputs through Report Row Cell ========================-->
+     
+     <div class="row">
+      <div class="col-md-12">
+          
+        <div class="panel panel-primary">
+         <div class="panel-heading">
+           Active Form and Inputs through a lightweight Report Row Cell
+         </div>
+         <div class="panel-body">
+           
+           <div class="row">
+             <div class="col-md-6">
+              <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-attribute="Description" tm1-default-element="1" tm1-select-only="true" ng-model="selections.versionAF4"></tm1-ui-subnm>
+             </div>
+             <div class="col-md-6">
+               <select class="form-control" ng-init="options.suppressZeroAF4 = 'none'" ng-model="options.suppressZeroAF4">
+                 <option value="none">Do not Suppress Zeroes</option>
+                 <option value="row">Suppress Zero on Rows</option>
+                 <option value="column">Suppress Zeroes on Columns</option>
+                 <option value="both">Suppress Zeroes on Both Rows and Columns</option>
+               </select>
+             </div>
+           </div>
+   
+           <div style="margin-top: 15px;" ng-init="options.sizeAF4 = 10">
+             <tm1-ui-rpt-view id="test-active-form-rpt-row-cell" tm1-instance="dev" tm1-cube="Retail" ng-model="values.dataAF4" tm1-suppress-zero="{{options.suppressZeroAF4}}" tm1-page-size="{{options.sizeAF4}}" tm1-show-message="true">
+                 <tm1-ui-rpt-config> 
+                   <tm1-ui-rpt-title tm1-dimension="Version" tm1-element="{{selections.versionAF4}}"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2012"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Retail Measure" tm1-element="Sales Amount"></tm1-ui-rpt-title>
+                   
+                   <tm1-ui-rpt-row tm1-dimension="Product" tm1-mdx="{TM1DRILLDOWNMEMBER({[Product].[Accessories]}, ALL, RECURSIVE)}" tm1-attribute="Code&Description"></tm1-ui-rpt-row>
+                   <tm1-ui-rpt-row tm1-dimension="Region" tm1-mdx="{[Region].[Finland]}" tm1-attribute="Description"></tm1-ui-rpt-row>
+                   
+                   <tm1-ui-rpt-column tm1-dimension="Period" tm1-subset="Default"></tm1-ui-rpt-column>
+                </tm1-ui-rpt-config>
+               
+                <tm1-ui-rpt-template>
+                   <table id="af4" class="table table-condensed">
+                       <thead>
+                         <tr>
+                           <th>Product</th>
+                           <th>Region</th>
+                           <th class="text-center">Full Year</th>
+                           <th class="text-center">January</th>
+                           <th class="text-center">February</th>
+                           <th class="text-center">March</th>
+                           <th class="text-center">April</th>
+                           <th class="text-center">May</th>
+                           <th class="text-center">Jun</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr ng-repeat="rowData in values.dataAF4.rows track by $index" ng-if="rowData.inPage">
+                           <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Product"></td>
+                           <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Region"></td>
+                           
+                           <td class="text-right">
+                              <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="Year"></tm1-ui-rpt-row-cell>
+                           </td>
+                           <td class="text-right">
+                             <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="01"></tm1-ui-rpt-row-cell>
+                           </td>
+                           <td class="text-right">
+                             <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="02"></tm1-ui-rpt-row-cell>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="03"></tm1-ui-rpt-row-cell>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="04"></tm1-ui-rpt-row-cell>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="05"></tm1-ui-rpt-row-cell>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="06"></tm1-ui-rpt-row-cell>
+                           </td>
+                                                   
+                         </tr>
+                       </tbody>
+                     </table>
+                     
+                     <div>
+                       <div class="btn-group" role="group" >
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF4.pageFirst()"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></button>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF4.pagePrevious()"><i class="fa fa-angle-left"></i></button>
+                         <span class="btn btn-default" style="width: 70px;">{{values.dataAF4.page()}} of {{values.dataAF4.pages()}}</span>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF4.pageNext()"><i class="fa fa-angle-right"></i></button>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF4.pageLast()"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></button>
+                       </div>
+                       <div class="btn-group pull-right" role="group">
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF4.isPageSize(10)}" ng-click="options.sizeAF4 = 10">10</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF4.isPageSize(25)}" ng-click="options.sizeAF4 = 25">25</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF4.isPageSize(50)}" ng-click="options.sizeAF4 = 50">50</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF4.isPageSize(0)}" ng-click="options.sizeAF4 = 0">All</button>
+                       </div>
+                     </div>
+                     
+                  </tm1-ui-rpt-template>
+               </tm1-ui-rpt-view> 
+            </div>      
+         </div>
+         <div class="panel-footer">
+           <div hljs>Please see HTML Page.</div> 
+         </div>
+       </div>
+        </div>
+     </div>
+     
+     <!--=================== Active Form and input through modified DBR ========================-->
+     
+     <div class="row">
+      <div class="col-md-12">
+          
+        <div class="panel panel-primary">
+         <div class="panel-heading">
+           Active Form and Inputs through Modified DBRs
+         </div>
+         <div class="panel-body">
+           
+           <div class="row">
+             <div class="col-md-6">
+              <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-attribute="Description" tm1-default-element="1" tm1-select-only="true" ng-model="selections.versionAF3"></tm1-ui-subnm>
+             </div>
+             <div class="col-md-6">
+               <select class="form-control" ng-init="options.suppressZeroAF3 = 'none'" ng-model="options.suppressZeroAF3">
+                 <option value="none">Do not Suppress Zeroes</option>
+                 <option value="row">Suppress Zero on Rows</option>
+                 <option value="column">Suppress Zeroes on Columns</option>
+                 <option value="both">Suppress Zeroes on Both Rows and Columns</option>
+               </select>
+             </div>
+           </div>
+   
+           <div style="margin-top: 15px;" ng-init="options.sizeAF3 = 10">
+             <tm1-ui-rpt-view id="test-active-form-modified-dbr" tm1-instance="dev" tm1-cube="Retail" ng-model="values.dataAF3" tm1-suppress-zero="{{options.suppressZeroAF3}}" tm1-page-size="{{options.sizeAF3}}" tm1-show-message="true">
+                 <tm1-ui-rpt-config> 
+                   <tm1-ui-rpt-title tm1-dimension="Version" tm1-element="{{selections.versionAF3}}"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2012"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Retail Measure" tm1-element="Sales Amount"></tm1-ui-rpt-title>
+                   
+                   <tm1-ui-rpt-row tm1-dimension="Product" tm1-mdx="{TM1DRILLDOWNMEMBER({[Product].[Accessories]}, ALL, RECURSIVE)}" tm1-attribute="Code&Description"></tm1-ui-rpt-row>
+                   <tm1-ui-rpt-row tm1-dimension="Region" tm1-mdx="{[Region].[Finland]}" tm1-attribute="Description"></tm1-ui-rpt-row>
+                   
+                   <tm1-ui-rpt-column tm1-dimension="Period" tm1-subset="Default"></tm1-ui-rpt-column>
+                </tm1-ui-rpt-config>
+               
+                <tm1-ui-rpt-template>
+                   <table id="af3" class="table table-condensed">
+                       <thead>
+                         <tr>
+                           <th>Product</th>
+                           <th>Region</th>
+                           <th class="text-center">Full Year</th>
+                           <th class="text-center">January</th>
+                           <th class="text-center">February</th>
+                           <th class="text-center">March</th>
+                           <th class="text-center">April</th>
+                           <th class="text-center">May</th>
+                           <th class="text-center">Jun</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr ng-repeat="rowData in values.dataAF3.rows track by $index" ng-if="rowData.inPage">
+                           <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Product"></td>
+                           <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Region"></td>
+                           
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF3" tm1-rpt-row-cell="rowData.getCell('Year')" tm1-column-no="1"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF3" tm1-rpt-row-cell="rowData.getCell('01')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF3" tm1-rpt-row-cell="rowData.getCell('02')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF3" tm1-rpt-row-cell="rowData.getCell('03')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF3" tm1-rpt-row-cell="rowData.getCell('04')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF3" tm1-rpt-row-cell="rowData.getCell('05')"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-rpt-view-model="values.dataAF3" tm1-rpt-row-cell="rowData.getCell('06')"></tm1-ui-dbr>
+                           </td>
+                                                   
+                         </tr>
+                       </tbody>
+                     </table>
+                     
+                     <div>
+                       <div class="btn-group" role="group" >
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF3.pageFirst()"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></button>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF3.pagePrevious()"><i class="fa fa-angle-left"></i></button>
+                         <span class="btn btn-default" style="width: 70px;">{{values.dataAF3.page()}} of {{values.dataAF3.pages()}}</span>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF3.pageNext()"><i class="fa fa-angle-right"></i></button>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF3.pageLast()"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></button>
+                       </div>
+                       <div class="btn-group pull-right" role="group">
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF3.isPageSize(10)}" ng-click="options.sizeAF3 = 10">10</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF3.isPageSize(25)}" ng-click="options.sizeAF3 = 25">25</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF3.isPageSize(50)}" ng-click="options.sizeAF3 = 50">50</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF3.isPageSize(0)}" ng-click="options.sizeAF3 = 0">All</button>
+                       </div>
+                     </div>
+                     
+                  </tm1-ui-rpt-template>
+               </tm1-ui-rpt-view> 
+            </div>      
+         </div>
+         <div class="panel-footer">
+           <div hljs>Please see HTML Page.</div> 
+         </div>
+       </div>
+        </div>
+     </div>
+     
+     <!--=================== Active Form and input through Regular DBR ========================-->
+     
+     <div class="row">
+      <div class="col-md-12">
+          
+        <div class="panel panel-primary">
+         <div class="panel-heading">
+           Active Form and Inputs through Regular DBRs
+         </div>
+         <div class="panel-body">
+           
+           <div class="row">
+             <div class="col-md-6">
+              <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-attribute="Description" tm1-default-element="1" tm1-select-only="true" ng-model="selections.versionAF5"></tm1-ui-subnm>
+             </div>
+             <div class="col-md-6">
+               <select class="form-control" ng-init="options.suppressZeroAF5 = 'none'" ng-model="options.suppressZeroAF5">
+                 <option value="none">Do not Suppress Zeroes</option>
+                 <option value="row">Suppress Zero on Rows</option>
+                 <option value="column">Suppress Zeroes on Columns</option>
+                 <option value="both">Suppress Zeroes on Both Rows and Columns</option>
+               </select>
+             </div>
+           </div>
+   
+           <div style="margin-top: 15px;" ng-init="options.sizeAF5 = 10">
+             <tm1-ui-rpt-view id="test-active-form-regular-dbr" tm1-instance="dev" tm1-cube="Retail" ng-model="values.dataAF5" tm1-suppress-zero="{{options.suppressZeroAF5}}" tm1-page-size="{{options.sizeAF5}}" tm1-show-message="true">
+                 <tm1-ui-rpt-config> 
+                   <tm1-ui-rpt-title tm1-dimension="Version" tm1-element="{{selections.versionAF5}}"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2012"></tm1-ui-rpt-title>
+                   <tm1-ui-rpt-title tm1-dimension="Retail Measure" tm1-element="Sales Amount"></tm1-ui-rpt-title>
+                   
+                   <tm1-ui-rpt-row tm1-dimension="Product" tm1-mdx="{TM1DRILLDOWNMEMBER({[Product].[Accessories]}, ALL, RECURSIVE)}" tm1-attribute="Code&Description"></tm1-ui-rpt-row>
+                   <tm1-ui-rpt-row tm1-dimension="Region" tm1-mdx="{[Region].[Finland]}" tm1-attribute="Description"></tm1-ui-rpt-row>
+                   
+                   <tm1-ui-rpt-column tm1-dimension="Period" tm1-subset="Default"></tm1-ui-rpt-column>
+                </tm1-ui-rpt-config>
+               
+                <tm1-ui-rpt-template>
+                   <table id="af5" class="table table-condensed">
+                       <thead>
+                         <tr>
+                           <th>Product</th>
+                           <th>Region</th>
+                           <th class="text-center">Full Year</th>
+                           <th class="text-center">January</th>
+                           <th class="text-center">February</th>
+                           <th class="text-center">March</th>
+                           <th class="text-center">April</th>
+                           <th class="text-center">May</th>
+                           <th class="text-center">Jun</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr ng-repeat="rowData in values.dataAF5.rows track by $index" ng-if="rowData.inPage">
+                           <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Product"></td>
+                           <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Region"></td>
+                           
+                           <td class="text-right">
+                            <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.versionAF5}}, 2012, Full Year, Local, {{rowData['Region'].key}}, {{rowData['Product'].key}}, Sales Amount"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.versionAF5}}, 2012, 01, Local, {{rowData['Region'].key}}, {{rowData['Product'].key}}, Sales Amount"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.versionAF5}}, 2012, 02, Local, {{rowData['Region'].key}}, {{rowData['Product'].key}}, Sales Amount"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.versionAF5}}, 2012, 03, Local, {{rowData['Region'].key}}, {{rowData['Product'].key}}, Sales Amount"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">                          
+                              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.versionAF5}}, 2012, 04, Local, {{rowData['Region'].key}}, {{rowData['Product'].key}}, Sales Amount"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.versionAF5}}, 2012, 05, Local, {{rowData['Region'].key}}, {{rowData['Product'].key}}, Sales Amount"></tm1-ui-dbr>
+                           </td>
+                           <td class="text-right">
+                              <tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.versionAF5}}, 2012, 06, Local, {{rowData['Region'].key}}, {{rowData['Product'].key}}, Sales Amount"></tm1-ui-dbr>
+                           </td>
+                                                   
+                         </tr>
+                       </tbody>
+                     </table>
+                     
+                     <div>
+                       <div class="btn-group" role="group" >
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF5.pageFirst()"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></button>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF5.pagePrevious()"><i class="fa fa-angle-left"></i></button>
+                         <span class="btn btn-default" style="width: 70px;">{{values.dataAF5.page()}} of {{values.dataAF5.pages()}}</span>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF5.pageNext()"><i class="fa fa-angle-right"></i></button>
+                         <button type="button" class="btn btn-default" ng-click="values.dataAF5.pageLast()"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></button>
+                       </div>
+                       <div class="btn-group pull-right" role="group">
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF5.isPageSize(10)}" ng-click="options.sizeAF5 = 10">10</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF5.isPageSize(25)}" ng-click="options.sizeAF5 = 25">25</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF5.isPageSize(50)}" ng-click="options.sizeAF5 = 50">50</button>
+                         <button type="button" class="btn btn-default" ng-class="{'active': values.dataAF5.isPageSize(0)}" ng-click="options.sizeAF5 = 0">All</button>
+                       </div>
+                     </div>
+                     
+                  </tm1-ui-rpt-template>
+               </tm1-ui-rpt-view> 
+            </div>      
+         </div>
+         <div class="panel-footer">
+           <div hljs>Please see HTML Page.</div> 
+         </div>
+       </div>
+        </div>
+     </div>
+         
+    <!-- =============== Active Form Configurations =============== -->
+    <div class="row">
+      <div class="col-md-6">
+          
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Active Form Configuration Options
+          </div>
+          <div class="panel-body">
+         
+            <div>
+              <tm1-ui-rpt-view id="test-active-form-configuration" tm1-instance="dev" tm1-cube="Retail" ng-model="values.dataAF6" tm1-suppress-zero="none" tm1-show-message="true">
+                <tm1-ui-rpt-config>
+                  <tm1-ui-rpt-title tm1-dimension="Version" tm1-element="1"></tm1-ui-rpt-title>
+                  <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+                  <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2012"></tm1-ui-rpt-title>
+                  <tm1-ui-rpt-title tm1-dimension="Retail Measure" tm1-element="Sales Amount"></tm1-ui-rpt-title>
+                   
+                  <tm1-ui-rpt-row tm1-dimension="Product" tm1-element="483" tm1-attribute="Code&Description"></tm1-ui-rpt-row>
+                  <tm1-ui-rpt-row tm1-dimension="Region" tm1-element="Finland" tm1-attribute="Description"></tm1-ui-rpt-row>
+                   
+                  <tm1-ui-rpt-column tm1-dimension="Period" tm1-element="Year"></tm1-ui-rpt-column>
+                </tm1-ui-rpt-config>
+               
+                <tm1-ui-rpt-template>
+                  <table class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Region</th>
+                        <th class="text-center">Full Year</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="rowData in values.dataAF6.rows track by $index" ng-if="rowData.inPage">
+                        <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Product"></td>
+                        <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Region"></td>
+                           
+                        <td class="text-right">
+                          <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="Year"></tm1-ui-rpt-row-cell>
+                        </td>                                                   
+                      </tr>
+                    </tbody>
+                  </table>
+                </tm1-ui-rpt-template>
+              </tm1-ui-rpt-view> 
+            </div>      
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Use attribute <code>tm1-element</code> on your active form's configuration at <code>tm1-ui-rpt-column</code>, <code>tm1-ui-rpt-title</code> or <code>tm1-ui-rpt-row</code> to specify an element instead of subset or MDX.</div>
+              <div>To show messages under your HTML table to check its loading status, add the attribute <code>tm1-show-message</code> and set it <strong>true</strong>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs>Please see HTML Page.</div> 
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+          
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Active Form Report Row Cell Options
+          </div>
+          <div class="panel-body">
+            <p>
+              <select class="form-control" ng-model="values.cellTheme" ng-init="values.cellTheme='custom-cell'">
+                <option value="">None</option>
+                <option value="custom-cell">Custom</option>
+              </select>
+            </p>
+            <div>
+              <tm1-ui-rpt-view id="test-active-form-row-cell-option" tm1-instance="dev" tm1-cube="System Info" ng-model="values.dataAF7" tm1-suppress-zero="none" tm1-show-message="true">
+                <tm1-ui-rpt-config>
+                  <tm1-ui-rpt-row tm1-dimension="System Info Parameter" 
+                    tm1-mdx="{[System Info Parameter].[Calender Year], [System Info Parameter].[Server Time], [System Info Parameter].[TM1 Server Name]}" >                  
+                  </tm1-ui-rpt-row>
+                   
+                  <tm1-ui-rpt-column tm1-dimension="System Info Measures" tm1-mdx="{[System Info Measures].[String], [System Info Measures].[Numeric]}"></tm1-ui-rpt-column>
+                </tm1-ui-rpt-config>
+               
+                <tm1-ui-rpt-template> 
+                  <table class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Parameter</th>
+                        <th>String</th>
+                        <th>Numeric</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="rowData in values.dataAF7.rows track by $index" ng-if="rowData.inPage">
+                        <td tm1-ui-rpt-row-element="rowData" tm1-dimension="System Info Parameter" tm1-ui-class="{{values.cellTheme}}"></td>
+                           
+                        <td class="text-right">
+                          <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="String" tm1-picklist-disable-search="true" tm1-ui-class="{{values.cellTheme}}"></tm1-ui-rpt-row-cell>
+                        </td>
+                        <td class="text-right">
+                          <tm1-ui-dbr tm1-rpt-view-model="values.dataAF7" tm1-rpt-row-cell="rowData.getCell('Numeric')"></tm1-ui-dbr>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </tm1-ui-rpt-template>
+              </tm1-ui-rpt-view> 
+            </div>      
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Disable search functionality for picklist via <code>tm1-picklist-disable-search</code>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs>Please see HTML Page.</div> 
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+          
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Active Form Configuration Options
+          </div>
+          <div class="panel-body">
+         
+            <div>
+              <tm1-ui-rpt-view id="test-active-form-other-configuration" tm1-instance="dev" tm1-cube="Retail" ng-model="values.dataAF8" tm1-suppress-zero="none" tm1-show-message="true">
+                <tm1-ui-rpt-config>
+                  <tm1-ui-rpt-title tm1-dimension="Version" tm1-element="1"></tm1-ui-rpt-title>
+                  <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+                  <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2012"></tm1-ui-rpt-title>
+                  <tm1-ui-rpt-title tm1-dimension="Retail Measure" tm1-element="Sales Amount"></tm1-ui-rpt-title>
+                   
+                  <tm1-ui-rpt-row tm1-dimension="Product" tm1-mdx="{TM1DRILLDOWNMEMBER({[Product].[Bottles and Cages]}, ALL, RECURSIVE)}" tm1-attribute="Code&Description"></tm1-ui-rpt-row>
+                  <tm1-ui-rpt-row tm1-dimension="Region" tm1-mdx="{TM1DRILLDOWNMEMBER({[Region].[Scandinavia]}, ALL, RECURSIVE)}" tm1-attribute="Description"></tm1-ui-rpt-row>
+                   
+                  <tm1-ui-rpt-column tm1-dimension="Period" tm1-element="Year"></tm1-ui-rpt-column>
+                </tm1-ui-rpt-config>
+               
+                <tm1-ui-rpt-template>
+                  <table class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Region</th>
+                        <th class="text-center">Full Year</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="rowData in values.dataAF8.rows track by $index" ng-if="rowData.inPage">
+                        <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Product" tm1-freeze-element="true"></td>
+                        <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Region"></td>
+                           
+                        <td class="text-right">
+                          <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="Year"></tm1-ui-rpt-row-cell>
+                        </td>                                                   
+                      </tr>
+                    </tbody>
+                  </table>
+                </tm1-ui-rpt-template>
+              </tm1-ui-rpt-view> 
+            </div>      
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Use attribute <code>tm1-freeze-element</code> to disable the collapsing and expanding of active form elements with sub-elements.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs>Please see HTML Page.</div> 
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+</div>

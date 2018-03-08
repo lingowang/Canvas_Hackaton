@@ -1,0 +1,81 @@
+<div ng-controller="SampleSQLCtrl">
+
+  <!--=========================================-->
+  <!--                   ROW 1                 -->
+  <!--              TITLE + SUB-TITLE          -->
+
+  <h1><a ui-sref="home"><i class="fa fa-arrow-left"></i></a> <i class="fa fa-database"></i> Sample SQL</h1>	
+  
+  <div class="help-block">
+    This sample shows how to query a SQL database using Angular and a JSP page on the server. The JSP page is located at:
+    <div style="margin-top: 20px;">
+      <pre style="display: inline;">api/samples/sql.jsp</pre>
+    </div>
+  </div>
+  
+  <hr/>
+
+  <!--=========================================-->
+  <!--                   ROW 2                 -->
+  <!--    DEPARTMENT +   MAX RECORDS FILTER    -->
+
+  <div class="row">
+
+    <!--           Department selection       -->
+    <div class="col-md-9">
+      <div class="form-group">
+        <label>Department</label>
+        <tm1-ui-subnm
+          tm1-instance="dev"
+          tm1-dimension="Department"
+          tm1-subset="Default"
+          tm1-default-element="6"
+          tm1-select-only="true"
+          ng-model="selections.department">
+        </tm1-ui-subnm>
+      </div>
+      
+    </div>
+
+    <!--           Max Records input box      -->
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Max Records</label>
+        <input type="number" class="form-control" ng-model="options.max" ng-change="query()" />
+      </div>
+    </div>
+  </div>
+  
+  <hr/>
+
+  <!--=========================================-->
+  <!--                   ROW 3                 -->
+  <!--                   TABLE                 -->
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Index</th>
+        <th>Date</th>
+        <th>Region</th>
+        <th>Department</th>
+        <th>Scenario</th>
+        <th>Account</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--   data is defined in the controller js/sample-sql.jsp      -->
+      <tr ng-repeat="item in data">
+        <td>{{item.FinanceKey}}</td>
+        <td>{{item.DateKey}}</td>
+        <td>{{item.OrganizationKey}}</td>
+        <td>{{item.DepartmentGroupKey}}</td>
+        <td>{{item.ScenarioKey}}</td>
+        <td>{{item.AccountKey}}</td>
+        <td>{{item.Amount | number}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

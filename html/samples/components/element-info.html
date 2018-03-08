@@ -1,0 +1,64 @@
+<div>
+    <style>
+      code.hljs {
+       white-space: normal !important;
+      }
+    </style>
+  
+   <h1>
+      <i class="fa fa-list-ul"></i> Element
+   </h1>
+   
+   <hr/>   
+   
+   <div class="row">
+      
+      <div class="col-lg-4">
+      	<div class="panel panel-primary">
+          <div class="panel-heading">
+          	<span>Retrieve Element Information</span>
+          </div>
+          <div class="panel-body">          
+           	<tm1-ui-element tm1-instance="dev" tm1-dimension="Employee" tm1-element="All Employees" ng-model="values.element1"></tm1-ui-element>
+            <pre ng-if="values.element1" id="test-element-normal">{{values.element1 | json}}</pre>            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Retrieve element information from TM1 via <code>tm1-ui-element</code>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-element tm1-instance="dev" tm1-dimension="Employee" tm1-element="All Employees" ng-model="values.element1"></tm1-ui-element></div>
+          </div>
+        </div>      
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>Retrieve Element Attribute(s)</span>
+          </div>
+          <div class="panel-body">          
+            <tm1-ui-element tm1-instance="dev" tm1-dimension="Employee" tm1-element="Chris Norred K" tm1-attributes="Full Name, Employee Key" ng-model="values.element2"></tm1-ui-element>
+            <pre ng-if="values.element2" id="test-element-attributes">{{values.element2 | json}}</pre>            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Utilize Element or Alias, and retrieve Attributes.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-element tm1-instance="dev" tm1-dimension="Employee" tm1-element="Chris Norred K" tm1-attributes="Full Name, Employee Key" ng-model="values.element2"></tm1-ui-element></div>
+          </div>
+        </div>      
+      </div>
+      
+      
+      
+      
+      
+   </div>
+   
+   
+
+</div>

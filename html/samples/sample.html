@@ -1,0 +1,285 @@
+<style>
+		/*
+			these are page specific styles. Moving them into its own CSS will clash with existing Bootstrap classes. Use with care.
+		*/
+		.page-view{
+				padding:0px;
+		}
+		
+		.outside_box {
+				border:0px solid #FFF;
+				margin-top:0px;
+				padding:0px;
+				background:#333;
+				color:#fff;
+				z-index:0;
+				height:0px ;
+				min-height:180px;
+				display:inline-block;
+				position:relative;
+				overflow:hidden;
+				border-color: 1px solid #000; 
+				background-color:#fff; /* For browsers that do not support gradients */
+				-webkit-transition: height 0.3s;
+				-moz-transition: height 0.3s;
+				transition: height 0.3s;
+				min-width:200px;
+				max-width:200px;  
+				border: thin solid #ccc;  
+				float:none; 
+				margin:10px;  
+				display:-ms-inline-grid; 
+				top:0px;  
+		}
+			 
+		.outside_box.bigger {
+				padding:0px;
+				height:180px;   
+		} 
+		
+		.ourcontent {
+				/* Initially we don't want any height, and we want the contents to be hidden */
+				position:absolute;
+				color:#666;
+				bottom:-1px;
+				height:180px;
+				background-color:#fff;
+				max-height: 0px;
+				max-width: 100%;
+				overflow: hidden;
+				width:100%;
+				z-index:999;
+					
+				/* Set our transitions up. */
+				-webkit-transition: max-height 0.5s;
+				-moz-transition: max-height 0.5s;
+				transition: max-height 0.5s;
+		}
+		
+		.outside_box:hover .ourcontent {
+				/* On hover, set the max-height to something large. In this case there's an obvious limit. */
+				max-height: 180px;
+		}
+		
+		.h1{
+				font-size:18px;
+		}
+		
+		.btn{
+				border: none;  
+				margin:0 auto;
+				width:20px; 
+				height:20px;
+				position:absolute;
+				display:block;
+				bottom:0px;
+		}
+		
+		.bgimage{
+				height: 400px; 
+				background-position: initial;
+				background-repeat: no-repeat; 
+				background-size: 100% auto; 
+				background-position: center center;
+				background-color:transparent;
+		}
+		 
+		@media(min-width:876px) {
+				.bgimage{
+						height: 400px; 
+						background-position: initial;
+						background-repeat: no-repeat; 
+						background-size: 100% auto; 
+						background-position: center top ;
+						background-color:transparent;
+						pointer-events:none;
+				}
+		}
+		 
+		
+		input[type=range] {
+				width: 300px; 
+		}
+
+	.homectrl{
+		padding:0px; 
+		margin:0px auto;  
+		width:100%;  
+		padding:10px; 
+		background-color: #f8f8f8;
+	
+	}
+
+	.row-home{
+		padding:0px; 
+		margin:0px auto;  
+		padding-bottom:20px; 
+		background-color:#f8f8f8; 
+		border-top:1px solid #e7e7e7;
+	
+	}
+	.row-heading{
+		font-size:1.0em; 
+		background-color:transparent; 
+		color:#777; 
+		padding:10px; 
+		margin:0px; 
+		left:10px;
+		width:auto;
+	
+	}
+	#page-view-v2 > div{
+		padding:0px;
+	}
+	.home-heading-section{
+		font-size:1.0em; 
+		background-color:transparent; 
+		color:#777; 
+		padding:10px; 
+		margin:0px; 
+		left:10px;
+		width:auto;
+	}
+	.down-icon{
+		padding-left:10px; 
+		float:right; 
+		right:0px;   
+		font-size:2.2vmin;
+	}
+	.samples-section{
+		width:100%; 
+		min-width:300px;   
+		margin:0 auto; 
+		float:none; 
+		text-align: center;
+	}
+	.components-section{
+		width:100%; 
+		min-width:300px;   
+		margin:0 auto; 
+		float:none; 
+		text-align: center;
+		top-margin:20px;
+	}
+	.templates-section{
+		width:100%; 
+		min-width:300px;   
+		margin:0 auto; 
+		float:none; 
+		text-align: center;
+		 top-margin:20px;
+	}
+	.card-holder{
+		background-color:transparent; 
+		color:#fff; 
+		padding:30px;
+	}
+	.samples-card{
+		padding-left: 0px;
+		padding-right: 0px;
+		left: 0px;
+		right: auto; 
+		color:#fff; 
+		background-color:#9FD000; 
+	}
+	.components-card{
+	 padding-left: 0px;
+	 padding-right: 0px;
+	 left: 0px;
+	 right: auto; 
+	 color:#fff; 
+	 background-color:#0085B9;
+	}
+	.templates-card{
+		padding-left: 0px;
+		padding-right: 0px;
+		left: 0px;
+		right: auto; 
+		color:#fff; 
+		background-color:#FF9214;
+	}
+	.card-btn{
+		position:relative; 
+		padding:0px; 
+		background-color:transparent;
+	}
+	.white-icon{
+		color:#fff;
+	}
+
+	.inner-card{
+		pointer-events:none; 
+		text-align: center; 
+		pointer-events:none; 
+		text-align: center; 
+		padding:10px;
+	
+	}
+	.inner-card-heading{
+		width:100%;font-size:1em;  
+		position:absolute;
+		top:100%; 
+		padding-left:0px; 
+		margin:0 auto; 
+		color:rgba(0,0,0,0.6) 
+	}
+	.inner-card-footer{
+		position:relative; 
+		bottom:0px; 
+		padding-top:10px; 
+		font-size: 0.9em; 
+		color:rgba(0,0,0,0.6); 
+		width:100%; 
+		height:50px; 
+		text-align:center; 
+		border:none;   
+		background-color:#fff;
+	}
+	.inner-card-text{
+		padding: 30px; 
+		text-align: center; 
+	}
+	</style>
+
+<div ng-controller="SampleCtrl">
+	<div class="page-header">
+		<h1>Sample Pages</h1>
+		<h1><small>{{'MESSAGESAMPLEHEADER1' | translate}} <a href="https://getbootstrap.com" target="_blank" translate="BOOTSTRAP"></a>, 
+		<a href="https://angularjs.org" target="_blank" translate="ANGULAR"></a> {{'MESSAGESAMPLEHEADER2' | translate}}
+		<a href="http://fontawesome.io/" target="_blank" translate="FONTAWESOME"></a>
+		 {{'MESSAGESAMPLEHEADER3' | translate}} 
+		<a href="http://www.canvasfortm1.com/" target="_blank" translate="CANVASTM1"></a> {{'MESSAGESAMPLEHEADER4' | translate}}</small></h1>  		
+	</div>
+
+ 
+  <div class="row row-home"  >
+			<div class="samples-section" >
+				<div class=" col-sm-1 outside_box"  ng-repeat="x in $root.menuData[0].children[$root.samplesMenuIndex].children" 
+          ng-if="x.label != 'Components' && x.label != 'Templates' && x.label != 'Setup' && x.label != 'Applications'">
+				 
+					<a href="#/sample/{{x.data.page}}"  class="card-holder">
+						<div class="col-md-12 ourcontent samples-card">
+							<!-- contenteditable=""  -->
+							<p class="inner-card-text"> 
+								{{menuDescription[x.data.page]}}
+								<br /><br /> 
+								<button class="btn btn-primary card-btn" >
+									<i class="fa fa-chevron-circle-down fa-2x white-icon"></i>
+								</button>  
+							</p>
+						</div>
+						<div class="col-md-12 inner-card">
+							<h1 class="col-md-12 inner-card-heading">
+								<i class="fa {{x.icon_class}} fa-4x"> </i>
+								<br /><br /> 
+							</h1>
+							<footer  class="inner-card-footer">
+								<strong>{{x.label}}</strong>
+							</footer>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div><!--  samples row end-->
+  
+</div>

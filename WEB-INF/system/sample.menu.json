@@ -1,0 +1,301 @@
+[
+	{
+        "label": "Samples",
+        "icon_class": "fa-globe",
+        "data": {"page": "sample"},
+        "expanded": false,
+        "children":[
+            {
+		        "label": "Setup",
+		        "icon_class": "fa-cogs",
+		        "data": {"page": "setup"}
+		    }, 
+        	{
+	            "label": "Simple SUBNM & DBR",
+	            "icon_class": "fa-file-o",
+	            "data": {"page": "sample-simple"}
+	        },
+	        {
+	            "label": "Skinning the tm1-ui Components",
+	            "icon_class": "fa-picture-o",
+	            "data": {"page": "sample-skinning"}
+	        },
+	        {
+                "label": "Sortable, Filtered Table",
+                "icon_class": "fa-table",
+                "data": {"page": "sample-table"}
+            },
+            {
+                "label": "Full Dashboard Example",
+                "icon_class": "fa-money",
+                "data": {"page": "sample-dashboard"}
+            },
+            {
+                "label": "Printing",
+                "icon_class": "fa-print",
+                "data": {"page": "sample-print"}
+            },
+            {
+                "label": "Data Entry Template",
+                "icon_class": "fa-pencil-square",
+                "data": {"page": "sample-data-entry"}
+            },
+            {
+                "label": "Salary Template",
+                "icon_class": "fa-users",
+                "data": {"page": "sample-salary-budget"}
+            },
+            {
+                "label": "Navigation",
+                "icon_class": "fa-link",
+                "data": {"page": "sample-navigation-1"}
+            },
+            {
+                "label": "Visualisations",
+                "icon_class": "fa-codiepie",
+                "data": {"page": "sample-advance-chart"}
+            },
+            {
+                "label": "Upload Files",
+                "icon_class": "fa-upload",
+                "data": {"page": "sample-upload"}
+            },
+            {
+                "label": "Upload Excel Files",
+                "icon_class": "fa-cloud-upload",
+                "data": {"page": "sample-sheetjs"}
+            },
+	        {
+	            "label": "Cube List",
+	            "icon_class": "fa-cubes",
+	            "data": {"page": "sample-cubes"}
+	        },
+          {
+              "label": "SQL",
+              "icon_class": "fa-database",
+              "data": {"page": "sample-sql"}
+          },
+          {
+              "label": "Named MDX",
+              "icon_class": "fa-cubes",
+              "data": {"page": "mdx-named"}
+          },
+          {
+              "label": "Grid",
+              "icon_class": "fa-table",
+              "data": {"page": "sample-grid"}
+          },
+	        {
+            "label": "Components",
+            "icon_class": "fa-wrench",
+            "data": {"page": "component"},
+            "expanded": false,
+            "children":[
+                {
+                    "label": "SUBNM",
+                    "icon_class": "fa-search",
+                    "data": {"page": "subnm"}
+                },
+                
+                {
+                    "label": "DBR",
+                    "icon_class": "fa-cube",
+                    "data": {"page": "dbr"}
+                },                
+                
+                {
+                    "label": "DBR Group Update",
+                    "icon_class": "fa-circle-o",
+                    "data": {"page": "dbr-group-update"}
+                },
+                
+                {
+                    "label": "DBR & Hierarchies",
+                    "icon_class": "fa-exchange",
+                    "data": {"page": "dbr-hierarchy"}
+                },
+                
+                {
+                    "label": "DBR Hidden",
+                    "icon_class": "fa-eye-slash",
+                    "data": {"page": "dbr-hidden"}
+                },
+                
+                {
+                    "label": "DBR Read Only",
+                    "icon_class": "fa-eye",
+                    "data": {"page": "dbr-read-only"}
+                },
+                
+                {
+                    "label": "DBR Image",
+                    "icon_class": "fa-file-image-o",
+                    "data": {"page": "dbr-image"}
+                },
+                
+                {
+                    "label": "DBR Sandbox",
+                    "icon_class": "fa-connectdevelop",
+                    "data": {"page": "dbr-sandbox"}
+                },
+                
+                {
+                    "label": "DBRA",
+                    "icon_class": "fa-tag",
+                    "data": {"page": "dbra"}
+                },
+                
+                {
+                    "label": "Execute TI Process",
+                    "icon_class": "fa-play-circle-o",
+                    "data": {"page": "process"}
+                },
+                
+                {
+                    "label": "Store Preferences",
+                    "icon_class": "fa-floppy-o",
+                    "data": {"page": "store"}
+                },
+                
+                {
+                    "label": "Active Form",
+                    "icon_class": "fa-indent",
+                    "data": {"page": "activeform"}
+                },
+                
+                {
+                    "label": "TM1 Web",
+                    "icon_class": "fa-globe",
+                    "data": {"page": "tm1web"}
+                },
+                
+                {
+                    "label": "MDX and Charts",
+                    "icon_class": "fa-th",
+                    "data": {"page": "mdx-chart"}
+                },
+                
+                {
+                    "label": "Element",
+                    "icon_class": "fa-list-ul",
+                    "data": {"page": "element-info"}
+                },
+                
+                {
+                    "label": "Element List",
+                    "icon_class": "fa-list-ul",
+                    "data": {"page": "element-list"}
+                },
+                
+                {
+                    "label": "Charts",
+                    "icon_class": "fa-dashboard",
+                    "data": {"page": "charts"}
+                },
+                
+                {
+                    "label": "Upload",
+                    "icon_class": "fa-upload",
+                    "data": {"page": "upload"}
+                },
+                
+                {
+                    "label": "Table with Named MDX",
+                    "icon_class": "fa-table",
+                    "data": {"page": "mdx-table"}
+                },
+                
+                {
+                    "label": "Login",
+                    "icon_class": "fa-key",
+                    "data": {"page": "login-info"}
+                },
+                
+                {
+                    "label": "Session",
+                    "icon_class": "fa-user-circle-o",
+                    "data": {"page": "session-info"}
+                },
+                
+                {
+                    "label": "Progress Update",
+                    "icon_class": "fa-retweet",
+                    "data": {"page": "progress-update"}
+                },
+                
+                {
+                    "label": "User Info",
+                    "icon_class": "fa-user-o",
+                    "data": {"page": "user-info"}
+                },
+                
+                {
+                    "label": "Export",
+                    "icon_class": "fa-file-archive-o",
+                    "data": {"page": "export-info"}
+                },
+                
+                {
+                    "label": "Cube Viewer",
+                    "icon_class": "fa-dashcube",
+                    "data": {"page": "cube-viewer"}
+                },
+                
+                {
+                    "label": "Subset Editor",
+                    "icon_class": "fa-sitemap",
+                    "data": {"page": "subset-editor"}
+                }
+              ]
+           },
+           
+           {
+                "label": "Applications",
+                "icon_class": "fa-edit",
+                "data": {"page": "application"},
+                "expanded": false,
+                "children":[
+                  {
+                    "label": "Adventure Works",
+                    "icon_class": "fa-bicycle",
+                    "data": {"page": "application-1"},
+                    "expanded": false,
+                    "children":[
+                      {
+                          "label": "Employees",
+                          "icon_class": "fa-user-circle-o",
+                          "data": {"page": "application-1-employee"}
+                      },
+                      
+                      {
+                          "label": "Profit and Loss",
+                          "icon_class": "fa-line-chart",
+                          "data": {"page": "application-1-pnl"}
+                      },
+                      
+                      {
+                          "label": "Product",
+                          "icon_class": "fa-shopping-cart",
+                          "data": {"page": "application-1-product"}
+                      }
+                    ]
+                  }
+               ] 
+            },
+           
+           {
+                "label": "Templates",
+                "icon_class": "fa-edit",
+                "data": {"page": "templates"},
+	            "expanded": false,
+	            "children":[
+	                {
+	                    "label": "Dashboard",
+	                    "icon_class": "fa-line-chart",
+	                    "data": {"page": "template-dashboard"}
+	                }
+	             ] 
+            }       
+        ]
+    }		
+]

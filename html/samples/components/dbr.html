@@ -1,0 +1,1017 @@
+<div ng-controller="DbrCtrl">
+
+  <style>
+  
+    pre, code {
+     white-space: normal !important;
+    }
+    
+    .custom-dbr * input{
+      background: #ffffcc;
+    }
+  </style>
+
+   <h1>
+      <i class="fa fa-cube"></i> DBR
+   </h1>
+   
+   <hr/>   
+      
+   <div class="row">
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Simple
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-simple" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-default-empty=""></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Use the DBR element to retrieve a value from a cube</div>
+              <div>Use must supply the <code>tm1-instance</code>, <code>tm1-cube</code> and <code>tm1-elements</code> attributes</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-default-empty=""></tm1-ui-dbr></div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Decimal Places
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-decimal" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-read-only="true"></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>To specify the number of decimal places use <code>tm1-data-decimal="0"</code> and <code>tm1-read-only="true"</code> to set to read only</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-read-only="true"></tm1-ui-dbr></div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR Percentage (%)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-percentage" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-format-percentage="true"></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>To format the number as a percentage add the attribute <code>tm1-format-percentage="true"</code></div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-format-percentage="true"></tm1-ui-dbr></div>
+          </div>
+        </div>
+        
+      </div>
+      
+   </div>
+   
+   <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR (with Validation)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-validation" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-default-empty="" 
+              tm1-validate="@Value > 0 && @Value < 1" tm1-validate-message="@Value must be between 0 and 1!" tm1-data-decimal="2"></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Validate entry on input boxes. Put your expression to evaluate in <code>tm1-validate</code>.</div>
+              <div>Show helpful hints when validation fails via <code>tm1-validate-message</code>.</div>              
+            </div>
+            <div class="panel-footer">
+              <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-default-empty="" 
+              tm1-validate="@Value > 0 && @Value < 1" tm1-validate-message="@Value must be between 0 and 1!" tm1-data-decimal="2"></tm1-ui-dbr></div>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Comments for Cube Input Cells
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-comment-leaf" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Travel Transportation,Amount"
+          tm1-comment-elements="Actual,2012,Mar,Local,England,2,Travel Transportation,Comment"></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Add comments by specifying the element intersection on the same cube via <code>tm1-comment-elements</code></div>
+              <div>A mark to distinguish between cells with comments will be visible.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Travel Transportation,Amount" tm1-comment-elements="Actual,2012,Mar,Local,England,2,Travel Transportation,Comment"></tm1-ui-dbr></div>
+          </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Comments for Consolidated Elements
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-comment-consolidation" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,1,Travel Expenses,Amount"
+          tm1-comment-elements="Actual,2012,Mar,Local,England,1,Travel Expenses,Comment"></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Add comments even for consolidated elements!</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,1,Travel Expenses,Amount" tm1-comment-elements="Actual,2012,Mar,Local,England,1,Travel Expenses,Comment"></tm1-ui-dbr></div>
+          </div>
+        </div>
+      
+    </div>
+   </div>
+   
+   <div class="row">
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR with Picklist on Cell
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-picklist" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String"></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Cells that have a picklist will automatically be convert to a drop down list</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String"></tm1-ui-dbr></div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+      
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Picklist (READ ONLY)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-picklist-read-only" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" tm1-read-only="true"></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Setting the dbr to read only <code>tm1-read-only="true"</code> will remove the drop down.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" tm1-read-only="true"></tm1-ui-dbr></div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR with Multi Line Support!
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-multiline" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Base Version,Comment" tm1-multi-line="3"></tm1-ui-dbr>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Enable multi-line support for <strong>String cells</strong> by adding <code>tm1-multi-line="n"</code> attribute, where n, denotes the number of lines.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Base Version,Comment" tm1-multi-line="3"></tm1-ui-dbr></div>
+          </div>
+        </div>
+            
+    </div>
+            
+   </div>
+   
+   
+   
+   
+   <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR with Picklist on Cell (as Radio)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-picklist-radio" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" tm1-picklist-radio="horizontal"></tm1-ui-dbr>
+                       
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Cells that have a picklist can be displayed as radio buttons too! Set <code>tm1-picklist-radio</code> to either <strong>horizontal</strong> or <strong>vertical</strong>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" tm1-picklist-radio="horizontal"></tm1-ui-dbr></div>
+          </div>
+        </div>
+        
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR with Multi Line (READ-ONLY)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-multiline-read-only" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Base Version,Comment" tm1-read-only="true" tm1-multi-line="3"></tm1-ui-dbr>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Read-only, multi-line support for <strong>String cells</strong> by adding <code>tm1-multi-line="n"</code> attribute, where n, denotes the number of lines.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Base Version,Comment" tm1-read-only="true" tm1-multi-line="3"></tm1-ui-dbr></div>
+          </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+            <div class="panel-heading">
+              DBR with a Date Picker
+            </div>
+            <div class="panel-body">              
+              <tm1-ui-dbr id="test-dbr-datepicker" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Year,Comment" tm1-date-option="{format:'yyyy-mm-dd'}" ng-model="values.date"></tm1-ui-dbr>
+              <h5>You have selected: {{values.date}}</h5>            
+            </div>
+            <div class="panel-footer">
+              <div class="help-text">
+                <div>Specify your date format input via <code>tm1-date-option</code> object. Checkout the full
+                options reference from <a target="_blank" href="https://bootstrap-datepicker.readthedocs.io/en/latest/options.html">here</a>.
+                </div>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Year,Comment" tm1-date-option="{format:'yyyy-mm-dd'}" ng-model="values.date"></tm1-ui-dbr></div>
+            </div>
+          </div>
+      
+    </div>
+   </div>
+   
+   
+   
+   
+   
+   <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR with HTML Formatting (as Pop-up)
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr id="test-dbr-html-popup" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Version,Comment" tm1-format-html="true" tm1-format-html-popup="true"></tm1-ui-dbr>
+               
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>For limited space, show the editor on its own window instead.</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Version,Comment" tm1-format-html="true" tm1-format-html-popup="true"></tm1-ui-dbr></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR with HTML Formatting (as In-line)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-html-inline" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Version,Comment" tm1-format-html="true"></tm1-ui-dbr>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Inline, HTML formatting support via <code>tm1-format-html</code>!</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Version,Comment" tm1-format-html="true"></tm1-ui-dbr></div>
+          </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR with HTML Formatting (Read-Only)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-html-read-only" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Version,Comment" tm1-read-only="true" tm1-default-empty="Empty Display"></tm1-ui-dbr>
+                 
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>No need to do anything. It will be rendered automatically when HTML tags are present!</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Version,Comment" tm1-read-only="true" tm1-default-empty="Empty Display"></tm1-ui-dbr></tm1-ui-dbr></div>
+          </div>
+        </div>
+    </div>
+   </div>
+   
+   <div class="row">
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR with HTML Formatting and Customized Buttons
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr id="test-dbr-html-custom-buttons" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Version,Comment" tm1-format-html="true" tm1-format-html-buttons="[['h1','h2','h3']]"></tm1-ui-dbr>
+               
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Customized the buttons that the users can use via <code>tm1-format-html-buttons</code></div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Budget Version,Comment" tm1-format-html="true" tm1-format-html-buttons="[['h1','h2','h3']]"></tm1-ui-dbr></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR Comment Button Customization
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr id="test-dbr-comment-custom-buttons" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount"
+        tm1-comment-elements="Actual,2012,Mar,Local,England,2,Salaries,Comment" tm1-comment-format-html-buttons="[['h1','h2','h3']]"></tm1-ui-dbr>
+                     
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Customized the buttons that the users can use even for comments via <code>tm1-comment-format-html-buttons</code>!</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount"
+        tm1-comment-elements="Actual,2012,Mar,Local,England,2,Salaries,Comment" tm1-comment-format-html-buttons="[['h1','h2','h3']]"></tm1-ui-dbr></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Apply a CSS style on the Component
+        </div>
+        <div class="panel-body">
+          <p>
+            <select class="form-control" ng-model="values.dbrTheme" ng-init="values.dbrTheme='custom-dbr'">
+              <option value="">None</option>
+              <option value="custom-dbr">Custom</option>
+            </select>
+          </p>
+          
+          <tm1-ui-dbr id="test-dbr-style" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-ui-class="{{values.dbrTheme}}"></tm1-ui-dbr>
+                     
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-ui-class</code> to affect the style of the component further.</div>
+          </div>          
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-ui-class="{{values.dbrTheme}}"></tm1-ui-dbr></div>
+        </div>
+      </div>
+    </div>
+    
+   </div>
+   
+   
+   <div class="row">
+   
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Utilize the Drill Results on your Page. 
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr id="test-dbr-drill" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount" tm1-drill-model="values.dbr.drill"></tm1-ui-dbr>
+          <p class="text-muted">Check Console for the Data Received after Selecting a Drill, then Closing that Window.</p>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Get a copy of the drill transactions you have selected via <code>tm1-drill-model</code></div>
+            <div id="test-dbr-drill-source-table" ng-if="values.dbr.drill['Source Table'].transactions">Total Data Cells via Drill: {{values.dbr.drill['Source Table'].transactions.value.length}}</div>
+            <div id="test-dbr-drill-transaction" ng-if="values.dbr.drill.Transactions.transactions">Total Table Data via via Drill: {{values.dbr.drill.Transactions.transactions.Cells.length}}</div>            
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount" tm1-drill-model="values.dbr.drill"></tm1-ui-dbr></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Additional DBR APIs, that is directly applied
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <input type="number" class="form-control" ng-init="values.contextTimeout = 5;"ng-model="values.contextTimeout" placeholder="Context Timeout">
+            </div>            
+            <div class="col-md-8">
+              <button type="button" class="btn btn-primary pull-right" ng-click="applyTimeout(values.dbr.api, values.contextTimeout)">Set Timeout</button>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <tm1-ui-dbr id="test-dbr-api" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-default-empty="" tm1-data-decimal="2" tm1-api="values.dbr.api"></tm1-ui-dbr>
+              <div class="alert alert-success" role="alert" ng-if="values.dbrApiDisplayValue.length > 0">
+                <div ng-bind-template="{{values.dbrApiDisplayValue}}"></div>
+              </div>
+            </div>            
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>You can changed the context timeout via <strong>setContextTimeout(seconds)</strong> exposed through <code>tm1-api</code>. Checkout this page's controller for more details.</div>
+            <div>You can also trigger another process when the request for update has been completed via <strong>onUpdate(status, data)</strong></div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-default-empty="" tm1-data-decimal="2" tm1-api="values.dbr.api"></tm1-ui-dbr></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR - Store Comments in a Separate Cube
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr id="test-dbr-comment-cube" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+          tm1-comment-cube="Planning Assumptions" tm1-comment-elements='"Actual","2015/16","Inventory Management","Raw Materials","Banding Acct Basis"'></tm1-ui-dbr>
+                      
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div> Store comments in a separate cube with DBR <code>tm1-comment-cube</code> </div>
+            <div> Comments saved is: <span id="test-dbr-comment-cube-value" class="h6 text-muted">{{values.dbrCommentSeparateCube}}</span>
+            
+              <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Planning Assumptions" tm1-elements='"Actual","2015/16","Inventory Management","Raw Materials","Banding Acct Basis"' ng-model="values.dbrCommentSeparateCube"></tm1-ui-dbr-hidden>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+          <div hljs>
+            <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='Actual,2015/16,Jan,Local,Northern Ireland,Inventory Management,Raw Materials,Amount'
+            tm1-comment-cube="Planning Assumptions" tm1-comment-elements="Actual,2015/16,Inventory Management,Raw Materials,Banding Acct Basis"></tm1-ui-dbr>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+    
+   </div>
+   
+   
+   
+    <div class="row">    
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Empty Text Displays
+          </div>
+          <div class="panel-body">
+            
+            <p>
+              <tm1-ui-dbr id="test-dbr-placeholder" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2010,Jan,13,Super Rate" tm1-default-empty="" tm1-placeholder="Update ME!"></tm1-ui-dbr>
+            </p>
+            
+            <p>Or with HTML</p>
+            
+            <p>
+              <tm1-ui-dbr id="test-dbr-placeholder-html" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Server Time,Comment" tm1-format-html="true" tm1-placeholder="Update ME!"></tm1-ui-dbr>
+            </p>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Set the empty text display <code>tm1-placeholder</code>, combined with <code>tm1-default-empty</code> to catch your users attention!</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2010,Jan,13,Super Rate" tm1-default-empty="" tm1-placeholder="Update ME!"></tm1-ui-dbr></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Consolidated Cell (Spread Input)
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-consolidation-spread" tm1-instance="dev" tm1-cube="Product" tm1-elements="Actual,2012,Local, England, Bottles and Cages, Standard Cost" tm1-consol-input="true" ng-model="values.dbrConsol"></tm1-ui-dbr>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Enable spreading on your consolidated cells directly via <code>tm1-consol-input</code>. By default, spreading command pre-appended is 'p'. Update and set this through <code>tm1-consol-input-spread-method</code> wherever necessary. Value retrieved is: {{values.dbrConsol}}</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Product" tm1-elements="Actual,2012,Local, England, Bottles and Cages, Standard Cost" tm1-consol-input="true" ng-model="values.dbrConsol"></tm1-ui-dbr></div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Call a Function on Load
+          </div>
+          <div class="panel-body">
+            <tm1-ui-dbr id="test-dbr-function-on-load" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-on-load="onValueLoad(data)"></tm1-ui-dbr>              
+              
+            <div class="alert alert-success" role="alert" ng-if="values.messageOnValueLoad.length > 0">{{values.messageOnValueLoad}}</div>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Call a function when the value first loads via <code>tm1-on-load</code>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-on-load="onValueLoad(data)"></tm1-ui-dbr></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Call a Function on Change
+          </div>
+          <div class="panel-body">
+            <tm1-ui-dbr id="test-dbr-function-on-change" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-on-change="onValueChange(data)"></tm1-ui-dbr>              
+            
+            <div class="alert alert-success" role="alert" ng-if="values.messageOnValueChange.length > 0">{{values.messageOnValueChange}}</div>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Call a function when the value subsequently changes via <code>tm1-on-change</code></div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-on-change="onValueChange(data)"></tm1-ui-dbr></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Call a Function on Each Data Change
+          </div>
+          <div class="panel-body">
+            <tm1-ui-dbr id="test-dbr-function-on-each-change" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-change="onEachValueChange(data)"></tm1-ui-dbr>              
+                            
+            <div class="alert alert-success" role="alert" ng-if="values.messageOnEachValueChange.length > 0">{{values.messageOnEachValueChange}}</div>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>You can call a function every time it changes (on load or on change) via <code>tm1-change</code>.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" tm1-change="onEachValueChange(data)"></tm1-ui-dbr></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <div class="row">  
+
+    <div class="col-lg-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR - Hide Context Button
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr id="test-dbr-context-hide-all" tm1-instance="dev" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-hide-context-menu="true"></tm1-ui-dbr>
+                      
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Hide the context button using <code>tm1-hide-context-menu</code></div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+          <div class="collapse" id="help001">
+              <div class="well">
+                <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-instance="dev" tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-hide-context-menu="true"></tm1-ui-dbr></div>
+            </div>
+          </div> 
+          <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help001" aria-expanded="false" aria-controls="help001" ng-init="message.help001 = 'Show'" 
+                ng-click="message.help001 = message.help001== 'Show' ? 'Hide' : 'Show'">{{message.help001}} HTML Code</button>
+          </div> 
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR - Hide All Options in Context Button
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr id="test-dbr-context-hide-each" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+          tm1-hide-reference="true" tm1-hide-comment="true" tm1-hide-spread="true" tm1-hide-drill="true" ></tm1-ui-dbr>
+                      
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Hide all context options</div>
+            <div> Cell Reference using <code>tm1-hide-reference</code> </div>
+            <div> Comments using <code>tm1-hide-comment</code> </div>
+            <div> Spreading using <code>tm1-hide-spread</code> </div>
+            <div> Drill using <code>tm1-hide-drill</code> </div>
+          </div>
+        </div>
+        <div class="panel-footer">         
+          <div class="collapse" id="help002">
+              <div class="well">
+                <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+                  tm1-hide-reference="true" tm1-hide-comment="true" tm1-hide-spread="true" tm1-hide-drill="true" ></tm1-ui-dbr></div>
+            </div>
+          </div> 
+          <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help002" aria-expanded="false" aria-controls="help002" ng-init="message.help002 = 'Show'" 
+                ng-click="message.help002 = message.help002== 'Show' ? 'Hide' : 'Show'">{{message.help002}} HTML Code</button>
+        </div> 
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR - Add Action to the Context Button
+        </div>
+        <div class="panel-body">
+          <p>
+            <tm1-ui-dbr id="test-dbr-context-custom" tm1-instance="dev" tm1-cube="Product" tm1-elements="Actual,2012,Local, England, Bottles and Cages, Standard Cost" tm1-add-context-menu="myContextMenus" tm1-options="dbrOptions"></tm1-ui-dbr>
+          </p>
+          <p>
+            <div class="checkbox">
+              <label>
+                <input id="test-dbr-context-mode" type="checkbox" ng-init="dbrOptions.contextPopUpMode=false" ng-model="dbrOptions.contextPopUpMode"> Pop-up Context
+              </label>
+            </div>
+          </p>          
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Add an action Click Me! in the Context button  <code>tm1-add-context-menu</code>.</div>
+            <div>Utilize <code>tm1-options</code> to affect behavior of the menu context.</div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+          <div class="collapse" id="help003">
+              <div class="well">
+                <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="Product" tm1-elements="Actual,2012,Local, England, Bottles and Cages, Standard Cost" tm1-add-context-menu="myContextMenus"></tm1-ui-dbr></div>
+            </div>
+          </div> 
+          <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help003" aria-expanded="false" aria-controls="help003" ng-init="message.help003 = 'Show'" 
+                ng-click="message.help003 = message.help003== 'Show' ? 'Hide' : 'Show'">{{message.help003}} HTML Code</button>
+        </div> 
+
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+              DBR with Picklist on Cell without Search
+            </div>
+            <div class="panel-body">
+              
+              <tm1-ui-dbr id="test-dbr-picklist-no-search" tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" tm1-picklist-disable-search="true"></tm1-ui-dbr>
+                          
+            </div>
+            <div class="panel-footer">
+              <div class="help-text">
+                <div>Cells that have a picklist with no search option <code>tm1-picklist-disable-search</code></div>
+              </div>
+            </div>
+
+            <div class="panel-footer">         
+              <div class="collapse" id="help004">
+                  <div class="well">
+                    <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="System Info" tm1-elements="Calender Year,String" tm1-picklist-disable-search="true"></tm1-ui-dbr></div>
+                </div>
+              </div> 
+              <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help004" aria-expanded="false" aria-controls="help004" ng-init="message.help004 = 'Show'" 
+                    ng-click="message.help004 = message.help004== 'Show' ? 'Hide' : 'Show'">{{message.help004}} HTML Code</button>
+            </div> 
+
+          </div>
+      </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          DBR - Scale in Thousands
+        </div>
+        <div class="panel-body">
+          
+          <tm1-ui-dbr id="test-dbr-scale" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+          tm1-data-scale="1000" ng-model="values.dbrRaw"></tm1-ui-dbr>
+                      
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Raw value from TM1 is: <strong ng-attr-id="{{values.dbrRaw}}">{{values.dbrRaw}}</strong>.</div>
+            <div> Use <code>tm1-data-scale="1000"</code> to divide by 1000 the TM1 value.</div>
+          </div>
+        </div>
+
+        <div class="panel-footer">         
+          <div class="collapse" id="help006">
+              <div class="well">
+                <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+                  tm1-data-scale="1000" ng-model="values.dbrRaw"></tm1-ui-dbr></div>
+            </div>
+          </div> 
+          <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help006" aria-expanded="false" aria-controls="help006" ng-init="message.help006 = 'Show'" 
+                ng-click="message.help006 = message.help006== 'Show' ? 'Hide' : 'Show'">{{message.help006}} HTML Code</button>
+        </div> 
+
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Show Negative without Parenthesis
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-negative-no-parenthesis" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Gain/Loss on Sales of Asset","Amount"'
+            tm1-format-parenthesis="false"></tm1-ui-dbr>
+                        
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div> Show negative value without parenthesis with <code>tm1-format-parenthesis</code> </div>
+              <div> Value from TM1: <strong ng-attr-id="value{{values.dbrNegative}}">{{values.dbrNegative}}</strong></div>
+              <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" 
+                    tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Gain/Loss on Sales of Asset","Amount"'
+                    ng-model="values.dbrNegative">                    
+                    </tm1-ui-dbr-hidden>
+            </div>
+          </div>
+
+          <div class="panel-footer">         
+            <div class="collapse" id="help007">
+                <div class="well">
+                  <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Gain/Loss on Sales of Asset","Amount"'
+                    tm1-format-parenthesis="false" ></tm1-ui-dbr></div>
+              </div>
+            </div> 
+            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help007" aria-expanded="false" aria-controls="help007" ng-init="message.help007 = 'Show'" 
+                  ng-click="message.help007 = message.help007== 'Show' ? 'Hide' : 'Show'">{{message.help007}} HTML Code</button>
+          </div> 
+
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Comments Read Only
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-comment-read-only" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount"
+          tm1-comment-elements="Actual,2012,Mar,Local,England,2,Salaries,Comment" tm1-comment-read-only="true"></tm1-ui-dbr>
+                        
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Comments set as Read Only <code>tm1-comment-read-only</code></div>
+            </div>
+          </div>
+
+          <div class="panel-footer">         
+            <div class="collapse" id="help005">
+                <div class="well">
+                  <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,2012,Mar,Local,England,2,Salaries,Amount" tm1-comment-elements="Actual,2012,Mar,Local,England,2,Salaries,Comment" tm1-comment-read-only="true"></tm1-ui-dbr></div>
+              </div>
+            </div> 
+            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help005" aria-expanded="false" aria-controls="help005" ng-init="message.help005 = 'Show'" 
+                  ng-click="message.help005 = message.help005== 'Show' ? 'Hide' : 'Show'">{{message.help005}} HTML Code</button>
+          </div> 
+
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Default Spread Command to Repeat
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-spread-command" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Year","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+            tm1-consol-input-spread-method="p+" tm1-consol-input="true"></tm1-ui-dbr>
+            
+            <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Year","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"' ng-model="values.dbrSpread"></tm1-ui-dbr-hidden>
+            <input type="hidden" id="test-dbr-spread-command-raw" value="{{values.dbrSpread}}">
+            
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Change the spreading method via <code>tm1-consol-input-spread-method="p+"</code>. For this example, this will always increase the value because 
+              what is being sent into TM1 is p+[value].</div>              
+            </div>
+          </div>
+
+          <div class="panel-footer">         
+            <div class="collapse" id="help008">
+                <div class="well">
+                  <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Year","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+                    tm1-consol-input-spread-method="p+"></tm1-ui-dbr></div>
+              </div>
+            </div> 
+            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help008" aria-expanded="false" aria-controls="help008" ng-init="message.help008 = 'Show'" 
+                  ng-click="message.help008 = message.help008== 'Show' ? 'Hide' : 'Show'">{{message.help008}} HTML Code</button>
+          </div> 
+
+        </div>
+      </div>
+          
+    </div>
+    <div class="row">
+
+      <div class="col-lg-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - Override Accounting Default Settings
+          </div>
+          <div class="panel-body">
+            
+            <tm1-ui-dbr id="test-dbr-accounting-override" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+            tm1-accounting-settings-override="{currency:{symbol:'$', thousand:'.',decimal:',',precision:'2'}}"></tm1-ui-dbr>
+                        
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div> Override default accounting settings using <code>tm1-accounting-settings-override</code>.</div>
+            </div>
+          </div>
+
+          <div class="panel-footer">         
+            <div class="collapse" id="help009">
+                <div class="well">
+                  <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='"Actual","2015/16","Jan","Local","Northern Ireland","Inventory Management","Raw Materials","Amount"'
+                    tm1-accounting-settings-override="{currency:{symbol:'$', thousand:'.',decimal:',',precision:'2'}}"></tm1-ui-dbr></div>
+              </div>
+            </div> 
+            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help009" aria-expanded="false" aria-controls="help009" ng-init="message.help009 = 'Show'" 
+                  ng-click="message.help009 = message.help009== 'Show' ? 'Hide' : 'Show'">{{message.help009}} HTML Code</button>
+          </div>
+
+        </div>
+      </div>
+      
+      <div class="col-lg-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            DBR - To Proceed or to Cancel a Data Entry
+          </div>
+          <div class="panel-body">
+            <p>
+              <input type="text" class="form-control" id="test-dbr-before-update-message" ng-model="values.dbrCancellationMessage">
+            </p>
+            
+            <p>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-init="pass = true;" ng-model="pass" id="test-dbr-before-update-checkbox"> Proceed to update?
+                </label>
+              </div>
+            </p>
+            
+            <p>
+              <tm1-ui-dbr id="test-dbr-before-update" tm1-instance="dev" tm1-before-update="validate($event)"
+                tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" >
+              </tm1-ui-dbr>
+            </p>
+            
+            <p>
+              <tm1-ui-dbr-hidden tm1-instance="dev" ng-model="values.dbrValidationFromTM1"
+                tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate">
+              </tm1-ui-dbr-hidden>
+              Value from TM1 is: <span id="test-dbr-before-update-hidden">{{values.dbrValidationFromTM1 | number:2}}</span>
+            </p>
+                        
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div> Validate the data prior and cancel when deemed not valid via <code>tm1-before-update</code>. Note that the function
+              should be <strong>ASYNCHRONOUS</strong>. </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">         
+            <div class="collapse" id="help010">
+                <div class="well">
+                  <div hljs><tm1-ui-dbr tm1-instance="dev" tm1-before-update="validate($event)"
+              tm1-cube="Regional Assumptions" tm1-elements="Actual,2012,Jan,13,Super Rate" tm1-data-decimal="2" >
+            </tm1-ui-dbr></div>
+              </div>
+            </div> 
+            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#help010" aria-expanded="false" aria-controls="help010" ng-init="message.help010 = 'Show'" 
+                  ng-click="message.help010 = message.help010 == 'Show' ? 'Hide' : 'Show'">{{message.help010}} HTML Code</button>
+          </div>
+
+        </div>
+      </div>
+      
+    </div>
+  
+</div>

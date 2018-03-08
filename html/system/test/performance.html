@@ -1,0 +1,834 @@
+<div ng-controller="PerformanceCtrl">
+	
+	<style>
+    .tm1-ui-dbr {
+      text-align: right;
+    }
+    .tm1-ui-dbr input {
+      text-align: right;
+    }  
+    .left-border {
+      border-left: 1px solid #CCC; 
+      border-right: 1px solid #CCC;
+    }
+	</style>
+
+<div class="row">
+
+	<div class="col-md-12">
+			
+		<div class="col-md-4">
+			<h1 style="margin-top: 20px;">
+				<span style="float: left; width: 50px; "><i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i><i ng-if="!$root.isLoading" class="fa fa-rocket"></i></span> Performance
+			</h1>
+		</div>
+	
+		<div class="col-md-8" style="margin-top:20px">
+	
+			
+			<div class="col-md-4 btn-group">
+				<button class="btn" ng-class="{'btn-primary': options.test==='dbr'}" ng-click="setTest('dbr')">DBR</button>	
+				<button class="btn" ng-class="{'btn-primary': options.test==='dbrRead'}" ng-click="setTest('dbrRead')">DBR Read Only</button>	
+				<button class="btn" ng-class="{'btn-primary': options.test==='dbrHidden'}" ng-click="setTest('dbrHidden')">DBR Hidden</button>	
+			</div>
+			<div class="col-md-4 btn-group">
+				<button class="btn" ng-class="{'btn-success': options.test==='tableMdx'}" ng-click="setTest('tableMdx')">MDX Table</button>
+				<button class="btn" ng-class="{'btn-success': options.test==='mdx'}" ng-click="setTest('mdx')">Custom MDX</button>
+			</div>
+			<div class="col-md-4 btn-group">
+				<button class="btn" ng-class="{'btn-info': options.test==='af'}" ng-click="setTest('af')">Active Form</button>
+				<button class="btn" ng-class="{'btn-warning': options.test==='afDBRs'}" ng-click="setTest('afDBRs')">Active Form DBRs</button>
+			</div>
+			
+		</div>
+
+	</div>
+
+</div>
+
+<!--=================--> 
+<!-- START TABLE DBR -->
+
+<div ng-if="options.test==='dbr'">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+					<div class="panel-heading">
+						Test speed DBR (tm1-ui-dbr)
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-3">
+								<input type="text" class="form-control" placeholder="Search employee..." ng-change="table.refresh()" ng-model="options.filter"></input>
+							</div>
+							
+							<div class="col-md-3">
+								<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-attribute="Description" tm1-default-element="{{$root.$stateParams.dept?$root.$stateParams.dept:'1'}}" tm1-select-only="true" ng-model="selections.department"></tm1-ui-subnm>
+								<tm1-ui-element tm1-instance="dev" tm1-dimension="Department" tm1-element="{{selections.department}}" ng-model="selections.departmentDetails"></tm1-ui-element>
+							</div>
+					
+							<div class="col-md-3">
+								<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-default-element="{{$root.$stateParams.region?$root.$stateParams.region:'1'}}" tm1-subset="Default" tm1-select-only="true" ng-model="selections.region"></tm1-ui-subnm> 
+								<tm1-ui-element tm1-instance="dev" tm1-dimension="Region" tm1-element="{{selections.region}}" ng-model="selections.regionDetails"></tm1-ui-element>
+							</div>
+							<div class="col-md-3" role="group" ng-init="options.suppressZeros=false">
+								<button class="btn" ng-class="{'btn-primary': options.suppressZeros}" ng-click="options.suppressZeros=!options.suppressZeros;table.refresh();">Suppress Zeroes</button>
+							</div>
+						</div>      					
+						<div class="row">
+
+						</div>
+								
+						<tm1-ui-element-list tm1-calculate-top-level="true" 
+						tm1-instance="dev" tm1-dimension="Employee" 
+						tm1-subset="All Employees" ng-model="lists.employees"></tm1-ui-element-list>
+
+						<tm1-ui-element-list
+							tm1-instance="dev"
+							tm1-dimension="Period"
+							tm1-subset="Default"
+							tm1-calculate-top-level="false"
+							ng-model="lists.periods"
+							>
+						</tm1-ui-element-list>
+						
+						<div ng-hide="true">
+							<span ng-repeat="employee in lists.employees">
+									<tm1-ui-dbr 
+										tm1-instance="dev" 
+										tm1-cube="Employee" 
+										tm1-elements="Actual,2016,Year,Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary" 
+										tm1-data-decimal="0" 
+										ng-model="employee.yearTotal"></tm1-ui-dbr>
+							</span>
+						</div>
+						
+						<tm1-ui-progress tm1-ui-trigger="selections">
+						
+							<tm1-ui-progress-pending>
+										<div class="text-center">
+												<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+												<span class="sr-only">Loading...</span>
+										</div>
+							</tm1-ui-progress-pending>
+						
+							<tm1-ui-progress-ready>
+							
+								<table class="table" >
+									<tr>
+										<th>Employee</th>
+										<th ng-repeat="month in lists.periods" class="text-right" >
+												{{month.alias}}
+										</th>
+									</tr>
+								
+									<tr ng-repeat="employee in table.data()">
+											
+										<td style="min-width: 250px; cursor: pointer;">
+											{{employee.alias}}													
+										</td>												
+										<td ng-repeat="month in lists.periods" class="text-right" >
+											<tm1-ui-dbr 
+													tm1-instance="dev" 
+													tm1-cube="Employee" 
+													tm1-elements="Actual,2016,{{month.key}},Local,{{selections.region}},{{selections.department}},{{employee.key}},{{employeeMeasure(employee)}}" 
+													tm1-data-decimal="0" ></tm1-ui-dbr>
+										</td>
+										
+									</tr>
+				
+								</table>
+								
+								<div>
+									<div class="btn-group" role="group" >
+										<button type="button" class="btn btn-default" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
+										<span class="btn btn-default" style="width: 70px;">{{table.page()}} of {{table.pages()}}</span>
+										<button type="button" class="btn btn-default" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
+									</div>
+									<div class="btn-group pull-right" role="group" >
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(10)}" ng-click="table.pageSize(10)">10</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(15)}" ng-click="table.pageSize(15)">15</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(20)}" ng-click="table.pageSize(20)">20</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(30)}" ng-click="table.pageSize(30)">30</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(50)}" ng-click="table.pageSize(50)">50</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(100)}" ng-click="table.pageSize(100)">100</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(100)}" ng-click="table.pageSize(1000)">1000</button>
+									</div>
+								</div>
+						
+							</tm1-ui-progress-ready>
+						
+						</tm1-ui-progress>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- END TABLE DBR -->
+
+<!--=================--> 
+<!-- START TABLE DBR READ ONLY -->
+
+<div ng-if="options.test==='dbrRead'">
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+					<div class="panel-heading">
+						Test speed DBR (tm1-ui-dbr-read-only)
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-3">
+								<input type="text" class="form-control" placeholder="Search employee..." ng-change="table.refresh()" ng-model="options.filter"></input>
+							</div>
+							
+							<div class="col-md-3">
+								<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-attribute="Description" tm1-default-element="{{$root.$stateParams.dept?$root.$stateParams.dept:'1'}}" tm1-select-only="true" ng-model="selections.department"></tm1-ui-subnm>
+								<tm1-ui-element tm1-instance="dev" tm1-dimension="Department" tm1-element="{{selections.department}}" ng-model="selections.departmentDetails"></tm1-ui-element>
+							</div>
+					
+							<div class="col-md-3">
+								<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-default-element="{{$root.$stateParams.region?$root.$stateParams.region:'1'}}" tm1-subset="Default" tm1-select-only="true" ng-model="selections.region"></tm1-ui-subnm> 
+								<tm1-ui-element tm1-instance="dev" tm1-dimension="Region" tm1-element="{{selections.region}}" ng-model="selections.regionDetails"></tm1-ui-element>
+							</div>
+							<div class="col-md-3" role="group" ng-init="options.suppressZeros=false">
+								<button class="btn" ng-class="{'btn-primary': options.suppressZeros}" ng-click="options.suppressZeros=!options.suppressZeros;table.refresh();">Suppress Zeroes</button>
+							</div>
+						</div>      					
+						<div class="row">
+
+						</div>
+								
+						<tm1-ui-element-list tm1-calculate-top-level="true" 
+						tm1-instance="dev" tm1-dimension="Employee" 
+						tm1-subset="All Employees" ng-model="lists.employees"></tm1-ui-element-list>
+
+						<tm1-ui-element-list
+							tm1-instance="dev"
+							tm1-dimension="Period"
+							tm1-subset="Default"
+							tm1-calculate-top-level="false"
+							ng-model="lists.periods"
+							>
+						</tm1-ui-element-list>
+						
+						<div ng-hide="true">
+							<span ng-repeat="employee in lists.employees">
+									<tm1-ui-dbr-read-only 
+										tm1-instance="dev" 
+										tm1-cube="Employee" 
+										tm1-elements="Actual,2016,Year,Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary" 
+										tm1-data-decimal="0" 
+										ng-model="employee.yearTotal"></tm1-ui-dbr-read-only>
+							</span>
+						</div>
+						
+						<tm1-ui-progress tm1-ui-trigger="selections">
+						
+							<tm1-ui-progress-pending>
+										<div class="text-center">
+												<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+												<span class="sr-only">Loading...</span>
+										</div>
+							</tm1-ui-progress-pending>
+						
+							<tm1-ui-progress-ready>
+							
+								<table class="table" >
+									<tr>
+										<th>Employee</th>
+										<th ng-repeat="month in lists.periods" class="text-right" >
+												{{month.alias}}
+										</th>
+									</tr>
+								
+									<tr ng-repeat="employee in table.data()">
+											
+										<td style="min-width: 250px; cursor: pointer;">
+											{{employee.alias}}													
+										</td>												
+										<td ng-repeat="month in lists.periods" class="text-right" >
+											<tm1-ui-dbr 
+													tm1-instance="dev" 
+													tm1-cube="Employee" 
+													tm1-elements="Actual,2016,{{month.key}},Local,{{selections.region}},{{selections.department}},{{employee.key}},{{employeeMeasure(employee)}}" 
+													tm1-data-decimal="0" ></tm1-ui-dbr>
+										</td>
+										
+									</tr>
+				
+								</table>
+								
+								<div>
+									<div class="btn-group" role="group" >
+										<button type="button" class="btn btn-default" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
+										<span class="btn btn-default" style="width: 70px;">{{table.page()}} of {{table.pages()}}</span>
+										<button type="button" class="btn btn-default" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
+									</div>
+									<div class="btn-group pull-right" role="group" >
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(10)}" ng-click="table.pageSize(10)">10</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(15)}" ng-click="table.pageSize(15)">15</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(20)}" ng-click="table.pageSize(20)">20</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(30)}" ng-click="table.pageSize(30)">30</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(50)}" ng-click="table.pageSize(50)">50</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(100)}" ng-click="table.pageSize(100)">100</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(100)}" ng-click="table.pageSize(1000)">1000</button>
+									</div>
+								</div>
+						
+							</tm1-ui-progress-ready>
+						
+						</tm1-ui-progress>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- END TABLE DBR READ ONLY -->
+
+<!--=================--> 
+<!-- START TABLE DBR HIDDEN -->
+
+<div ng-if="options.test==='dbrHidden'">
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+					<div class="panel-heading">
+						Test speed DBR (tm1-ui-dbr-hidden)
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-3">
+								<input type="text" class="form-control" placeholder="Search employee..." ng-change="table.refresh()" ng-model="options.filter"></input>
+							</div>
+							
+							<div class="col-md-3">
+								<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-attribute="Description" tm1-default-element="{{$root.$stateParams.dept?$root.$stateParams.dept:'1'}}" tm1-select-only="true" ng-model="selections.department"></tm1-ui-subnm>
+								<tm1-ui-element tm1-instance="dev" tm1-dimension="Department" tm1-element="{{selections.department}}" ng-model="selections.departmentDetails"></tm1-ui-element>
+							</div>
+					
+							<div class="col-md-3">
+								<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-default-element="{{$root.$stateParams.region?$root.$stateParams.region:'1'}}" tm1-subset="Default" tm1-select-only="true" ng-model="selections.region"></tm1-ui-subnm> 
+								<tm1-ui-element tm1-instance="dev" tm1-dimension="Region" tm1-element="{{selections.region}}" ng-model="selections.regionDetails"></tm1-ui-element>
+							</div>
+							<div class="col-md-3" role="group" ng-init="options.suppressZeros=false">
+								<button class="btn" ng-class="{'btn-primary': options.suppressZeros}" ng-click="options.suppressZeros=!options.suppressZeros;table.refresh();">Suppress Zeroes</button>
+							</div>
+						</div>      					
+						<div class="row">
+
+						</div>
+								
+						<tm1-ui-element-list tm1-calculate-top-level="true" 
+						tm1-instance="dev" tm1-dimension="Employee" 
+						tm1-subset="All Employees" ng-model="lists.employees"></tm1-ui-element-list>
+
+						<tm1-ui-element-list
+							tm1-instance="dev"
+							tm1-dimension="Period"
+							tm1-subset="Default"
+							tm1-calculate-top-level="false"
+							ng-model="lists.periods"
+							>
+						</tm1-ui-element-list>
+						
+						<div ng-hide="true">
+							<span ng-repeat="employee in lists.employees">
+									<tm1-ui-dbr-hidden
+										tm1-instance="dev" 
+										tm1-cube="Employee" 
+										tm1-elements="Actual,2016,Year,Local,{{selections.region}},{{selections.department}},{{employee.key}},Base Salary" 
+										tm1-data-decimal="0" 
+										ng-model="employee.yearTotal"></tm1-ui-dbr-hidden>
+							</span>
+						</div>
+						
+						<tm1-ui-progress tm1-ui-trigger="selections">
+						
+							<tm1-ui-progress-pending>
+										<div class="text-center">
+												<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+												<span class="sr-only">Loading...</span>
+										</div>
+							</tm1-ui-progress-pending>
+						
+							<tm1-ui-progress-ready>
+							
+								<table class="table" >
+									<tr>
+										<th>Employee</th>
+										<th ng-repeat="month in lists.periods" class="text-right" >
+												{{month.alias}}
+										</th>
+									</tr>
+								
+									<tr ng-repeat="employee in table.data()">
+											
+										<td style="min-width: 250px; cursor: pointer;">
+											{{employee.alias}}													
+										</td>												
+										<td ng-repeat="month in lists.periods" class="text-right" >
+											<tm1-ui-dbr-hidden 
+													tm1-instance="dev" 
+													tm1-cube="Employee" 
+													tm1-elements="Actual,2016,{{month.key}},Local,{{selections.region}},{{selections.department}},{{employee.key}},{{employeeMeasure(employee)}}" 
+													tm1-data-decimal="0"
+													ng-model="values[employee.alias][month.key].dbr" ></tm1-ui-dbr-hidden>
+											{{values[employee.alias][month.key].dbr | number:0}}
+										</td>
+										
+									</tr>
+				
+								</table>
+								
+								<div>
+									<div class="btn-group" role="group" >
+										<button type="button" class="btn btn-default" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
+										<span class="btn btn-default" style="width: 70px;">{{table.page()}} of {{table.pages()}}</span>
+										<button type="button" class="btn btn-default" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
+									</div>
+									<div class="btn-group pull-right" role="group" >
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(10)}" ng-click="table.pageSize(10)">10</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(15)}" ng-click="table.pageSize(15)">15</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(20)}" ng-click="table.pageSize(20)">20</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(30)}" ng-click="table.pageSize(30)">30</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(50)}" ng-click="table.pageSize(50)">50</button>
+										<button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(100)}" ng-click="table.pageSize(100)">100</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(100)}" ng-click="table.pageSize(1000)">1000</button>
+									</div>
+								</div>
+						
+							</tm1-ui-progress-ready>
+						
+						</tm1-ui-progress>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- END TABLE DBR READ ONLY -->
+
+<!--=================-->
+<!-- START TABLE MDX -->
+
+<div ng-if="options.test==='tableMdx'">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-success">
+					<div class="panel-heading">
+						Test speed MDX table (tm1-ui-mdx-table)
+					</div>
+					<div class="panel-body">
+
+						<div class="row">
+								<div class="col-md-3">
+										<input type="text" class="form-control" ng-init="selections.mdxId = 'Employee Forecast'" ng-model="selections.mdxId"></input>
+								</div>
+								<div class="col-md-3">
+										<select class="form-control" ng-init="selections.year = '2016'" ng-model="selections.year">
+											<option>2014</option>
+											<option>2015</option>
+											<option>2016</option>
+										</select>
+								</div>
+								<div class="col-md-3">
+										<select class="form-control" ng-init="selections.region = 'Total Europe'" ng-model="selections.region">
+											<option>Total Europe</option>
+											<option>England</option>
+											<option>Finland</option>
+										</select>
+								</div>
+								<div class="col-md-3">
+									<select class="form-control" ng-model="values.tableTheme" ng-init="values.tableTheme=''">
+										<option value="">None</option>
+										<option value="custom-table">Custom</option>
+									</select>
+								</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+
+								<tm1-ui-table-mdx tm1-instance="dev" tm1-cube="General Ledger" 
+									tm1-mdx-id="{{selections.mdxId}}" 
+									tm1-mdx-parameters="{Year:selections.year, Region:selections.region}" tm1-dimension-attribute="{Account:'Description', Department:'Description', Period: 'Short Description', Version: 'Description'}"
+									tm1-ui-class="{{values.tableTheme}}">
+								</tm1-ui-table-mdx>
+
+							</div>
+							
+						</div>	
+						
+					</div>
+
+				</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- END TABLE MDX -->
+
+<!--=================-->
+<!-- START CUSTOM MDX -->
+
+<div ng-if="options.test==='mdx'">
+		
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					Test speed MDX table (custom)
+				</div>
+				<div class="panel-body">
+
+						<div class="row">
+								
+							<div class="col-md-12">
+							
+							<div class="text-center" ng-if="loading">
+									<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+									<span class="sr-only">Loading...</span>
+							</div>
+							
+							<div class="text-center" style="margin-top: 50px;" ng-if="message">
+								<span class="panel panel-danger" >
+								<span class="panel-heading">{{message}}</span>
+								</span>
+							</div>
+							
+							<div ng-if="dataset && !loading">
+						
+								<table class="table table-striped" ng-if="!loading">
+								<thead>
+									<tr ng-repeat="row in dataset.headers">
+									<th ng-repeat="col in row.rows" ng-if="col.visible" colspan="{{col.colspan}}" rowspan="{{col.rowspan}}" class="text-center" >
+										{{col.dimension}}
+									</th>
+									<th ng-repeat="col in row.columns" ng-if="col.visible" colspan="{{col.colspan}}" rowspan="{{col.rowspan}}" class="text-center" >
+										{{col.name}}
+									</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="row in tableMDX.data()" >
+									<td ng-repeat="el in row.elements" ng-if="el.visible || $parent.$index == 0" colspan="{{el.colspan}}" rowspan="{{el.rowspan}}" ng-class="{'tm1-ui-element-consol': el.element.type == 'C'}"  >
+										<span class="tm1-ui-indent" ng-repeat="item in el.element.indent"></span>
+										<span ng-if="el.element.type != 'C'" style="margin-right:20px;"></span>
+										<i ng-if="el.element.type == 'C' && !el.element.collapsed && $index == 0" ng-click="el.element.toggle();tableMDX.refresh();" class="fa fa-caret-down fa-fw" style="margin-right:5px; cursor: pointer;" ></i>
+										<i ng-if="el.element.type == 'C' && el.element.collapsed && $index == 0" ng-click="el.element.toggle();tableMDX.refresh();" class="fa fa-caret-right fa-fw" style="margin-right:5px; cursor: pointer;" ></i>
+										<i ng-if="el.element.type == 'C' && $index > 0" class="fa fa-angle-down fa-fw" style="margin-right:5px;" ></i>
+										{{el.name}}
+									</td>
+									<td ng-repeat="cell in row.cells" class="text-right" >
+										<input ng-if="!cell.isReadOnly" type="text" class="form-control text-right" tm1-ui-format-number="0" ng-model="cell.value" ng-blur="cell.update(query);" />
+										<span ng-if="cell.isReadOnly" style="padding-right: 10px;">{{cell.value | formatNumber:0}}</span>
+									</td>
+									</tr>
+								</tbody>
+								</table>
+								
+								<div>
+								<div class="btn-group" role="group" >
+									<button type="button" class="btn btn-default" ng-click="tableMDX.previous()"><i class="fa fa-angle-left"></i></button>
+									<span class="btn btn-default" style="width: 100px;">{{tableMDX.page()}} of {{tableMDX.pages()}}</span>
+									<button type="button" class="btn btn-default" ng-click="tableMDX.next()"><i class="fa fa-angle-right"></i></button>
+								</div>
+								<div class="btn-group pull-right" role="group" >
+									<button type="button" class="btn btn-default" ng-class="{'active': tableMDX.isPageSize(10)}" ng-click="tableMDX.pageSize(10)">10</button>
+									<button type="button" class="btn btn-default" ng-class="{'active': tableMDX.isPageSize(15)}" ng-click="tableMDX.pageSize(15)">15</button>
+									<button type="button" class="btn btn-default" ng-class="{'active': tableMDX.isPageSize(30)}" ng-click="tableMDX.pageSize(30)">30</button>
+									<button type="button" class="btn btn-default" ng-class="{'active': tableMDX.isPageSize(50)}" ng-click="tableMDX.pageSize(50)">50</button>
+									<button type="button" class="btn btn-default" ng-class="{'active': tableMDX.isPageSize(100)}" ng-click="tableMDX.pageSize(100)">100</button>
+								</div>
+								</div>
+								
+							</div>
+								
+							</div>
+							
+							</div>
+					
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- END CUSTOM MDX -->
+
+<!--=================-->
+<!-- START Active Form default -->
+
+<div ng-if="options.test==='af'">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-info">
+					<div class="panel-heading">
+							Active form with tm1-ui-rpt-row-cell
+					</div>
+					<div class="panel-body">
+
+						<div class="row">
+								<div class="col-md-3">
+									Suppress Zeroes
+								</div>
+								<div class="col-md-3">
+									<select class="form-control" ng-init="page.suppressZero = 'none'" ng-model="page.suppressZero">
+									<option value="none">Do not Suppress Zeroes</option>
+									<option value="row">Suppress Zero on Rows</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+								</div>
+								</div>
+								
+								<div class="table-responsive" >
+								<tm1-ui-rpt-view tm1-instance="dev" tm1-cube="Employee" ng-model="data" tm1-suppress-zero="{{page.suppressZero}}" >
+									<tm1-ui-rpt-config>
+									<tm1-ui-rpt-title tm1-dimension="Version" tm1-element="Actual"></tm1-ui-rpt-title>
+									<tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2016"></tm1-ui-rpt-title>
+									<tm1-ui-rpt-title tm1-dimension="Employee Measure" tm1-element="Base Salary"></tm1-ui-rpt-title>
+									<tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+									<tm1-ui-rpt-title tm1-dimension="Region" tm1-element="Total Europe"></tm1-ui-rpt-title>
+									<tm1-ui-rpt-title tm1-dimension="Department" tm1-element="Corporate"></tm1-ui-rpt-title>
+										
+									<tm1-ui-rpt-row tm1-dimension="Employee" tm1-subset="All Employees"></tm1-ui-rpt-row>
+										
+									<tm1-ui-rpt-column tm1-dimension="Period" tm1-subset="Default"></tm1-ui-rpt-column>
+												
+									</tm1-ui-rpt-config>
+									
+									<tm1-ui-rpt-template>
+									<table id="af1" class="table table-condensed">
+										<thead>
+										
+											
+											<tr>              
+												<th >Employee</th>
+												
+												<th >Year</th>
+												<th >Jan</th>
+												<th >Feb</th>
+												<th >Mar</th>
+												<th >Apr</th>
+												<th >May</th>
+												<th >Jun</th>
+												<th >Jul</th>
+												<th >Aug</th>
+												<th >Sep</th>
+												<th >Oct</th>
+												<th >Nov</th>
+												<th >Dec</th>
+											</tr>                
+										
+										</thead>
+										<tbody>
+										<tr ng-repeat="rowData in data.rows track by $index" >
+											<td tm1-ui-rpt-row-element="rowData" tm1-dimension="Employee"></td>
+										
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="Year"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="01"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="02"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="03"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="04"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="05"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="06"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="07"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="08"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="09"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="10"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="11"></tm1-ui-rpt-row-cell>             
+											</td>
+											<td class="text-right">
+											<tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="12"></tm1-ui-rpt-row-cell>             
+											</td>
+										
+										</tr>
+										</tbody>
+										</table>
+										
+									</tm1-ui-rpt-template>
+								</tm1-ui-rpt-view> 
+							</div>		
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+	
+		
+</div>
+		
+<!-- END Active Form default -->
+
+<!--=================-->
+<!-- START Active Form with DBR -->
+
+<div ng-if="options.test==='afDBRs'">
+		
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-warning">
+					<div class="panel-heading">
+						Active form with tm1-ui-dbr
+					</div>
+					<div class="panel-body">
+
+						<div class="row">
+						<div class="col-md-3">
+							Suppress Zeroes
+						</div>
+						<div class="col-md-3">
+							<select class="form-control" ng-init="page.suppressZero = 'none'" ng-model="page.suppressZero">
+							<option value="none">Do not Suppress Zeroes</option>
+							<option value="row">Suppress Zero on Rows</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+						</div>
+						</div>
+						
+						<div class="table-responsive" >
+						<tm1-ui-rpt-view tm1-instance="dev" tm1-cube="Employee" ng-model="data" tm1-suppress-zero="{{page.suppressZero}}" >
+							<tm1-ui-rpt-config>
+							<tm1-ui-rpt-title tm1-dimension="Version" tm1-element="Actual"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Year" tm1-element="2016"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Employee Measure" tm1-element="Base Salary"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Region" tm1-element="Total Europe"></tm1-ui-rpt-title>
+							<tm1-ui-rpt-title tm1-dimension="Department" tm1-element="Corporate"></tm1-ui-rpt-title>
+								
+							<tm1-ui-rpt-row tm1-dimension="Employee" tm1-subset="All Employees"></tm1-ui-rpt-row>
+								
+							<tm1-ui-rpt-column tm1-dimension="Period" tm1-subset="Default"></tm1-ui-rpt-column>
+										
+							</tm1-ui-rpt-config>
+							
+							<tm1-ui-rpt-template>
+							<table id="af1" class="table table-condensed">
+								<thead>
+								
+									<tr>
+									<th>Employee</th>
+									
+									<th class="text-center">Year</th>
+									<th class="text-center">Jan</th>
+									<th class="text-center">Feb</th>
+									<th class="text-center">Mar</th>
+									<th class="text-center">Apr</th>
+									<th class="text-center">May</th>
+									<th class="text-center">Jun</th>
+									<th class="text-center">Jul</th>
+									<th class="text-center">Aug</th>
+									<th class="text-center">Sep</th>
+									<th class="text-center">Oct</th>
+									<th class="text-center">Nov</th>
+									<th class="text-center">Dec</th>
+									</tr>
+									
+								
+								</thead>
+								<tbody>
+								<tr ng-repeat="rowData in data.rows track by $index" >
+									<td tm1-ui-rpt-row-element="rowData" tm1-dimension="Employee"></td>
+								
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('Year')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('01')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('02')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('03')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('04')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('05')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('06')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('07')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('08')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('09')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('10')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('11')"></tm1-ui-dbr>
+									</td>
+									<td class="text-right">
+									<tm1-ui-dbr tm1-rpt-view-model="data" tm1-rpt-row-cell="rowData.getCell('12')"></tm1-ui-dbr>
+									</td>
+								
+								</tr>
+								</tbody>
+								</table>
+								
+							</tm1-ui-rpt-template>
+						</tm1-ui-rpt-view> 
+						</div>  	
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+	
+		
+</div>
+		
+<!-- END Active Form -->
+  
+  
+</div>

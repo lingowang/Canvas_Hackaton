@@ -1,0 +1,456 @@
+<div ng-controller="SampleDashboardCtrl">
+
+  <style>
+  
+    .dashboard-panel {
+      width: 230px;
+      float: left;
+      margin: 5px;
+      margin-bottom: 10px !important;
+      cursor: pointer;
+    }
+    
+    .dashboard-heading {
+      font-size: 2em;
+      text-align: left;
+      vertical-align: top;
+      padding: 5px 10px;
+    }
+    
+    .dashboard-panel-title-section {
+        border-top: solid 1px;
+        margin-left: 1px;
+        margin-right: 1px;
+        font-weight: bold;
+        text-align: right;
+        font-size: 1.3em;
+        padding-top: 5px;
+    }
+    
+    .dashboard-panel-title{
+    
+    }
+    
+    .dashboard-panel-label{
+      font-size: .7em;
+    }
+    
+    .dashboard-panel-value{
+      font-size: 2em;
+      margin: 0px;
+      padding: 0px;
+    }
+    
+    .dashboard-panel-variance{
+      font-size: 1.5em;
+      text-align: right;
+      font-weight: bold;
+      margin: 0px;
+      margin-top: 3px;
+      padding: 0px;
+      padding-right: 15px;
+    }
+    
+    .dashboard-section {
+      border-style: solid;
+      border-width: 1px;
+      margin: 5px;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    
+    .dashboard-active {
+      box-shadow: 5px 5px 5px #888888;
+      cursor: default;
+    }
+    
+  
+  </style>
+
+	<!-- Create lists and defaults variable which are going to be used later on -->
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Department" tm1-subset="Default" ng-model="lists.departments"></tm1-ui-element-list>
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" ng-model="lists.regions"></tm1-ui-element-list>
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Period" tm1-subset="Test" ng-model="lists.months"></tm1-ui-element-list>
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Year" tm1-subset="Test" ng-model="lists.years"></tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-subset="Revenue" ng-model="lists.subsetRevenue"></tm1-ui-element-list>
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-subset="Profit" ng-model="lists.subsetProfit"></tm1-ui-element-list>
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-subset="Expense" ng-model="lists.subsetExpense"></tm1-ui-element-list>
+
+	<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="System Info" tm1-elements="Financial Year, String" ng-model="defaults.year"></tm1-ui-dbr-hidden>
+	<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="System Info" tm1-elements="Financial Month, String" ng-model="defaults.month"></tm1-ui-dbr-hidden>
+
+
+	<!--=========================================-->
+  <!--                   ROW 1                 -->
+  <!--              TITLE AND FILTER           -->
+
+	<div class="row" style="margin-top: 20px;">
+
+		 <!--                 Title                -->
+		<div class="col-md-6">
+			<h1 style="margin: 0px 5px;">
+				<span style="float: left; width: 50px; "><i ng-if="$root.requestCount > 0"  class="fa fa-cog fa-spin" ></i><i ng-if="$root.requestCount == 0" class="fa fa-line-chart"></i></span>
+				{{'MESSAGEDASHTITLE' | translate}}
+			</h1>
+		</div>
+
+		<!--                 Filters                -->
+		<div class="col-md-6">
+
+			<div style="margin-top: 5px; text-align: right;">
+
+				<div ng-hide="!defaults.year || !defaults.month" >
+
+					<div class="btn-group" role="group" >
+						<button type="button" class="btn btn-default active" ng-click="setRegion(defaults.region)" ng-if="selections.region != defaults.region">{{selections.region}} <i class="fa fa-close"></i></button>
+						<button type="button" class="btn btn-default active" ng-click="setDepartment(defaults.department)" ng-if="selections.department != defaults.department">{{selections.department}} <i class="fa fa-close"></i></button>
+					</div>
+
+					<div class="btn-group" role="group" >
+
+						<button id="btnMonthGroup" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<tm1-ui-dbra tm1-instance="dev" tm1-read-only="true" tm1-dimension="Period" 
+								tm1-element="{{selections.month}}" tm1-attribute="Short Description" ></tm1-ui-dbra>
+							<i class="fa fa-caret-down" style="margin-left: 10px;"></i>
+				    </button>
+				    <div class="dropdown-menu" style="padding: 5px;" aria-labelledby="btnMonthGroup">
+							<button href="" ng-repeat="item in lists.months" class="btn btn-default" 
+											style="width: 48%; margin: 1px;" ng-class="{'active': selections.month == item.alias}" 
+											ng-click="selections.month = item.alias" >
+								{{item.alias}}
+							</button>
+				    </div>
+
+					</div>
+
+					<div class="btn-group" role="group" >
+
+						<button id="btnYearGroup" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				      {{selections.year}}
+							<i class="fa fa-caret-down" style="margin-left: 10px;"></i>
+				    </button>
+				    <div class="dropdown-menu" style="padding: 5px;" aria-labelledby="btnYearGroup">
+							<button href="" ng-repeat="item in lists.years" class="btn btn-default" style="width: 48%; margin: 1px;" ng-class="{'active': selections.year == item.key}" ng-click="selections.year = item.key" >
+								{{item.key}}
+							</button>
+				    </div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div>
+		<hr style="margin: 5px 0px;"/>
+	</div>
+
+	<!--=========================================-->
+  <!--                   ROW 2                 -->
+  <!--                 KPI PANEL               -->
+
+	<div ng-if="lists.subsetRevenue.length && lists.subsetProfit.length && lists.subsetExpense.length">
+
+	<div style="overflow-x: scroll; padding-bottom: 10px;">
+	  	<table>
+	  		<tr>
+					<td>
+						<div class="dashboard-section" style="border-color: #00adef; color: #00adef;" ng-if="lists.subsetRevenue.length">
+							<table>
+								<tr>
+									<td class="dashboard-heading" translate="REVENUE"></td>
+									<td ng-repeat="item in lists.subsetRevenue">
+										<div ng-click="setDriver(item.alias)" class="panel panel-default dashboard-panel" ng-class="{ 'panel-success' : item.var < varianceTolerance, 'panel-danger' : item.var > -(varianceTolerance), 'dashboard-active' : selections.driver == item.alias }">
+						            <div class="panel-heading">
+						                <div class="row">
+						                    <div class="col-xs-7 text-right">
+						                        <div class="large dashboard-panel-value">
+          													<tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+                                      tm1-cube="General Ledger"
+          														tm1-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Amount"
+          														tm1-comment-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Comment">
+          													</tm1-ui-dbr-read-only>
+          												</div>
+						                    </div>
+																<div class="col-xs-5 dashboard-panel-variance" >
+																		<tm1-ui-dbr-read-only ng-model="item.var" tm1-instance="dev" tm1-read-only="true" tm1-data-decimal="0" 
+                                      tm1-cube="General Ledger" tm1-format-percentage="true"
+																			tm1-elements="Var %,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Amount">
+																		</tm1-ui-dbr-read-only>
+																</div>
+						                </div>
+														<div class="row dashboard-panel-title-section" >
+																<div class="col-xs-12 dashboard-panel-label">
+																	{{item.alias}}
+																</div>
+														</div>
+						            </div>
+						        </div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td>
+						<div class="dashboard-section" style="border-color: #ff6363; color: #ff6363;" ng-if="lists.subsetProfit.length">
+							<table>
+								<tr>
+									<td class="dashboard-heading" translate="PROFIT"></td>
+									<td ng-repeat="item in lists.subsetProfit">
+                    <div ng-click="setDriver(item.alias)" class="panel panel-default dashboard-panel" ng-class="{ 'panel-success' : item.var < varianceTolerance, 'panel-danger' : item.var > -(varianceTolerance), 'dashboard-active' : selections.driver == item.alias }">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-7 text-right">
+                                    <div class="large dashboard-panel-value">
+                                    <tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+                                      tm1-cube="General Ledger"
+                                      tm1-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Amount"
+                                      tm1-comment-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Comment">
+                                    </tm1-ui-dbr-read-only>
+                                  </div>
+                                </div>
+                                <div class="col-xs-5 dashboard-panel-variance" >
+                                    <tm1-ui-dbr-read-only ng-model="item.var" tm1-instance="dev" tm1-read-only="true" tm1-data-decimal="0" 
+                                      tm1-cube="General Ledger" tm1-format-percentage="true"
+                                      tm1-elements="Var %,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Amount">
+                                    </tm1-ui-dbr-read-only>
+                                </div>
+                            </div>
+                            <div class="row dashboard-panel-title-section" >
+                                <div class="col-xs-12 dashboard-panel-label">
+                                  {{item.alias}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td>
+						<div class="dashboard-section" style="border-color: #FF925B; color: #FF925B;" ng-if="lists.subsetExpense.length">
+							<table>
+								<tr>
+									<td class="dashboard-heading" translate="EXPENSES"></td>
+									<td ng-repeat="item in lists.subsetExpense">
+                    <div ng-click="setDriver(item.alias)" class="panel panel-default dashboard-panel" ng-class="{ 'panel-success' : item.var > varianceTolerance, 'panel-danger' : item.var < -(varianceTolerance), 'dashboard-active' : selections.driver == item.alias }">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-7 text-right">
+                                    <div class="large dashboard-panel-value">
+                                    <tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+                                      tm1-cube="General Ledger"
+                                      tm1-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Amount"
+                                      tm1-comment-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Comment">
+                                    </tm1-ui-dbr-read-only>
+                                  </div>
+                                </div>
+                                <div class="col-xs-5 dashboard-panel-variance" >
+                                    <tm1-ui-dbr-read-only ng-model="item.var" tm1-instance="dev" tm1-read-only="true" tm1-data-decimal="0" 
+                                      tm1-cube="General Ledger" tm1-format-percentage="true"
+                                      tm1-elements="Var %,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.department}},{{item.key}},Amount">
+                                    </tm1-ui-dbr-read-only>
+                                </div>
+                            </div>
+                            <div class="row dashboard-panel-title-section" >
+                                <div class="col-xs-12 dashboard-panel-label">
+                                  {{item.alias}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </td>
+								</tr>
+							</table>
+						</div>
+					</td>
+	  		</tr>
+	  	</table>
+
+		</div>
+
+  	<div class="row" >
+
+			<div class="col-md-5">
+  			<!-- DATA -->
+  			<div class="panel panel-default">
+
+					<div class="panel-heading">
+						<i class="fa fa-table"></i> <b>{{selections.driver}}</b>
+					</div>
+
+			  	<div class="panel-body" >
+
+						<div class="btn-group" role="group" style="width: 100%; margin-bottom: 10px;" >
+							<button type="button" class="btn btn-default" ng-class="{'active': selections.segment == 'region'}" style="width: 50%;" ng-click="selections.segment = 'region'" translate="REGION"></button>
+							<button type="button" class="btn btn-default" ng-class="{'active': selections.segment == 'department'}" style="width: 50%;" ng-click="selections.segment = 'department'" translate="DEPARTMENT"></button>
+						</div>
+
+						<table class="table table-striped" >
+			   	 		<thead>
+			   	 			<tr>
+			   	 				<th>{{section.name}}</th>
+			   	 				<th class="text-center" translate="ACTUALABBR"></th>
+			   	 				<th class="text-center" translate="BUDGETABBR"></th>
+			   	 				<th class="text-center" translate="LASTYEARABBR"></th>
+			   	 				<th class="text-center hidden-xs hidden-sm hidden-md">{{'BUDGETABBR' | translate}} %</th>
+			   	 				<th class="text-center hidden-xs hidden-sm hidden-md">{{'LASTYEARABBR' | translate}} %</th>
+			   	 			</tr>
+			   	 		</thead>
+
+							<tbody ng-if="selections.segment == 'region'">
+								<tr ng-repeat="item in lists.regions" ng-hide="selections.region != defaults.region && selections.region != item.alias">
+			   	 				<td>
+										<span ng-if="item.alias != defaults.region && selections.region == item.alias"> <a href="" ng-click="setRegion(defaults.region)">{{item.alias}} <i class="fa fa-close"></i></span></a>
+										<span ng-if="selections.region != item.alias"> <a href="" ng-click="setRegion(item.alias)">{{item.alias}}</a></span>
+										<span ng-if="item.alias == defaults.region"><b>{{item.alias}}</b></span>
+									</td>
+			   	 				<td class="text-center">
+									<tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+										tm1-cube="General Ledger" 
+										tm1-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{item.alias}},{{selections.department}},{{selections.driver}},Amount"
+										tm1-comment-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{item.alias}},{{selections.department}},{{selections.driver}},Comment"
+										></tm1-ui-dbr-read-only></td>
+									<td class="text-center"><tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+                      tm1-cube="General Ledger" 
+                      tm1-elements="Budget,{{selections.year}},{{selections.month}},Local,{{item.alias}},{{selections.department}},{{selections.driver}},Amount" >
+                    </tm1-ui-dbr-read-only></td>
+									<td class="text-center"><tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+                      tm1-cube="General Ledger" 
+                      tm1-elements="Last Year,{{selections.year}},{{selections.month}},Local,{{item.alias}},{{selections.department}},{{selections.driver}},Amount">
+                    </tm1-ui-dbr-read-only></td>
+			   	 				<td class="text-center hidden-xs hidden-sm hidden-md">
+                    <tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" tm1-format-percentage="true" 
+                        tm1-cube="General Ledger" 
+                        tm1-elements="Var %,{{selections.year}},{{selections.month}},Local,{{item.alias}},{{selections.department}},{{selections.driver}},Amount">
+                    </tm1-ui-dbr-read-only></td>
+			   	 				<td class="text-center hidden-xs hidden-sm hidden-md">
+                    <tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" tm1-format-percentage="true" 
+                        tm1-cube="General Ledger" 
+                        tm1-elements="LY %,{{selections.year}},{{selections.month}},Local,{{item.alias}},{{selections.department}},{{selections.driver}},Amount">
+                    </tm1-ui-dbr-read-only></td>
+			   	 			</tr>
+			   	 		</tbody>
+
+			   	 		<tbody ng-if="selections.segment == 'department'">
+								<tr ng-repeat="item in lists.departments" ng-hide="selections.department != defaults.department && selections.department != item.alias">
+                  <td>
+                    <span ng-if="item.alias != defaults.department && selections.department == item.alias"> <a href="" ng-click="setDepartment(defaults.department)">{{item.alias}} <i class="fa fa-close"></i></span></a>
+                    <span ng-if="selections.department != item.alias"> <a href="" ng-click="setDepartment(item.alias)">{{item.alias}}</a></span>
+                    <span ng-if="item.alias == defaults.department"><b>{{item.alias}}</b></span>
+                  </td>
+                  <td class="text-center">
+                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+                    tm1-cube="General Ledger" 
+                    tm1-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{item.alias}},{{selections.driver}},Amount"
+                    tm1-comment-elements="ACTUAL,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{item.alias}},{{selections.driver}},Comment"
+                    ></tm1-ui-dbr-read-only></td>
+                  <td class="text-center"><tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+                      tm1-cube="General Ledger" 
+                      tm1-elements="Budget,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{item.alias}},{{selections.driver}},Amount" >
+                    </tm1-ui-dbr-read-only></td>
+                  <td class="text-center"><tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" 
+                      tm1-cube="General Ledger" 
+                      tm1-elements="Last Year,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{item.alias}},{{selections.driver}},Amount">
+                    </tm1-ui-dbr-read-only></td>
+                  <td class="text-center hidden-xs hidden-sm hidden-md">
+                    <tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" tm1-format-percentage="true" 
+                        tm1-cube="General Ledger" 
+                        tm1-elements="Var %,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{item.alias}},{{selections.driver}},Amount">
+                    </tm1-ui-dbr-read-only></td>
+                  <td class="text-center hidden-xs hidden-sm hidden-md">
+                    <tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" tm1-format-percentage="true" 
+                        tm1-cube="General Ledger" 
+                        tm1-elements="LY %,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{item.alias}},{{selections.driver}},Amount">
+                    </tm1-ui-dbr-read-only></td>
+                </tr>
+			   	 		</tbody>
+
+			   	 	</table>
+
+			  	</div>
+				</div>
+  		</div>
+
+  		<div class="col-md-4">
+  			<!-- DATA -->
+  			<div class="panel panel-default">
+
+					<div class="panel-heading" ng-class="{'base-value': valueM == 'Base Value', 'ytd-value': valueM == 'YTD'}">
+						<i class="fa fa-bar-chart"></i> <b>{{selections.driver}}</b> - {{'BYMONTH' | translate}}
+					</div>
+
+			  	<div class="panel-body" >
+
+			   	 	<!-- GRAPH Section -->
+			   	 	<div class="row">
+			   	 		<!-- Data -->
+			   	 		<div ng-hide="true">
+
+			   	 		</div>
+
+			   	 		<div class="col-md-12">
+			   	 			<tm1-ui-chart tm1-chart-type="multiBar"  tm1-data-decimal="0" tm1-hide-controls="true"
+			   	 				tm1-height="400" tm1-axis-label-x="{{'PREVIOUSMONTHS' | translate }}"
+			   	 				tm1-margin="{top:1,bottom:50,left:1, right:1}" tm1-legend="none" >
+
+									<tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}" tm1-instance="dev"
+					                    tm1-cube="General Ledger" 
+					                    tm1-elements="Actual,{{selections.year}},{{month}},Local,{{selections.region}},{{selections.department}},{{selections.driver}},Amount" >
+				                  	</tm1-ui-chart-dbr>
+					                  
+				   	 			
+							</tm1-ui-chart>
+			   	 		</div>
+			   	 	</div>
+			  	</div>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+  			<!-- DATA -->
+  			<div class="panel panel-default">
+
+					<div class="panel-heading" ng-class="{'base-value': valueM == 'Base Value', 'ytd-value': valueM == 'YTD'}">
+						<i class="fa fa-bar-chart"></i> <b>{{selections.driver}}</b> - {{'ACTUAL' | translate}}, {{'BUDGET' | translate}}, {{'LASTYEAR' | translate}}
+					</div>
+
+			  	<div class="panel-body" >
+
+			   	 	<!-- GRAPH Section -->
+			   	 	<div class="row">
+			   	 		<!-- Data -->
+			   	 		<div ng-hide="true">
+
+							</div>
+
+			   	 		<div class="col-md-12">
+			   	 			<tm1-ui-chart
+			   	 				tm1-height="400"
+			   	 				tm1-margin="{top:1,bottom:25,left:1, right:1}"
+			   	 				tm1-chart-type="discreteBar">
+
+									<tm1-ui-chart-dbr ng-repeat="version in ['Actual', 'Budget', 'Last Year']" tm1-label="{{version}}" tm1-instance="dev"
+                    					tm1-cube="General Ledger" 
+                    					tm1-elements="{{version}},{{selections.year}},Dec,Local,{{selections.region}},{{selections.department}},{{selections.driver}},Amount" >
+                  					</tm1-ui-chart-dbr>
+
+								</tm1-ui-chart>
+			   	 		</div>
+			   	 	</div>
+			  	</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

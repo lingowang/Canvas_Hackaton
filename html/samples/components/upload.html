@@ -1,0 +1,194 @@
+<div ng-controller="UploadCtrl">
+
+  <style>
+  
+    pre, code {
+     white-space: normal !important;
+    }
+    
+    .custom-upload{
+      border-left: 10px dashed #DCDCDC;
+      border-bottom: 10px dashed #DCDCDC;
+    }
+  </style>
+
+   <h1>
+      <i class="fa fa-upload"></i> Upload
+   </h1>
+   
+   <hr/>   
+      
+  <div class="row">
+      
+    <div class="col-lg-4">      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Upload
+        </div>
+        <div class="panel-body">            
+          
+          <tm1-ui-upload tm1-instance="dev"></tm1-ui-upload>
+                                 
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <p>Select a file OR <u>Drag and Drop</u> into the blue box!</p>
+            <div>Files are stored into the directory relative to your Canvas application, defined by <strong>File Upload Directory</strong> in the <a href="admin#/setting" target="_blank">Admin Console</a> by <code>tm1-instance</code>.</div>
+            <p>Also see <a ui-sref="sample9">Upload Files</a> page for a sample.</p>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-upload tm1-instance="dev"></tm1-ui-upload></div>
+          </div>
+        </div>      
+      </div> 
+    </div>
+      
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Upload (with Size Limitation)
+        </div>
+        <div class="panel-body">            
+          
+          <tm1-ui-upload tm1-instance="dev" tm1-max-size="1"></tm1-ui-upload>
+                                 
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <p>Set <code>tm1-max-size="1"</code> to limit the size of files that can be uploaded.</p>
+            <p>Note that this number is in <strong>MB</strong></p>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-upload tm1-instance="dev" tm1-max-size="1"></tm1-ui-upload></div>
+          </div>
+        </div>      
+      </div>
+    </div>
+      
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Upload (and access filepath)
+        </div>
+        <div class="panel-body">            
+          <p ng-if="relativeUrlPath.length > 0"><a href="{{relativeUrlPath}}" target="_blank">View {{fileUploaded.name}}</a></p>
+          <p><tm1-ui-upload tm1-instance="dev" tm1-after-upload="getPath(file)"></tm1-ui-upload></p>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <p>Received file path on upload!</p>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-upload tm1-instance="dev" tm1-after-upload="getPath(file)"></tm1-ui-upload></div>
+          </div>
+        </div>      
+      </div>
+    </div>
+      
+  </div>
+   
+  <div class="row">
+    <div class="col-lg-4">      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Upload (with property to affect images)
+        </div>
+        <div class="panel-body">            
+          <p ng-if="relativeUrlPath.length > 0"><a href="{{relativeUrlPath}}" target="_blank">View {{fileUploaded.name}}</a></p>
+          <tm1-ui-upload tm1-instance="dev" tm1-image-options="{width: 200, height: 200}" tm1-after-upload="getPath(file)"></tm1-ui-upload>
+                                 
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <p>Through <code>tm1-image-options</code> attribute, further properties of the image can be passed on to affect the image being uploaded.</p>
+            <p>For this case, the image uploaded will always be within 200 by 200 in dimension!</p>
+            <p>See <strong>ngf-resize</strong> property <a href="https://github.com/danialfarid/ng-file-upload" target="_blank">here</a> for reference.</p>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-upload tm1-instance="dev" tm1-image-options="{width: 200, height: 200}" tm1-after-upload="getPath(file)"></tm1-ui-upload></div>
+          </div>
+        </div>      
+      </div> 
+    </div>
+    
+    <div class="col-lg-4">      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Upload (save to a different path under files directory)
+        </div>
+        <div class="panel-body">            
+          <p ng-if="relativeUrlPath.length > 0">
+            <a href="{{relativeUrlPath}}" target="_blank">View {{fileUploaded.name}}</a>
+            <h5 ng-if="relativeUrlPath.length > 0">Location: <strong>{{relativeUrlPath}}</strong></h5>
+          </p>
+          <tm1-ui-upload tm1-instance="dev" tm1-path="other_folder" tm1-after-upload="getPath(file)"></tm1-ui-upload>
+                                 
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <p>Save to a different sub-folder within your application's <strong>files</strong> with <code>tm1-path</code></p>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-upload tm1-instance="dev" tm1-path="other_folder" tm1-after-upload="getPath(file)"></tm1-ui-upload></div>
+          </div>
+        </div>      
+      </div> 
+    </div>
+    
+    <div class="col-lg-4">      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Upload (retain the name of the file when uploaded)
+        </div>
+        <div class="panel-body">            
+          <p ng-if="relativeUrlPath.length > 0">
+            <a href="{{relativeUrlPath}}" target="_blank">View {{fileUploaded.name}}</a>
+            <h5 ng-if="relativeUrlPath.length > 0">Location: <strong>{{relativeUrlPath}}</strong></h5>
+          </p>
+          <tm1-ui-upload tm1-instance="dev" tm1-retain-name="true" tm1-after-upload="getPath(file)"></tm1-ui-upload>
+                                 
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <p>Retain the actual name of the file when uploaded with <code>tm1-retain-name</code> (this is usually hashed; see previous example)</p>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-upload tm1-instance="dev" tm1-retain-name="true" tm1-after-upload="getPath(file)"></tm1-ui-upload></div>
+          </div>
+        </div>      
+      </div> 
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-4">      
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Apply a CSS style on the Component
+        </div>
+        <div class="panel-body">   
+          <p>
+            <select class="form-control" ng-model="values.uploadTheme" ng-init="values.uploadTheme='custom-upload'">
+              <option value="">None</option>
+              <option value="custom-upload">Custom</option>
+            </select>
+          </p>
+                   
+          <p ng-if="relativeUrlPath.length > 0">
+            <a href="{{relativeUrlPath}}" target="_blank">View {{fileUploaded.name}}</a>
+          </p>
+          <tm1-ui-upload tm1-instance="dev" tm1-ui-class="{{values.uploadTheme}}" tm1-after-upload="getPath(file)"></tm1-ui-upload>
+                                 
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>Use <code>tm1-ui-class</code> to affect the style of the component further.</div>
+          </div>          
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-upload tm1-instance="dev" tm1-ui-class="{{values.uploadTheme}}" tm1-after-upload="getPath(file)"></tm1-ui-upload></div>
+        </div>    
+      </div> 
+    </div>
+  </div>
+</div>

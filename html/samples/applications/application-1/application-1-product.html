@@ -1,0 +1,774 @@
+<div ng-controller="ApplicationProductCtrl">
+
+	<style>
+		#page-view {
+			background-color: #F8F8F8;
+		}
+
+		@media print {
+			#page-view {
+				background-color: #FFF;
+			}
+			#filter {
+				display: none;
+			}
+			div.other-pages {
+				page-break-before: always;
+			}
+			.btn {
+				display: none;
+			}
+		}
+
+		@media (min-width: 768px) {
+			.modal-xl {
+				width: 90%;
+				max-width: 1200px;
+			}
+		}
+
+		.tm1-ui-dbr {
+			text-align: right;
+		}
+
+		.tm1-ui-dbr input {
+			text-align: right;
+		}
+
+	    .title-border {
+			font-size: 1em;
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 0px;
+			padding-top: 10px;
+			padding-right: 0px;
+			border-width: 1px;
+			border-top-style: dashed;
+			border-color: #CECECE
+		}
+
+		/* CSS for KPI */
+
+		.name-kpi {
+			text-align: right;
+			font-size: 1.2em;
+			font-weight: normal;
+			padding: 0px;
+		}
+
+		.value-kpi {
+			font-size: x-large;
+			text-align: right;
+			padding-right: 0px;
+		}
+
+		.progressbar-kpi {
+			height: 7px;
+			margin: 0px;
+			border-radius: 10px;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+		.nopadding {
+			padding: 0px;
+		}
+
+		.icons {
+			vertical-align: middle;
+		}
+
+		#chart {
+			width: 100%;
+			height: 500px;
+			background: #ddd;
+		}
+
+		#chart text {
+			pointer-events: none;
+		}
+
+		#chart .grandparent text {
+			font-weight: bold;
+		}
+
+		#chart rect {
+			fill: none;
+			stroke: #fff;
+		}
+
+		#chart rect.parent,
+		.grandparent rect {
+			stroke-width: 2px;
+		}
+
+		#chart .grandparent rect {
+			fill: #7FC9FF;
+			height: 40px;
+		}
+
+		#chart .grandparent:hover rect {
+			fill: #7FC9FF;
+		}
+
+		#chart .children rect.parent,
+		#chart .grandparent rect {
+			cursor: pointer;
+		}
+
+		#chart .children rect.parent {
+			fill: #bbb;
+			fill-opacity: 1;
+		}
+
+		#chart .children:hover rect.child {
+			fill: #bbb;
+		}
+
+		.consolidation {
+			font-weight: bold;
+		}
+
+		.pointy-hand {
+			cursor: pointer;
+		}
+
+		.chart-header {
+			font-size: 1.2em;
+			text-align: center;
+			margin: 0px;
+			margin-top: 0px;
+			padding: 0px;
+			padding-right: 0px;
+		}
+
+		.panel-header {
+			font-size: 1.2em;
+			text-align: center;
+			margin: 0px;
+			margin-top: 0px;
+			padding: 0px;
+			padding-right: 0px;
+		}
+
+		.region-progressbar {
+			height: 8px;
+			margin: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+		.region-name {
+			font-weight: bold;
+			font-size: 1.2em;
+			font-weight: normal;
+		}
+
+		.region-value {
+			font-size: 1.2em;
+			text-align: right;
+		}
+
+		.category-progressbar {
+			height: 12px;
+			margin: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+		.category-name {
+			font-weight: bold;
+			font-size: 1.2em;
+			font-weight: normal;
+		}
+
+		.category-value {
+			font-size: 1.2em;
+			text-align: right;
+			padding-right: 0px;
+		}
+
+		.reverse {
+			-moz-transform: scaleX(-1);
+			-webkit-transform: scaleX(-1);
+			-o-transform: scaleX(-1);
+			transform: scaleX(-1);
+		}
+
+		.btn-icon {
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+
+		.chart-min-height {
+			min-height: 390px;
+		}
+	</style>
+
+
+	<!--          ########          -->
+	<!--          Lists    hidden      -->
+
+	<tm1-ui-element-list ng-init="sortPeriod='Year'; sortDirection='BDESC';" tm1-instance="dev" tm1-dimension="Product" tm1-mdx="UNION({[Product].[{{selections.product}}]},ORDER({[Product].[{{selections.product}}].CHILDREN},[Retail].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[{{sortPeriod}}],[Currency].[Local],[Region].[{{selections.region}}],[Retail Measure].[{{selections.measure}}]),{{sortDirection}}))"
+	 ng-model="lists.products">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Product" tm1-mdx="UNION({[Product].[All Products by Category]},ORDER({[Product].[All Products by Category].CHILDREN},[Retail].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[{{sortPeriod}}],[Currency].[Local],[Region].[{{selections.region}}],[Retail Measure].[{{selections.measure}}]),{{sortDirection}}))"
+	 tm1-attributes="icon,background,Job Cost Code,Short Description" ng-model="lists.categoryBAR">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Product" tm1-mdx="ORDER({[Product].[All Products by Category].CHILDREN},[Retail].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[{{sortPeriod}}],[Currency].[Local],[Region].[{{selections.region}}],[Retail Measure].[{{selections.measure}}]),{{sortDirection}})"
+	 tm1-calculate-top-level="false" tm1-attributes="icon,background,Job Cost Code,Short Description" ng-model="lists.category">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-mdx="{ORDER({TM1FILTERBYLEVEL( {TM1SUBSETALL( [Region] )}, 0)},[Retail].([version].[{{selections.version}}],[year].[{{selections.year}}],[Period].[year],[Currency].[local],[Product].[{{selections.product}}],[Retail Measure].[{{selections.measure}}]),BDESC)}"
+	 tm1-attributes="Description" ng-model="lists.country">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Period" tm1-mdx="[Period].[year].CHILDREN" tm1-attributes="Short Description"
+	 ng-model="lists.periods">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Period" tm1-subset="All Months" tm1-attributes="Short Description"
+	 ng-model="lists.months">
+	</tm1-ui-element-list>
+
+
+	<div class="ng-hide">
+		<tm1-ui-dbra tm1-instance="dev" tm1-dimension="Product" tm1-element='{{selections.product}}' tm1-attribute="background" ng-model="category.background">
+		</tm1-ui-dbra>
+	</div>
+
+	<!--###############################################################-->
+	<!--                    ROW 1  Title + buttons                   -->
+
+	<div class="row" style="margin-bottom:0px">
+
+		<div class="col-md-5">
+			<h2 style="margin-top:0px;margin-bottom:0px">
+				<span ng-if="selections.product == defaults.product"> {{selections.product}} </span>
+				<button type="button" class="btn panel panel-primary text-primary" ng-click="setProduct(defaults.product)" ng-if="selections.product != defaults.product">{{selections.product}}
+					<i class="fa fa-close"></i>
+				</button>
+				<button type="button" class="btn panel panel-primary text-primary" ng-click="setRegion(defaults.region)" ng-if="selections.region != defaults.region">{{selections.region}}
+					<i class="fa fa-close"></i>
+				</button>
+			</h2>
+		</div>
+
+		<!--          Filters          -->
+
+		<div class="col-md-7" style="margin-top:0px;margin-bottom:0px">
+			<div class="col-lg-4 col-md-6 col-xs-12">
+				<button ng-repeat="measure in lists.measures" class="col-xs-4 btn panel panel-primary text-primary" ng-class="{'panel-info text-info': selections.measure!=measure.key}"
+				 style="width: 33%;" ng-click="setMeasure(measure.key)">{{measure.description}}</button>
+			</div>
+			<div class="col-lg-4 col-md-6 col-xs-12">
+				<button ng-repeat="year in lists.years" class="col-xs-4 btn panel panel-primary text-primary" ng-class="{'panel-info text-info': selections.year!=year.description}"
+				 style="width: 33%;" ng-click="setYear(year.description)">{{year.description}}</button>
+			</div>
+			<div class="col-lg-4 col-md-6 col-xs-12">
+				<button ng-repeat="version in lists.versions" class="col-xs-4 btn panel panel-primary text-primary" ng-class="{'panel-info text-info': selections.version!=version.description}"
+				 style="width: 33%;" ng-click="setVersion(version.description)">{{version.description}}</button>
+			</div>
+
+		</div>
+
+		<!-- Only Show when printing -->
+		<div class="col-md-7 visible-print-block"> 
+				<h3> Filters: {{selections.version}} - {{selections.year}} - {{selections.month}} - {{selections.region}} - {{selections.category}}
+				</h3> 
+			</div>
+
+	</div>
+
+
+	<!--###############################################################-->
+	<!--                    ROW 2  KPI + CHARTS                    -->
+
+	<div class="row">
+
+		<!--                 KPI                -->
+
+		<div class="col-lg-12">
+
+			<div class="col-lg-2 col-md-4 col-sd-3" style="padding-right:2px; margin-bottom:0px; padding:5px;cursor: pointer" ng-repeat="category in lists.category"
+			 ng-click="setProduct(category.key); showMap();">
+
+				<div class="col-md-12 panel panel-primary text-primary" ng-class="{'panel-info text-info':selections.product != category.key}"
+				 style="margin-top:0px;margin-bottom:0px;">
+					<div class="row col-md-12" style="padding-right:0px">
+
+						<div class="col-md-12 value-kpi">
+							<span ng-if="selections.measure!='Order Quantity'">$</span>
+							<tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},year,local,{{selections.region}},{{category.key}},{{selections.measure}}"
+							 tm1-data-decimal="0"></tm1-ui-dbr-read-only>
+						</div>
+
+						<div class="row col-md-12  progress progressbar-kpi" ng-class="category.percentage > 0 ? '':'reverse'">
+
+							<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Retail" tm1-elements='"Var %","{{selections.year}}","year","local","{{selections.region}}","{{category.key}}","{{selections.measure}}"'
+							 ng-model="category.percentage">
+							</tm1-ui-dbr-hidden>
+
+							<div class="progress-bar" ng-class="{'progress-bar-primary':selections.driver === account.Description,'progress-bar-info':selections.driver != account.Description}"
+							 role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{{renderPercentageAbsKPI(category.percentage)}}%;background:{{category.background}}">
+							</div>
+
+						</div>
+
+						<div class="row col-md-12" style="padding-left:0px; padding-right:0px;">
+
+							<div class="col-md-6 col-xs-12" style="margin-bottom:10px;padding-right:0px;">
+
+								<tm1-ui-chart tm1-chart-type="discreteBar" tm1-data-decimal="0" tm1-hide-controls="true" tm1-height="35" tm1-margin="{top:5,bottom:2,left:2, right:2}"
+								 tm1-legend="none" tm1-options-override="optionsOverride" tm1-state="{{selections.version}},{{selections.year}},{{selections.month}}{{selections.category}},{{selections.region}}">
+
+									<div ng-repeat="month in lists.months">
+
+										<tm1-ui-chart-dbr tm1-label="{{month.alias}}" tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{selections.version}},{{selections.year}},{{month.alias}},local,{{selections.region}},{{category.key}},{{selections.measure}}'
+										 tm1-color="{{category.background}}">
+										</tm1-ui-chart-dbr>
+
+									</div>
+
+								</tm1-ui-chart>
+
+							</div>
+
+							<div class="col-md-6 col-xs-11 text-center nopadding name-kpi">
+								{{category.key}}
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!--###############################################################-->
+	<!--                    ROW 3  CHARTS                    -->
+
+	<div class="row" ng-init="getColorProduct(selections.product)" ng-if="selections.showCharts=='true'">
+
+		<!--====================================================-->
+		<!--         Progress Bar by Category            -->
+
+		<div class="col-lg-4 col-md-6">
+
+			<div class="panel panel-primary">
+
+				<!-- Bar charts -->
+
+				<div class="panel-body">
+
+					<div class="chart-header"> {{selections.region}} {{selections.measure}} by Category
+					</div>
+
+					<div class="title-border">
+          			</div>
+
+					<div class="col-md-12 col-xs-12 nopadding chart-min-height">
+
+						<div class="col-md-12 col-xs-12" ng-repeat="category in lists.categoryBAR" style="margin-top:10px">
+
+							<div class="row text-primary" ng-class="{'text-info':selections.product != category.key}" ng-click="setProduct(category.key)"
+							 style="cursor:pointer">
+
+
+								<div class="col-md-9 col-xs-12  nopadding category-name">
+									{{category.key}}
+								</div>
+
+								<div class="col-md-3 col-xs-12  nopadding category-value">
+									<span ng-if="selections.measure!='Order Quantity'">$</span>
+									<tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},year,local,{{selections.region}},{{category.key}},{{selections.measure}}"
+									 tm1-hide-context-menu="true">
+									</tm1-ui-dbr-read-only>
+								</div>
+
+
+								<div class="col-md-12 col-xs-12  nopadding">
+									<div class="progress category-progressbar" ng-class="category.percentage > 0 ? '':'reverse'">
+
+										<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Retail" tm1-elements='"{{selections.version}}","{{selections.year}}","year","local",{{selections.region}},{{category.key}},"{{selections.measure}} % Category"'
+										 tm1-data-decimal="0" ng-model="category.percentage">
+										</tm1-ui-dbr-hidden>
+
+										<div class="progress-bar" role="progressbar" ng-class="{'progress-bar-striped' : selections.version === 'Budget'}" aria-valuenow="80"
+										 aria-valuemin="0" aria-valuemax="100" style="width:{{renderPercentageAbsCategory(category.percentage)}}%;background-color:{{category.background}}">
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<!--=============================================-->
+		<!--         PROGRESSBAR CHART BY REGIONS        -->
+
+		<div class="col-lg-4 col-md-6">
+
+			<div class="panel panel-primary" style="padding:0px;">
+
+				<div class="panel-body">
+
+					<div class="chart-header"> {{selections.product}} {{selections.measure}} by Region
+
+					</div>
+
+					<div class="title-border">
+          			</div>
+
+					<div class="col-md-12 col-xs-12 nopadding chart-min-height">
+
+						<div class="col-md-12 col-xs-12" ng-repeat="region in lists.country" style="margin-top:2px">
+
+							<div class="row text-primary" ng-class="{'text-info':selections.category != region.alias}" ng-click="setRegion(region.alias)"
+							 style="cursor:pointer">
+
+
+								<div class="col-md-9 nopadding region-name">
+									{{region.alias}}
+								</div>
+
+								<div class="col-md-3 nopadding region-value">
+									<span ng-if="selections.measure!='Order Quantity'">$</span>
+									<tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},year,local,{{region.alias}},{{selections.product}},{{selections.measure}}"
+									 tm1-hide-context-menu="true" ng-model="region.value">
+									</tm1-ui-dbr-read-only>
+								</div>
+
+
+								<div class="col-md-12 col-xs-12 nopadding">
+									<div class="progress region-progressbar" ng-class="region.percentage > 0 ? '':'reverse'">
+
+										<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Retail" tm1-elements='"{{selections.version}}","{{selections.year}}","year","local","{{region.alias}}","{{selections.product}}","{{selections.measure}} %"'
+										 tm1-data-decimal="0" ng-model="region.percentage">
+										</tm1-ui-dbr-hidden>
+
+										<div class="progress-bar" role="progressbar" ng-class="{'progress-bar-striped' : selections.version === 'Budget'}" aria-valuenow="80"
+										 aria-valuemin="0" aria-valuemax="100" style="width:{{renderPercentageAbsRegion(region.percentage)}}%;background-color:{{selections.color}}">
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End chart by country-->
+
+		<!--===============================================-->
+		<!--         LINE CHART SALES VS COST              -->
+
+		<div class="col-lg-4 col-md-12">
+
+			<div class="panel panel-primary" style="margin-left:0px">
+
+				<div class="panel-body">
+
+					<div class="chart-header"> Sales vs Cost
+
+					</div>
+
+					<div class="title-border">
+          			</div>
+
+					<tm1-ui-chart tm1-chart-type="line" tm1-height="390" tm1-margin="{'top':'10','bottom':'40','left':'55','right':'10'}" tm1-data-decimal="0"
+					 ng-model="selections.data" tm1-axis-label-x="" tm1-axis-label-y="">
+
+						<tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+						 tm1-series="Sales" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},{{month}},local,{{selections.region}},{{selections.product}},Sales Amount"
+						 tm1-color="#E5C594">
+						</tm1-ui-chart-dbr>
+
+						<tm1-ui-chart-dbr ng-repeat="month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']" tm1-label="{{month}}"
+						 tm1-series="Product Cost" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},{{month}},local,{{selections.region}},{{selections.product}},Total Product Cost"
+						 tm1-color="#B3B3B3">
+						</tm1-ui-chart-dbr>
+
+					</tm1-ui-chart>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+
+	<!--=============================================-->
+	<!--    ROW 4:  TABLE + TREEMAP + GOOGLE MAP     -->
+
+	<div class="row other-pages" style="padding:0px">
+
+		<div class="col-lg-12 col-md-12 col-12">
+
+			<div class="panel panel-primary">
+
+				<!--=============================================-->
+				<!--                  TABLE                      -->
+
+				<div class="panel-body table-responsive" style="padding-top:0px">
+
+					<div class="row">
+
+						<div class="col-md-12">
+
+							<div class="panel-header" style="padding-bottom:10px">
+
+								<span>
+									{{selections.dashboardSubTitle}} - {{selections.measure}} {{selections.version}} {{selections.year}}
+								</span>
+
+								<div class="pull-right pointy-hand icons" id="filter" style="margin-top:0px">
+
+									<!-- Icon Suppress Zero -->
+									<button class="btn panel panel-primary text-primary btn-icon" ng-class="{'panel-info text-info': !selections.zeroSuppress}">
+										<i class="fa fa-opera" tooltip-append-to-body="true" uib-tooltip="Suppress Zero" ng-click="selections.zeroSuppress=!selections.zeroSuppress">
+										</i>
+									</button>
+
+									<!-- Icon Show Table -->
+									<button class="btn panel panel-primary text-primary btn-icon" ng-class="{'panel-info text-info': selections.showContent!='table'}">
+										<i class="fa fa-table" tooltip-append-to-body="true" uib-tooltip="Show Table" ng-click="setChartContent('table','Products by Month')">
+										</i>
+									</button>
+
+									<!-- Icon Show TreeMap -->
+									<button class="btn panel panel-primary text-primary btn-icon" ng-class="{'panel-info text-info': selections.showContent!='treemap'}">
+										<i class="fa fa-map" tooltip-append-to-body="true" uib-tooltip="Show Tree Map" ng-click="setChartContent('treemap','Treemap'); buildChart();">
+										</i>
+									</button>
+
+									<!-- Icon Show Google -->
+									<button class="btn panel panel-primary text-primary btn-icon" ng-class="{'panel-info text-info': selections.showContent!='google'}">
+										<i class="fa fa-street-view" tooltip-append-to-body="true" uib-tooltip="Show Google Map" ng-click="setChartContent('google','Google Map');showMap()">
+										</i>
+									</button>
+
+									<!-- Icon Show/Hide Chart -->
+									<button class="btn panel panel-primary text-primary btn-icon" ng-if="selections.showCharts=='true'">
+											<i class="fa fa-arrow-up" tooltip-append-to-body="true" uib-tooltip="Hide Charts"  ng-click="selections.showCharts='false'">
+											</i>
+									</button>
+									<button class="btn panel panel-primary text-primary btn-icon" ng-if="selections.showCharts=='false'">
+											<i class="fa fa-arrow-down" tooltip-append-to-body="true" uib-tooltip="Show Charts"  ng-click="selections.showCharts='true'">
+											</i>
+									</button>
+
+								</div>
+
+							</div>
+
+							<div class="title-border">
+          					</div>
+
+						</div>
+
+					</div>
+
+
+
+					<div class="row" ng-if="selections.showContent=='table'">
+						<div class="col-md-12">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th class="text-center"> Product</th>
+										<th class="text-center" style="width: 130px;">Trend</th>
+										<th class="text-center" style="cursor:pointer;" ng-click="sortBy('Year')">Year
+											<i ng-if="sortPeriod==='Year'" class="fa" ng-class="sortDirection==='BDESC'?'fa-angle-down':'fa-angle-up'"></i>
+										</th>
+										<th class="text-center" style="cursor:pointer;" ng-repeat="period in lists.periods" ng-click="sortBy(period.key)">{{period.alias}}
+											<i ng-if="sortPeriod===period.key" class="fa" ng-class="sortDirection==='BDESC'?'fa-angle-down':'fa-angle-up'"></i>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-hide="selections.zeroSuppress && product.yearTotal=='0'" ng-repeat="product in lists.products" ng-class="{'consolidation':$index===0}">
+
+										<td style="{{$index===0?'':'cursor:pointer;'}}" data-toggle="{{$index===0?'':'modal'}}" data-target="#myModal" ng-click="drillDown(product.key)">
+										{{product.key}}
+										</td>
+										<td>
+											<tm1-ui-spark-chart tm1-data="product.v" tm1-columns="lists.periods.length" tm1-chart="line" tm1-tooltip="true"></tm1-ui-spark-chart>
+										</td>
+
+										<td>
+											<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},year,local,{{selections.region}},{{product.key}},{{selections.measure}}"
+											 tm1-data-decimal="0" ng-model="product.yearTotal"></tm1-ui-dbr>
+										</td>
+
+										<td ng-repeat="period in lists.periods">
+											<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},{{period.key}},local,{{selections.region}},{{product.key}},{{selections.measure}}"
+											 tm1-data-decimal="0" ng-model="product.v[$index]">
+											</tm1-ui-dbr>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+
+					<!--=============================================-->
+					<!--                  TREEMAP                    -->
+
+					<div class="row" ng-show="selections.showContent=='treemap'" id="chart-one">
+						<div class="col-md-12">
+							<div id="chart">
+								<svg id="treemapchart" width="100%" height="500" style="width:100%; height:500px"></svg>
+							</div>
+						</div>
+					</div>
+
+					<!--=============================================-->
+					<!--                GOOGLE MAP                   -->
+
+					<div class="row" ng-show="selections.showContent=='google'" id="chart-one">
+						<div class="col-md-12">
+							<div id="map" style="height: 500px; width: 100%">
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<!--=============================================-->
+	<!--         TABLE - MODAL              -->
+
+
+	<!-- Modal -->
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Product" ng-init="sortPeriod1='Year'; sortDirection1='BDESC';" tm1-mdx="UNION({[Product].[{{productDrill}}]},ORDER({[Product].[{{productDrill}}].CHILDREN},[Retail].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[{{sortPeriod1}}],[Currency].[Local],[Region].[{{selections.region}}],[Retail Measure].[{{selections.measure}}]),{{sortDirection1}}))"
+	 tm1-attributes="Code&Description,Description" ng-model="lists.modalProducts">
+	</tm1-ui-element-list>
+
+	<div class="modal fade" id="myModal" role="dialog">
+
+
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">{{selections.region}} - {{productDrill}} - {{selections.measure}} - {{selections.version}} {{selections.year}}
+
+						<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},Year,local,{{selections.region}},{{productDrill}},{{selections.measure}}"
+						 ng-model="parent.Value">
+						</tm1-ui-dbr-hidden>
+
+					</h4>
+
+				</div>
+
+				<div class="modal-body">
+
+					<!-- Chart inside the Modal -->
+					<tm1-ui-chart tm1-chart-type="discreteBar" tm1-data-decimal="0" tm1-hide-controls="true" tm1-height="200" tm1-margin="{top:10,bottom:60,left:2, right:2}"
+					 tm1-legend="none" tm1-axis-label-y="" tm1-axis-label-x="" tm1-rotate-label="-30" tm1-state="{{selections.category}},{{selections.version}},{{selections.year}},{{selections.product}},{{selections.measure}},{{parent.Value}}">
+
+						<tm1-ui-chart-dbr ng-repeat="period in lists.periods" tm1-label="{{period.alias}}" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},{{period.key}},local,{{selections.region}},{{productDrill}},{{selections.measure}}"
+						 tm1-color="{{category.background}}">
+						</tm1-ui-chart-dbr>
+
+					</tm1-ui-chart>
+
+					<!-- Table inside the Modal -->
+
+					<tm1-ui-progress tm1-ui-trigger="selections">
+
+						<tm1-ui-progress-pending>
+
+							<div class="text-center">
+								<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+								<span class="sr-only">Loading...</span>
+							</div>
+
+						</tm1-ui-progress-pending>
+
+						<tm1-ui-progress-ready>
+
+							<table class="table table-condensed">
+								<thead>
+									<tr style="color:white;background-color:{{category.background}};">
+
+										<th style="cursor:pointer;" ng-click="sortBy1('Year')">Year
+											<i ng-if="sortPeriod1==='Year'" class="fa" ng-class="sortDirection1==='BDESC'?'fa-angle-down':'fa-angle-up'"></i>
+										</th>
+
+										<th style="cursor:pointer;" ng-repeat="period in lists.periods" ng-click="sortBy1(period.key)">{{period.alias}}
+											<i ng-if="sortPeriod1===period.key" class="fa" ng-class="sortDirection1==='BDESC'?'fa-angle-down':'fa-angle-up'"></i>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat-start="product in lists.modalProducts" ng-hide="selections.zeroSuppress && product.yearTotal=='0'">
+										<td class="padding-left" colspan="13" style="background-color:#E5E5E5">
+											<div class="pull-right" style="width:15%">
+												<!-- Small Chart -->
+
+												<tm1-ui-chart tm1-chart-type="discreteBar" tm1-data-decimal="0" tm1-hide-controls="true" tm1-height="20" tm1-margin="{top:2,bottom:2,left:2, right:2}"
+												 tm1-legend="none" tm1-axis-label-y="" tm1-state="{{product.yearTotal}}" tm1-axis-label-x="">
+
+													<tm1-ui-chart-dbr ng-repeat="month2 in lists.periods" tm1-label="{{month2.alias}}" tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},{{month2.key}},local,{{selections.region}},{{product.key}},{{selections.measure}}"
+													 tm1-color="{{category.background}}">
+													</tm1-ui-chart-dbr>
+
+												</tm1-ui-chart>
+											</div>
+											<div style="width:85%;font-weight:bold">
+												{{product["Description"]}}
+											</div>
+
+										</td>
+									</tr>
+									<tr ng-repeat-end ng-hide="selections.zeroSuppress && product.yearTotal=='0'" style="border-top:none!important;border-bottom:none!important">
+
+										<td class="text-right" style="font-weight:bold">
+											<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},year,local,{{selections.region}},{{product.key}},{{selections.measure}}"
+											 tm1-data-decimal="0" ng-model="product.yearTotal"></tm1-ui-dbr>
+										</td>
+
+										<td class="text-right" ng-repeat="period in lists.periods">
+											<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements="{{selections.version}},{{selections.year}},{{period.key}},local,{{selections.region}},{{product.key}},{{selections.measure}}"
+											 tm1-data-decimal="0">
+											</tm1-ui-dbr>
+										</td>
+									</tr>
+								</tbody>
+
+							</table>
+
+						</tm1-ui-progress-ready>
+
+					</tm1-ui-progress>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>

@@ -1,0 +1,585 @@
+<div ng-controller="ApplicationProfitLossCtrl">
+
+	<style>
+		#page-view {
+			background-color: #F8F8F8;
+			position: relative;
+		}
+		@media print {
+
+			#page-view {
+				background-color: #FFF;
+			}
+			#wrapper {
+				background-color: #FFF;
+			}
+			div.first-page {}
+			/* Links shouldn't look like links when printing */
+			a {
+				text-decoration: none !important;
+				color: #000;
+			}
+			div.other-pages {
+				page-break-before: always;
+			}
+			.fa-close,
+			.fa-caret-down {
+				display: none;
+			}
+			.btn {
+				display: none;
+			}
+		}
+		.nopadding {
+			padding:0px;
+		}
+		.row-kpi {
+			margin-top: 0px;
+		}
+
+		/* CSS for KPI */
+
+		.name-kpi {
+			text-align: right;
+			font-size: 1.2em;
+			font-weight: normal;
+			padding: 0px;
+		}
+
+		.value-kpi {
+			font-size: x-large;
+			text-align: right;
+			padding-right: 0px;
+		}
+
+		.progressbar-kpi {
+			height: 7px;
+			border-radius: 10px;
+			margin: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+	    .title-border {
+			font-size: 1em;
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 0px;
+			padding-top: 0px;
+			padding-right: 0px;
+			border-width: 1px;
+			border-top-style: dashed;
+			border-color: #CECECE
+		}
+
+		/* CSS for SUB-KPI */
+
+		.name-sub-kpi {
+			font-size: 1.2em;
+			text-align: right;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+		.icon-sub-kpi {
+			font-size: 1.3em;
+			text-align: center;
+			font-weight: bold;
+			padding-left: 0px;
+		}
+
+		.comment-sub-kpi {
+			color: #B2B2B2;
+			text-align: left;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 7px;
+		}
+
+		.value-sub-kpi {
+			font-size: x-large;
+			text-align: right;
+			padding-right: 0px;
+		}
+
+		/* CSS for CATEGORY */
+
+		.category-progressbar {
+			height: 12px;
+			margin: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+		.category-name {
+			font-weight: bold;
+			font-size: 1.2em;
+			font-weight: normal;
+		}
+
+		.category-value {
+			font-size: 1.2em;
+			text-align: right;
+		}
+
+		.chart-header {
+			font-size: 1.2em;
+			text-align: center;
+			margin: 0px;
+			margin-top: 0px;
+			padding: 0px;
+			padding-right: 0px;
+		}
+
+		.tm1-ui-dbr-common>span {
+			padding: 0px;
+		}
+
+		.pointy-hand {
+			cursor: pointer;
+		}
+
+		.reverse {
+			-moz-transform: scaleX(-1);
+			-webkit-transform: scaleX(-1);
+			-o-transform: scaleX(-1);
+			transform: scaleX(-1);
+		}
+
+		.chart-min-height {
+			min-height: 322px;
+		}
+
+	</style>
+
+	<!--                ##################                 -->
+	<!--                         LIST                      -->
+
+	<tm1-ui-element-list tm1-instance="dev" 
+						 tm1-dimension="Period" 
+						 tm1-subset="All Months" 
+						 tm1-attributes="Short Description"
+	 					 ng-model="lists.months">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" 
+						 tm1-dimension="Region" 
+						 tm1-mdx="{ORDER({TM1FILTERBYLEVEL( {TM1SUBSETALL( [Region] )}, 0)},[General Ledger].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Period].[{{selections.month}}],[Currency].[local],[Department].[{{selections.category}}],[Account].[{{selections.driver}}],[General Ledger Measure].[Amount]),BDESC)}"
+						 tm1-attributes="Description" 
+						 ng-model="lists.regions">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" 
+						 tm1-dimension="Department" 
+						 tm1-mdx='{ORDER(
+									{FILTER(
+										{FILTER( {TM1SUBSETALL( [Department] )}, [Department].[Color] <> "")},
+									[General Ledger].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Currency].[Local],
+									[Region].[{{selections.region}}],[Account].[{{selections.driver}}],[General Ledger Measure].[Amount])<>0)},
+									[General Ledger].([Version].[{{selections.version}}],[Year].[{{selections.year}}],[Currency].[Local],
+									[Region].[{{selections.region}}],[Account].[{{selections.driver}}],[General Ledger Measure].[Amount]),BDESC)}' 
+						tm1-attributes="Color,Product Category"
+						tm1-calculate-top-level="false" 
+						ng-model="lists.category">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" 
+						 tm1-dimension="Account" 
+						 tm1-subset="{{selections.driverParent}}" 
+						 ng-model="lists.subAccounts">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" 
+						 tm1-dimension="Account" 
+						 tm1-subset="dashboard" 
+						 tm1-attributes="Description"
+						 ng-model="lists.mainAccounts">
+	</tm1-ui-element-list>
+
+	<!--###############################################################-->
+	<!--                  ROW 1  TITLE + buttons                      -->
+
+	<div class="row">
+
+		<div class="col-md-12">
+
+			<div class="col-md-6">
+
+				<div class="col-md-6" style="padding-left:0px;">
+					<h2 style="margin: 7px 5px;"> Profit and Loss </h2>
+				</div>
+				<div class="col-md-6">
+					<button class="btn panel panel-primary text-primary" ng-click="setRegion(defaults.region)" ng-if="selections.region != defaults.region">
+					{{selections.region}}
+						<i class="fa fa-close"></i>
+					</button>
+					<button class="btn panel panel-primary text-primary" ng-click="setMonth(defaults.month)" ng-if="selections.month != defaults.month">
+					{{selections.month}}
+						<i class="fa fa-close"></i>
+					</button>
+					<button class="btn panel panel-primary text-primary" ng-click="setCategoryDefault(defaults.category)" ng-if="selections.category != defaults.category">
+					{{selections.category}}
+						<i class="fa fa-close"></i>
+					</button>
+				</div>
+
+
+			</div>
+
+			<div class="col-md-6 col-xs-12">
+
+				<div class="col-md-6 col-xs-12">
+
+					<button ng-repeat="year in lists.years" class="col-xs-4 btn panel panel-primary text-primary" ng-class="{'panel-info text-info': selections.year!=year.description}"
+					 ng-click="setYear(year.description)">{{year.description}}</button>
+
+				</div>
+
+				<div class="col-md-6 col-xs-12">
+
+					<button ng-repeat="version in lists.versions" class="col-xs-4 btn panel panel-primary text-primary" ng-class="{'panel-info text-info': selections.version!=version.description}"
+					 ng-click="setVersion(version.description)">{{version.description}}</button>
+
+				</div>
+
+			</div>
+			
+			<!-- Only Show when printing -->
+			<div class="col-md-6 visible-print-block"> 
+				<h3> Filters: {{selections.version}} - {{selections.year}} - {{selections.month}} - {{selections.region}} - {{selections.category}}
+				</h3> 
+			</div>
+
+		</div>
+	</div>
+
+	<!--###############################################################-->
+	<!--                         ROW 2  KPI                            -->
+
+	<div class="row">
+
+		<div class="col-md-12  style="margin-top:0px;margin-bottom:0px"">
+
+			<div class="col-lg-3 col-md-3 col-xs-6" ng-repeat="account in lists.mainAccounts track by $index" style="pointer-events:auto; cursor: pointer;">
+
+				<div class="col-md-12 panel panel-primary text-primary" ng-class="{'panel-info text-info':selections.driverParent != account.Description}">
+
+					<div div class="row" ng-click="setDriverSelections(account.Description,account.Description)">
+
+						<div class="col-lg-12 col-md-12 col-xs-12">
+
+							<!-- Percentage -->
+							<div class="col-md-2 col-xs-2 icon-sub-kpi">
+								<i ng-if="account.percentage>0" class="fa fa-chevron-circle-up"></i>
+								<i ng-if="account.percentage<0" class="fa fa-chevron-circle-down"></i>
+							</div>
+							
+							<!-- Account name -->
+							<div class="col-md-10 col-xs-9 value-kpi">
+								$
+								<tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.category}},{{account.Description}},Amount"
+								 tm1-comment-elements="{{selections.version}},{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.category}},{{account.Description}},Comment">
+								</tm1-ui-dbr-read-only>
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12 col-xs-12">
+
+							<!-- Progress bars -->
+							<div class="progress progressbar-kpi" ng-class="account.percentage > 0 ? '':'reverse'">
+
+								<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Var %,{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.category}},{{account.Description}},Amount"
+								 ng-model="account.percentage">
+								</tm1-ui-dbr-hidden>
+
+								<div class="progress-bar" ng-class="{'progress-bar-primary':selections.driver === account.Description,'progress-bar-info':selections.driver != account.Description}"
+								 role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{{renderPercentageAbs(account.percentage)}}%">
+								</div>
+
+							</div>
+						</div>
+
+						<!-- chart + name KPI-->
+
+						<div class="col-md-12">
+
+							<div class="col-lg-5 col-md-12" style="margin-bottom:10px">
+
+								<tm1-ui-chart ng-if="values.region.show" tm1-chart-type="discreteBar" tm1-data-decimal="0" tm1-hide-controls="true" tm1-height="35"
+								 tm1-margin="{top:5,bottom:2,left:2, right:2}" tm1-legend="none" tm1-options-override="optionsOverride" tm1-state="{{selections.version}},{{selections.year}},{{selections.category}},{{selections.region}}">
+
+									<div ng-repeat="month in lists.months">
+
+										<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{selections.version}},{{selections.year}},{{month.key}},Local,{{selections.region}},{{selections.category}},{{account.key}},Amount'
+										 ng-model="account[month.key].value">
+										</tm1-ui-dbr-hidden>
+
+										<div ng-if="account[month.key].value>=0">
+											<tm1-ui-chart-dbr tm1-label="{{month.alias}}" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{selections.version}},{{selections.year}},{{month.alias}},Local,{{selections.region}},{{selections.category}},{{account.key}},Amount'
+											 tm1-color="{{defaults.colorPositive}}">
+											</tm1-ui-chart-dbr>
+										</div>
+
+										<div ng-if="account[month.key].value<0">
+											<tm1-ui-chart-dbr tm1-label="{{month.alias}}" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{selections.version}},{{selections.year}},{{month.alias}},Local,{{selections.region}},{{selections.category}},{{account.key}},Amount'
+											 tm1-color="{{defaults.colorNegative}}">
+											</tm1-ui-chart-dbr>
+										</div>
+
+									</div>
+
+
+								</tm1-ui-chart>
+
+							</div>
+
+							<div class="col-lg-7 col-md-12 name-kpi">
+								{{renderPercentage(account.percentage) | number:0}} % {{account.Description}}
+							</div>
+
+						</div>
+						<!-- End -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--###############################################################-->
+	<!--                    ROW 3  SUB KPI + CHARTS                    -->
+
+	<div class="row" style="padding-top:0px">
+
+		<!--======================================================-->
+		<!--                     SUB KPI                          -->
+
+		<div class="col-lg-12 col-md-12 col-xs-12">
+
+			<div class="col-lg-2 col-md-3 col-xs-6" ng-repeat="account in lists.subAccounts">
+
+				<div class="col-md-12 col-xs-12 nopadding" id="kpi" ng-click="setDriverSelections(selections.driverParent,account.Description)">
+
+					<div class="panel panel-primary text-primary" 
+					style="padding:0px;cursor:pointer" 
+					ng-class="{'panel-info text-info':selections.driver != account.Description}">
+
+						<div class="panel-body nopadding" style="padding-top:0px; padding-bottom:0px">
+
+							<div class="col-md-12 col-xs-12 nopadding">
+								<!-- Row with icon and KPI value -->
+								<div class="col-md-12 col-xs-12">
+
+									<div class="col-md-2 col-xs-2 nopadding icon-sub-kpi">
+										<i ng-if="account.value>500000" class="fa fa-chevron-circle-up"></i>
+										<i ng-if="account.value<500000" class="fa fa-chevron-circle-down"></i>
+									</div>
+
+									<div class="col-md-10 col-xs-10 nopadding value-sub-kpi">
+										$
+										<tm1-ui-dbr-read-only tm1-instance="dev" tm1-data-decimal="0" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.category}},{{account.key}},Amount"
+										 tm1-comment-elements="{{selections.version}},{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.category}},{{account.key}},Comment"
+										 ng-model="account.value">
+										</tm1-ui-dbr-read-only>
+									</div>
+									<div class="col-md-12 col-xs-12 name-sub-kpi">
+										{{account.Description}}
+									</div>
+								</div>
+								<div class="col-md-12 col-xs-12 nopadding comment-sub-kpi text-left">
+									<div class="col-md-12">
+										<tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},{{selections.month}},Local,{{selections.region}},{{selections.category}},{{account.key}},Comment"
+										 tm1-comment-read-only="true" tm1-hide-context-menu="true">
+										</tm1-ui-dbr-read-only>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 col-xs-12">
+
+			<!--===============================================-->
+			<!--           CHART BY REGIONS and PERIODS        -->
+
+			<div class="col-lg-6 col-md-6">
+
+				<div class="panel panel-primary">
+
+					<div class="panel-body">
+
+						<!-- CHART BY PERIODS -->
+
+						<div ng-if="selections.region != defaults.region">
+
+							<div class="chart-header">{{selections.region}} {{selections.driver}} by Month </div>
+
+							<div class="title-border">
+          					</div>
+
+							<div class="row">
+
+								<div class="col-md-12 chart-min-height">
+
+									<tm1-ui-chart ng-if="values.month.show" style="cursor: pointer" tm1-chart-type="discreteBar" tm1-data-decimal="0" tm1-axis-label-y=""
+									 tm1-hide-controls="true" tm1-height="322" tm1-margin="{top:10,bottom:25,left:70, right:1}" tm1-legend="none" tm1-options-override="optionsOverride"
+									 tm1-state="{{selections.version}},{{selections.year}},{{selections.region}},{{selections.category}},{{selections.driver}}">
+
+										<div ng-repeat="month in lists.months">
+
+											<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{selections.version}},{{selections.year}},{{month.key}},Local,{{selections.region}},{{selections.category}},{{selections.driver}},Amount'
+											 ng-model="month.value">
+											</tm1-ui-dbr-hidden>
+
+											<div ng-if="month.value>=0">
+												<tm1-ui-chart-dbr tm1-label="{{month.alias}}" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{selections.version}},{{selections.year}},{{month.key}},Local,{{selections.region}},{{selections.category}},{{selections.driver}},Amount'
+												 tm1-color="{{defaults.colorPositive}}">
+												</tm1-ui-chart-dbr>
+											</div>
+
+											<div ng-if="month.value<0">
+												<tm1-ui-chart-dbr tm1-label="{{month.alias}}" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements=='{{selections.version}},{{selections.year}},{{month.key}},Local,{{selections.region}},{{selections.category}},{{selections.driver}},Amount'
+												 tm1-color="{{defaults.colorNegative}}">
+												</tm1-ui-chart-dbr>
+											</div>
+										</div>
+									</tm1-ui-chart>
+								</div>
+
+							</div>
+
+						</div>
+
+						<!-- CHART BY REGIONS -->
+
+						<div ng-if="selections.region === defaults.region">
+
+							<div class="chart-header">{{selections.driver}} by Region </div>
+
+							<div class="title-border">
+          					</div>
+
+							<div class="row">
+
+								<div class="col-md-12 chart-min-height">
+
+									<tm1-ui-chart ng-if="values.region.show" 
+												style="cursor: pointer" 
+												tm1-chart-type="discreteBar" 
+												tm1-data-decimal="0" 
+												tm1-axis-label-x=""
+												tm1-axis-label-y=""
+												tm1-hide-controls="true" 
+												tm1-height="322" 
+												tm1-margin="{top:10,bottom:70,left:70, right:1}" 
+												tm1-legend="none" 
+												tm1-options-override="optionsOverrideRegion"
+												tm1-rotate-label="-30"
+												tm1-state="{{selections.version}},{{selections.year}},{{selections.month}},{{selections.category}},{{selections.driver}}">
+
+										<div ng-repeat="region in lists.regions">
+
+											<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{selections.version}},{{selections.year}},{{selections.month}},Local,{{region.alias}},{{selections.category}},{{selections.driver}},Amount'
+											 ng-model="region.value">
+											</tm1-ui-dbr-hidden>
+
+											<div ng-if="region.value>=0">
+
+												<tm1-ui-chart-dbr tm1-label="{{region.alias}}" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},{{selections.month}},Local,{{region.alias}},{{selections.category}},{{selections.driver}},Amount"
+												 tm1-color="{{defaults.colorPositive}}">
+												</tm1-ui-chart-dbr>
+
+											</div>
+
+											<div ng-if="region.value<0">
+
+												<tm1-ui-chart-dbr tm1-label="{{region.alias}}" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},{{selections.month}},Local,{{region.alias}},{{selections.category}},{{selections.driver}},Amount"
+												 tm1-color="{{defaults.colorNegative}}">
+												</tm1-ui-chart-dbr>
+
+											</div>
+
+										</div>
+
+
+									</tm1-ui-chart>
+								</div>
+
+							</div>
+
+						</div>
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<!--===============================================-->
+			<!--              PROGRESS BAR BY CATEGORY         -->
+
+			<div class="col-lg-6 col-md-6">
+
+				<div class="panel panel-primary">
+
+					<div class="panel-body">
+
+						<div class="chart-header">{{selections.driver}} by Category </div>
+
+						<div class="title-border">
+          				</div>
+
+						<div class="col-md-12 col-xs-12 nopadding chart-min-height">
+
+							<div class="col-md-12 col-xs-12" ng-repeat="category in lists.category" style="margin-bottom: 10px; margin-top:10px;">
+
+								<div class="text-primary" 
+									ng-class="{'text-info':selections.category != category.ProductCategory}" ng-click="setCategory(category.ProductCategory)"
+								 	style="cursor:pointer">
+
+									<div class="col-md-10 nopadding category-name">
+										{{category.ProductCategory}}
+									</div>
+
+									<div class="col-md-2 nopadding category-value">
+										$
+										<tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},{{selections.month}},Local,{{selections.region}},{{category.key}},{{selections.driver}},Amount"
+										 tm1-comment-read-only="true" tm1-hide-context-menu="true">
+										</tm1-ui-dbr-read-only>
+									</div>
+
+
+									<div class="col-md-12 col-xs-12 nopadding">
+										<div class="progress category-progressbar" ng-class="category.percentage > 0 ? '':'reverse'">
+
+											<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{selections.version}},{{selections.year}},{{selections.month}},Local,{{selections.region}},{{category.key}},{{selections.driver}},"Amount Percentage"'
+											 tm1-data-decimal="0" ng-model="category.percentage">
+											</tm1-ui-dbr-hidden>
+
+											<div class="progress-bar" role="progressbar" ng-class="{'progress-bar-striped' : selections.version === 'Budget'}" aria-valuenow="80"
+											 aria-valuemin="0" aria-valuemax="100" style="width:{{renderPercentageAbsCategory(category.percentage)}}%;background-color:{{category.Color}}">
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

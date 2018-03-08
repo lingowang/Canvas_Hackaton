@@ -1,0 +1,159 @@
+<div ng-controller="LoginSessionCtrl">
+  <style>
+    code.hljs {
+     white-space: normal !important;
+    }
+    
+    .custom-login * input[type]{
+      font-size: 20px; 
+      border: none;
+      border-bottom: 2px solid rgb(255, 43, 85);
+      border-radius: 0px;
+    }
+    
+    .custom-login * .panel-heading{
+      background-color: rgb(255, 43, 85);
+      color: White;
+    }
+    
+    .custom-login > .panel{
+      border-color: rgb(255, 43, 85);
+    }
+    
+    .custom-login * button{
+      background-color: rgb(255, 43, 90);
+      border-color: White;
+    }
+    
+    .custom-login * button:hover{
+      background-color: rgb(255, 43, 90);
+      border-color: White;
+      
+      filter:alpha(opacity=50);
+      -moz-opacity:0.5;
+      -khtml-opacity: 0.5;
+      opacity: 0.5;
+    }
+  </style>
+  
+  <h1>
+    <i class="fa fa-key"></i> Login
+  </h1>
+   
+  <hr/>   
+   
+   <div class="row">
+      
+      <div class="col-lg-6">
+      	<div class="panel panel-primary">
+          <div class="panel-heading">
+          	<span>Handle your User's Login</span>
+          </div>
+          <div class="panel-body">          
+            <tm1-ui-login tm1-after-login="runThisafterUserhasLoggedIn(instance)"></tm1-ui-login>
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Use the attribute <code>tm1-after-login</code> to call your custom Javascript functions after the user has logged in.</div>
+              <p></p>
+              <div>Checkout this page's controller - js\controllers\samples\components\login-session.js on how the above function and the 
+              <a href="https://github.com/eriktufvesson/ngBootbox" target="_blank">$ngBootbox</a> service was utilize to show the pop-up.</div>
+              <p></p>
+              <div>Multiple instances will automatically be shown in a dropdown. If there is only one, the dropdown is hidden.</div>
+            </div>
+          </div>
+          <div class="panel-footer">
+           	<div hljs><tm1-ui-login tm1-after-login="runThisafterUserhasLoggedIn(instance)"></tm1-ui-login></div>
+          </div>
+        </div>      
+      </div>
+      
+      <div class="col-lg-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <span>Customize your Login Page</span>
+          </div>
+          <div class="panel-body">    
+            <p>
+              <select class="form-control" ng-model="values.loginTheme" ng-init="values.loginTheme='custom-login'">
+                <option value="">None</option>
+                <option value="custom-login">Custom</option>
+              </select>
+            </p>
+            <p>
+              <tm1-ui-login id="test-login-style" tm1-after-login="runThisafterUserhasLoggedIn(instance)" tm1-ui-class="{{values.loginTheme}}"></tm1-ui-login>
+            </p>                  
+          </div>
+          <div class="panel-footer">
+            <div class="help-text">
+              <div>Customize the look and feel of your login via <code>tm1-ui-class</code></div>
+              <p>Choose "Custom" from the above to see one of the many possibilities!</p>
+              <pre>.custom-login * input[type]{
+        font-size: 20px; 
+        border: none;
+        border-bottom: 2px solid rgb(255, 43, 85);
+        border-radius: 0px;
+      }
+      
+      .custom-login * .panel-heading{
+        background-color: rgb(255, 43, 85);
+        color: White;
+      }
+      
+      .custom-login > .panel{
+        border-color: rgb(255, 43, 85);
+      }
+      
+      .custom-login * button{
+        background-color: rgb(255, 43, 90);
+        border-color: White;
+      }
+      
+      .custom-login * button:hover{
+        background-color: rgb(255, 43, 90);
+        border-color: White;
+        
+        filter:alpha(opacity=50);
+        -moz-opacity:0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+      }</pre>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div hljs><tm1-ui-login tm1-after-login="runThisafterUserhasLoggedIn(instance)" tm1-ui-class="custom-login"></tm1-ui-login></div>
+          </div>
+        </div>      
+      </div>
+      
+      
+      
+      
+   </div>
+   
+   <div class="row">
+    <div class="col-lg-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Default the instance that your Login shows</span>
+        </div>
+        <div class="panel-body">          
+          <tm1-ui-login tm1-default-instance="uat"></tm1-ui-login>
+        </div>
+        <div class="panel-footer">
+          <div class="help-text">
+            <div>When the Login is shown without any page triggering it, you can default the instance on the dropdown via the <code>tm1-default-instance</code>.</div>
+            <div>This only applies if there is more than one instance on your application (i.e. dev and uat).</div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div hljs><tm1-ui-login tm1-default-instance="uat"></tm1-ui-login></div>
+        </div>
+      </div>      
+    </div>
+   </div>
+   
+   
+  
+   
+</div>
